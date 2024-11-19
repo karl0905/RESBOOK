@@ -23,7 +23,7 @@ function authorize($mySQL)
     }
 
     // Query to check if the access token exists and is not expired
-    $sql = "SELECT user_login_id, access_token_expiry FROM session WHERE access_token = '$bearerToken'";
+    $sql = "SELECT user_id, access_token_expiry FROM session WHERE access_token = '$bearerToken'";
     $result = $mySQL->query($sql)->fetch_object();
 
     if (!$result) {
@@ -43,5 +43,5 @@ function authorize($mySQL)
     }
 
     // If the token is valid and not expired, return the user_login_id
-    return $result->user_login_id;
+    return $result->user_id;
 }
