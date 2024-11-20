@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Button } from "../../global/components/Button";
 import { Input } from "../../global/components/Input";
+import Logo from "../../global/assets/resbooklogo.png";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -9,61 +10,87 @@ export default function LoginPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle login logic here
+
+    /* connect til backend */
+
     console.log("Email:", email);
     console.log("Password:", password);
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded shadow-md">
-        <h2 className="text-2xl font-bold text-center">Login</h2>
-        <form className="space-y-6" onSubmit={handleSubmit}>
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Email address
-            </label>
-            <Input
-              id="email"
-              name="email"
-              type="email"
-              autoComplete="email"
-              required
-              className="w-full px-3 py-2 mt-1 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Password
-            </label>
-            <Input
-              id="password"
-              name="password"
-              type="password"
-              autoComplete="current-password"
-              required
-              className="w-full px-3 py-2 mt-1 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          <div>
-            <Button
-              type="submit"
-              className="w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-              Sign in
-            </Button>
-          </div>
-        </form>
+    <div>
+      <div className="mx-auto w-[70%] max-w-[70.5rem]">
+        <div className="flex items-center h-20">
+          <img src={Logo.src} alt="Logo" className="w-15 h-12" />
+          <h2 className="font-semibold ml-2">RESBOOK</h2>
+        </div>
+      </div>
+      <div className="bg-gray-700 h-1 w-full"></div>
+      <div className="flex flex-col justify-center items-center  ">
+        <h2
+          className="text-xl font-bold text-center  mt-10 mb-5"
+          variant="primary"
+        >
+          Welcome back
+        </h2>
+        <div className="max-w-xs px-4 py-4 bg-white border border-gray-200 shadow-sm rounded-md">
+          <form className="space-y-4 text-xs" onSubmit={handleSubmit}>
+            <div>
+              <label
+                htmlFor="email"
+                className="block  font-medium text-gray-700"
+              >
+                Email
+              </label>
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                placeholder=""
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="password"
+                className="block font-medium text-gray-700"
+              >
+                Password
+              </label>
+              <Input
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="current-password"
+                placeholder=""
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <div className="flex justify-center">
+              <Button
+                type="submit"
+                className="w-full max-w-xs"
+                title="Login"
+              ></Button>
+            </div>
+            <div className="text-center mt-4">
+              <p className="text-xs text-gray-600">
+                Don't have an account?{" "}
+                <a
+                  href="/create-user"
+                  className="text-blue-600 hover:underline"
+                >
+                  Create one
+                </a>
+              </p>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );
