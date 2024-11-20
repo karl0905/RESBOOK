@@ -21,7 +21,7 @@ export default function LoginPage() {
     <div>
       <div className="mx-auto w-[70%] max-w-[70.5rem]">
         <div className="flex items-center h-20">
-          <img src={Logo.src} alt="Logo" className="w-15 h-12" />
+          <img src={Logo} alt="Logo" className="w-15 h-12" />
           <h2 className="font-bold ml-2">RESBOOK</h2>
         </div>
       </div>
