@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export const meta = () => {
   return [
     { title: "New Remix App" },
@@ -25,6 +27,12 @@ export default function Index() {
               className="hidden w-full dark:block"
             />
           </div>
+          <Link
+            to="/login"
+            className="mt-4 text-blue-700 hover:underline dark:text-blue-500"
+          >
+            Go to Login
+          </Link>
         </header>
         <nav className="flex flex-col items-center justify-center gap-4 rounded-3xl border border-gray-200 p-6 dark:border-gray-700">
           <p className="leading-6 text-gray-700 dark:text-gray-200">
