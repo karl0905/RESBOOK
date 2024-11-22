@@ -54,9 +54,20 @@ if (!$userDetails) {
 }
 
 // Return the access and refresh tokens along with user details and session_id
-echo json_encode([
+/* echo json_encode([
     "session_id" => $session_id,
     "user" => $userDetails,
+    "tokens" => [
+        "access" => $accessToken,
+        "refresh" => $refreshToken,
+    ],
+    "expires_in" => [
+        "access" => $accessTokenExpiryTimestamp,
+        "refresh" => $refreshTokenExpiryTimestamp,
+    ],
+]); */
+
+echo json_encode([
     "tokens" => [
         "access" => $accessToken,
         "refresh" => $refreshToken,
