@@ -8,7 +8,7 @@ export async function login(email, password) {
 
   try {
     const response = await fetch(
-      proces.env.NEXT_PUBLIC_API_URL + "/user/login",
+      process.env.NEXT_PUBLIC_API_URL + "/user/login",
       {
         method: "POST",
         headers: {
@@ -21,7 +21,14 @@ export async function login(email, password) {
     const data = await response.json();
 
     if (response.ok) {
+      // Save the session in a cookie
+      (await cookies()).set("tokens", data, {
+        expires: new Date(Date.now() + 86400000),
+        httpOnly: true,
+      });
       return { data };
+    } else {
+      return { error: data.message || "Failed to log in" };
     }
   } catch (error) {
     return { error: "Failed to log in" };
