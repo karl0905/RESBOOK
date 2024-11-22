@@ -22,8 +22,9 @@ export async function login(email, password) {
 
     if (response.ok) {
       // Save the session in a cookie
+      const refreshTokenExpiry = new Date(data.expires_in.refresh * 1000);
       (await cookies()).set("tokens", data, {
-        expires: new Date(Date.now() + 86400000),
+        expires: refreshTokenExpiry,
         httpOnly: true,
       });
       return { data };
