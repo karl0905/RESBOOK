@@ -7,15 +7,15 @@ include(BASE_PATH . "/mySql.php");
 function handle_api_request($method)
 {
 
-    header("Content-Type: application/json");
+  header("Content-Type: application/json");
 
-    if ($_SERVER["REQUEST_METHOD"] !== $method) {
-        http_response_code(405);
-        echo json_encode(["error" => 'method must be ' . $method]);
-        exit();
-    }
+  if ($_SERVER["REQUEST_METHOD"] !== $method) {
+    http_response_code(405);
+    echo json_encode(["error" => 'method must be ' . $method]);
+    exit();
+  }
 
-    $input = json_decode(file_get_contents("php://input"), true);
+  $input = json_decode(file_get_contents("php://input"), true);
 
-    return $input;
+  return $input;
 }

@@ -4,9 +4,9 @@ require_once("../../../functions/handleApiRequest.php");
 $input = handle_api_request('POST');
 
 if (!isset($input["email"]) || !isset($input["password"])) {
-    http_response_code(400);
-    echo json_encode(["error" => "Please provide email and password"]);
-    exit();
+  http_response_code(400);
+  echo json_encode(["error" => "Please provide email and password"]);
+  exit();
 }
 
 $email = $input["email"];
@@ -18,9 +18,9 @@ $sql = "SELECT users.ID, user_logins.password FROM user_logins JOIN users ON use
 $userResult = $mySQL->query($sql)->fetch_object();
 
 if (!$userResult || !password_verify($password, $userResult->password)) {
-    http_response_code(401);
-    echo json_encode(["error" => "Invalid email or password"]);
-    exit();
+  http_response_code(401);
+  echo json_encode(["error" => "Invalid email or password"]);
+  exit();
 }
 
 // Generate access and refresh tokens
@@ -48,20 +48,20 @@ $sql = "SELECT * FROM users WHERE ID = {$userResult->ID}";
 $userDetails = $mySQL->query($sql)->fetch_object();
 
 if (!$userDetails) {
-    http_response_code(500);
-    echo json_encode(["error" => "Failed to retrieve user details"]);
-    exit();
+  http_response_code(500);
+  echo json_encode(["error" => "Failed to retrieve user details"]);
+  exit();
 }
 
 // Return the access and refresh tokens along with user details and session_id
 
 echo json_encode([
-    "tokens" => [
-        "access" => $accessToken,
-        "refresh" => $refreshToken,
-    ],
-    "expires_in" => [
-        "access" => $accessTokenExpiryTimestamp,
-        "refresh" => $refreshTokenExpiryTimestamp,
-    ],
+  "tokens" => [
+    "access" => $accessToken,
+    "refresh" => $refreshToken,
+  ],
+  "expires_in" => [
+    "access" => $accessTokenExpiryTimestamp,
+    "refresh" => $refreshTokenExpiryTimestamp,
+  ],
 ]);
