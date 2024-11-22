@@ -7,7 +7,7 @@ export function Input({
   type = "text",
   variant = "primary",
   disabled = false,
-  onChange = () => { },
+  onChange = () => {},
   className = "",
 }) {
   const [value, setValue] = useState("")
@@ -25,14 +25,16 @@ export function Input({
       type={type}
       placeholder={placeholder}
       className={twMerge(
-        'border rounded-md px-2 py-1 w-full focus:outline-none focus:ring-2 transition duration-150 ease-in-out',
-        variant === 'primary' && 'border-gray-300 focus:border-primary-500 focus:ring-primary-500',
-        variant === 'secondary' && 'border-gray-300 focus:border-secondary-500 focus:ring-secondary-500',
-        variant === 'destructive' && 'border-gray-300 focus:border-destructive-500 focus:ring-destructive-500',
-        disabled && 'bg-gray-100 text-gray-500 cursor-not-allowed',
+        "border rounded-md px-2 py-1 w-full focus:outline-none focus:ring-2 transition duration-150 ease-in-out",
+        variant === "primary" &&
+          "border-gray-300 focus:border-primary-500 focus:ring-primary-500",
+        variant === "secondary" &&
+          "border-gray-300 focus:border-secondary-500 focus:ring-secondary-500",
+        variant === "destructive" &&
+          "border-gray-300 focus:border-destructive-500 focus:ring-destructive-500",
+        disabled && "bg-gray-100 text-gray-500 cursor-not-allowed",
         className
       )}
     />
-  );
+  )
 }
-
