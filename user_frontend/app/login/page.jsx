@@ -50,7 +50,7 @@ export default function LoginPage() {
                 placeholder=""
                 required
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(value) => setEmail(value)}
               />
             </div>
             <div>
@@ -68,7 +68,7 @@ export default function LoginPage() {
                 placeholder=""
                 required
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(value) => setPassword(value)}
               />
             </div>
             <div className="flex justify-center">
