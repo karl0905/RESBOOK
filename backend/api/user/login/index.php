@@ -71,5 +71,9 @@ echo json_encode([
     "tokens" => [
         "access" => $accessToken,
         "refresh" => $refreshToken,
-    ]
+    ],
+    "expires_in" => [
+        "access" => $accessTokenExpiryTimestamp,
+        "refresh" => $refreshTokenExpiryTimestamp,
+    ],
 ]);
