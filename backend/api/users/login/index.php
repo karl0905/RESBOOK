@@ -31,6 +31,9 @@ $refreshToken = bin2hex(random_bytes(64));
 $accessTokenExpiry = 120; // in minutes
 $refreshTokenExpiry = 86400; // in minutes (60 days)
 
+// Remove all current sessions for the user 
+$sql = "DELETE FROM session WHERE user_id = {$userResult->ID}";
+$mySQL->query($sql);
 // Call the `new_session` stored procedure to insert the session with tokens and expiration times
 $sql = "CALL new_session('$userResult->ID', '$accessToken', '$refreshToken', '$accessTokenExpiry', '$refreshTokenExpiry')";
 $mySQL->query($sql);

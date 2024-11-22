@@ -22,8 +22,16 @@ function loadEnv($path)
 
     $value = trim($value, '"');
 
+    // Parse the line
+    $parts = explode('=', $line, 2);
+    if (count($parts) !== 2) {
+      continue; // Skip lines that don't have exactly one '=' character
+    }
+
+    $name = trim($parts[0]);
+    $value = trim($parts[1]);
+
+    // Set the environment variable
     putenv("$name=$value");
-    $_ENV[$name] = $value;
-    $_SERVER[$name] = $value;
   }
 }
