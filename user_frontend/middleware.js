@@ -43,11 +43,11 @@ export async function middleware(req) {
           const accessToken = newTokens.tokens.access
           const accessTokenExpiry = new Date(newTokens.expires_in.access * 1000)
 
-          // Save the access token as a cookie
-          ;(await cookies()).set("access_token", accessToken, {
-            expires: accessTokenExpiry,
-            httpOnly: true,
-          })
+            // Save the access token as a cookie
+            ; (await cookies()).set("access_token", accessToken, {
+              expires: accessTokenExpiry,
+              httpOnly: true,
+            })
 
           return NextResponse.next()
         } else {
@@ -73,5 +73,7 @@ export async function middleware(req) {
 }
 
 export const config = {
-  matcher: ["/((?!login|signup).*)"], // Exclude login and signup pages
-}
+  matcher: [
+    "/((?!api|_next/static|_next/image|favicon.ico|signup|login).*)",
+  ],
+};
