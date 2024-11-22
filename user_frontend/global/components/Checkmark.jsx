@@ -49,14 +49,6 @@ export function Checkmark({
       }}
       className={containerClasses}
     >
-      {text && (
-        <span className={twMerge(
-          "whitespace-nowrap",
-          isSelected ? "text-primary" : "text-gray-700"
-        )}>
-          {text}
-        </span>
-      )}
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 20 20"
@@ -69,6 +61,14 @@ export function Checkmark({
           <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-2a6 6 0 100-12 6 6 0 000 12z" clipRule="evenodd" />
         )}
       </svg>
+      {text && (
+        <span className={twMerge(
+          "whitespace-nowrap",
+          isSelected ? "text-primary" : "text-gray-700"
+        )}>
+          {text}
+        </span>
+      )}
     </div>
   );
 }
