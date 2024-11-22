@@ -1,7 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import { Button, Input } from "@/global/components";
-import { Login } from "@/actions";
+import { login } from "@/actions";
+import Image from "next/image";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -10,7 +11,7 @@ export default function LoginPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const result = await Login(email, password);
+    const result = await login(email, password);
 
     if (result.error) {
       console.error("Error:", result.error);
@@ -26,7 +27,13 @@ export default function LoginPage() {
     <div>
       <div className="mx-auto w-[70%] max-w-[70.5rem]">
         <div className="flex items-center h-20">
-          <img src="/resbooklogo.png" alt="Logo" className="w-15 h-12" />
+          <Image
+            src="/resbooklogo.png"
+            alt="Logo"
+            width={60}
+            height={48}
+            style={{ width: "auto", height: "auto" }}
+          />
           <h2 className="font-bold ml-2">RESBOOK</h2>
         </div>
       </div>
