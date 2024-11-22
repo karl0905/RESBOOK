@@ -1,6 +1,7 @@
 <?php
 require_once("../../../functions/handleApiRequest.php");
 
+
 $input = handle_api_request('POST');
 
 if (!isset($input["email"]) || !isset($input["password"])) {
