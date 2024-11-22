@@ -22,39 +22,24 @@ export async function login(email, password) {
     )
 
     const data = await response.json()
-<<<<<<< HEAD
-
-    if (response.ok) {
-      // Save the session in a cookie
-      const refreshTokenExpiry = new Date(data.expires_in.refresh * 1000)
-      ;(await cookies()).set("tokens", data, {
-        expires: refreshTokenExpiry,
-        httpOnly: true,
-      })
-=======
     console.log(data)
 
     if (response.ok) {
       // Save the session in a cookie
       console.log("trying to set cookie")
       const refreshTokenExpiry = new Date(data.expires_in.refresh * 1000)
-      ;(await cookies()).set("tokens", JSON.stringify(data), {
-        expires: refreshTokenExpiry,
-        httpOnly: true,
-      })
+        ; (await cookies()).set("tokens", JSON.stringify(data), {
+          expires: refreshTokenExpiry,
+          httpOnly: true,
+        })
       console.log("cookie set successfully")
->>>>>>> origin/development
       return { data }
     } else {
       return { error: data.message || "Failed to log in" }
     }
   } catch (error) {
-<<<<<<< HEAD
-    return { error: "Failed to log in" }
-=======
     console.error("Error setting cookie:", error)
     return { error: "try block failed" }
->>>>>>> origin/development
   }
 }
 
@@ -80,11 +65,7 @@ export async function sign_up(
 
   try {
     const response = await fetch(
-<<<<<<< HEAD
-      process.env.NEXT_PUBLIC_API_URL + "/user/signup",
-=======
       process.env.NEXT_PUBLIC_API_URL + "/users/signup",
->>>>>>> origin/development
       {
         method: "POST",
         headers: {
