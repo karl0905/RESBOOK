@@ -40,14 +40,15 @@ export async function middleware(req) {
         )
         if (response.ok) {
           const newTokens = await response.json()
-          // Save the new tokens as a cookie
-          const refreshTokenExpiry = new Date(
-            newTokens.expires_in.refresh * 1000
-          )
-          ;(await cookies()).set("tokens", JSON.stringify(newTokens), {
-            expires: refreshTokenExpiry,
+          const accessToken = newTokens.tokens.access
+          const accessTokenExpiry = new Date(newTokens.expires_in.access * 1000)
+
+          // Save the access token as a cookie
+          ;(await cookies()).set("access_token", accessToken, {
+            expires: accessTokenExpiry,
             httpOnly: true,
           })
+
           return NextResponse.next()
         } else {
           console.error("Failed to refresh tokens:", response.statusText)
