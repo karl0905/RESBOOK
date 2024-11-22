@@ -1,17 +1,22 @@
 "use client";
 import React, { useState } from "react";
-import { Button, Input } from "@/global";
-import login from 
+import { Button, Input } from "@/global/components";
+import { Login } from "@/actions";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const result = await Login(email, password);
 
-    /* connect til backend */
+    if (result.error) {
+      console.error("Error:", result.error);
+    } else {
+      console.log("Succes", result.data);
+    }
 
     console.log("Email:", email);
     console.log("Password:", password);
