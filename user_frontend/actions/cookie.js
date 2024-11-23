@@ -15,3 +15,12 @@ export async function get_cookie() {
     return { error: "Failed to parse cookie" }
   }
 }
+
+// function to set a cookie
+export async function set_cookie(tokens) {
+  const refreshTokenExpiry = new Date(tokens.expires_in.refresh * 1000)
+  ;(await cookies()).set("tokens", JSON.stringify(tokens), {
+    expires: refreshTokenExpiry,
+    httpOnly: true,
+  })
+}

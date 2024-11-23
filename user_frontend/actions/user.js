@@ -1,7 +1,7 @@
 "use server"
 
 // imports
-import { cookies } from "next/headers"
+import { set_cookie } from "./cookie"
 
 // function to log in the user
 export async function login(email, password) {
@@ -26,13 +26,7 @@ export async function login(email, password) {
 
     if (response.ok) {
       // Save the session in a cookie
-      console.log("trying to set cookie")
-      const refreshTokenExpiry = new Date(data.expires_in.refresh * 1000)
-        ; (await cookies()).set("tokens", JSON.stringify(data), {
-          expires: refreshTokenExpiry,
-          httpOnly: true,
-        })
-      console.log("cookie set successfully")
+      await set_cookie(data)
       return { data }
     } else {
       return { error: data.message || "Failed to log in" }

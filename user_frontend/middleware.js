@@ -1,8 +1,7 @@
 "use server"
 
 import { NextResponse } from "next/server"
-import { get_cookie } from "@/actions/cookie"
-import { cookies } from "next/headers"
+import { get_cookie, set_cookie } from "@/actions/cookie"
 
 export async function middleware(req) {
   const url = req.nextUrl.clone()
@@ -40,14 +39,9 @@ export async function middleware(req) {
         )
         if (response.ok) {
           const newTokens = await response.json()
-          const accessToken = newTokens.tokens.access
-          const accessTokenExpiry = new Date(newTokens.expires_in.access * 1000)
 
-            // Save the access token as a cookie
-            ; (await cookies()).set("access_token", accessToken, {
-              expires: accessTokenExpiry,
-              httpOnly: true,
-            })
+          // Save the access token as a cookie
+          await set_cookie(newTokens)
 
           return NextResponse.next()
         } else {
@@ -69,11 +63,10 @@ export async function middleware(req) {
   }
 
   // If tokens are valid, proceed to the next middleware or page
+  console.log("Tokens are valid.")
   return NextResponse.next()
 }
 
 export const config = {
-  matcher: [
-    "/((?!api|_next/static|_next/image|favicon.ico|signup|login).*)",
-  ],
-};
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|signup|login).*)"],
+}
