@@ -15,11 +15,11 @@ export default function SignUpForm() {
     e.preventDefault()
 
     const result = await sign_up(
-      email,
-      password,
-      phone,
       firstName,
       lastName,
+      phone,
+      email,
+      password,
       confirmPassword
     )
 
