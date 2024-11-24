@@ -1,6 +1,7 @@
 "use client"
 import React, { useState } from "react"
 import { Input, Button } from "@/global/components"
+import { sign_up } from "@/actions/user"
 
 export default function SignUpForm() {
   const [firstName, setFirstName] = useState("")
@@ -8,23 +9,32 @@ export default function SignUpForm() {
   const [phone, setPhone] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
 
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    const response = await fetch("/api/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ firstName, lastName, phone, email, password }),
-    })
+    const result = await sign_up(
+      email,
+      password,
+      phone,
+      firstName,
+      lastName,
+      confirmPassword
+    )
+
+    if (result.error) {
+      console.error("Error:", result.error)
+    } else {
+      console.log("Success:", result.data)
+    }
 
     console.log("First Name:", firstName)
     console.log("Last Name:", lastName)
     console.log("Phone:", phone)
     console.log("Email:", email)
     console.log("Password:", password)
+    console.log("Confirm Password:", confirmPassword)
   }
 
   return (
@@ -35,30 +45,28 @@ export default function SignUpForm() {
             htmlFor="firstName"
             className="block font-medium text-gray-700"
           >
-            First name
+            First Name
           </label>
           <Input
             id="firstName"
             name="firstName"
             type="text"
-            placeholder=""
-            required
+            autoComplete="given-name"
             value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
+            onChange={(value) => setFirstName(value)}
           />
         </div>
         <div>
           <label htmlFor="lastName" className="block font-medium text-gray-700">
-            Last name
+            Last Name
           </label>
           <Input
             id="lastName"
             name="lastName"
             type="text"
-            placeholder=""
-            required
+            autoComplete="family-name"
             value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
+            onChange={(value) => setLastName(value)}
           />
         </div>
         <div>
@@ -68,11 +76,10 @@ export default function SignUpForm() {
           <Input
             id="phone"
             name="phone"
-            type="text"
-            placeholder=""
-            required
+            type="tel"
+            autoComplete="tel"
             value={phone}
-            onChange={(e) => setPhone(e.target.value)}
+            onChange={(value) => setPhone(value)}
           />
         </div>
         <div>
@@ -83,10 +90,9 @@ export default function SignUpForm() {
             id="email"
             name="email"
             type="email"
-            placeholder=""
-            required
+            autoComplete="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(value) => setEmail(value)}
           />
         </div>
         <div>
@@ -97,24 +103,28 @@ export default function SignUpForm() {
             id="password"
             name="password"
             type="password"
-            autoComplete="current-password"
-            placeholder=""
-            required
+            autoComplete="new-password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(value) => setPassword(value)}
           />
         </div>
-        <div className="flex justify-center">
-          <Button type="submit" title="Create user"></Button>
+        <div>
+          <label
+            htmlFor="confirmPassword"
+            className="block font-medium text-gray-700"
+          >
+            Confirm Password
+          </label>
+          <Input
+            id="confirmPassword"
+            name="confirmPassword"
+            type="password"
+            autoComplete="new-password"
+            value={confirmPassword}
+            onChange={(value) => setConfirmPassword(value)}
+          />
         </div>
-        <div className="text-center mt-4">
-          <p className="text-xs text-gray-600">
-            Already have an account?{" "}
-            <a href="/login" className="text-blue-600 hover:underline">
-              Login
-            </a>
-          </p>
-        </div>
+        <Button type="submit">Sign Up</Button>
       </form>
     </div>
   )

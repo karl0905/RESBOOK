@@ -45,19 +45,19 @@ export async function login(email, password) {
 
 // actions/user.js
 export async function sign_up(
-  email,
-  password,
-  phone,
   first_name,
   last_name,
+  phone,
+  email,
+  password,
   confirm_password
 ) {
   if (
-    !email ||
-    !password ||
-    !phone ||
     !first_name ||
     !last_name ||
+    !phone ||
+    !email ||
+    !password ||
     !confirm_password
   ) {
     return { error: "All fields are required" }
