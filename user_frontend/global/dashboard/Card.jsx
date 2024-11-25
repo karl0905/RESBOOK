@@ -2,48 +2,59 @@
 
 import React, { useEffect, useState } from 'react';
 import { AiFillHeart, AiFillStar } from 'react-icons/ai';
-import { fetchRestaurant } from '@/actions/restaurant';
+import fetchRestaurant from '@/actions/restaurant';
+
 
 const Card = () => {
-    const [restaurant, setRestaurant] = useState(null);
+    const [restaurants, setRestaurants] = useState([]);
 
     useEffect(() => {
-        const getRestaurant = async () => {
-            const data = await fetchRestaurant();
-            setRestaurant(data);
+        const getRestaurants = async () => {
+            try {
+                const data = await fetchRestaurant();
+                setRestaurants(data || []);
+            } catch (error) {
+                console.error('Error fetching restaurants:', error);
+                setRestaurants([]);
+            }
         };
 
-        getRestaurant();
+        getRestaurants();
     }, []);
 
-    if (!restaurant) {
+    if (restaurants.length === 0) {
         return <div>Loading...</div>;
     }
 
     return (
-        <div className="bg-card-gray text-white py-10 px-5 rounded-lg shadow-md w-1/3">
-            <div className="flex justify-between items-center mb-4">
-                <span className="text-md font-normal">{restaurant.score}</span>
-                <button aria-label="Like" onClick={() => console.log('Liked!')}>
-                    <AiFillHeart className="text-2xl" />
-                </button>
-            </div>
+        <div>
+            {restaurants.map((restaurant, index) => (
+                <div key={index} className="bg-card-gray text-white py-10 px-5 rounded-lg shadow-md w-1/3 mb-4">
+                    <div className="flex justify-between items-center mb-4">
+                        <span className="text-md font-normal">{restaurant.rating}</span>
+                        <button aria-label="Like" onClick={() => console.log('Liked!')}>
+                            <AiFillHeart className="text-2xl" />
+                        </button>
+                    </div>
 
-            <div className="font-montserrat">
-                <h2 className="text-lg font-bold">{restaurant.title}</h2>
-                <p className="text-sm">{restaurant.text}</p>
-            </div>
+                    <div className="font-montserrat">
+                        <h2 className="text-lg font-bold">{restaurant.name}</h2>
+                        <p className="text-sm">{restaurant.description}</p>
+                    </div>
 
-            <div className="flex justify-between items-center mt-4">
-                <div className="text-xs">...</div>
-                <div className="flex">
-                    {[...Array(restaurant.stars)].map((_, index) => (
-                        <AiFillStar key={index} className="text-lg" />
-                    ))}
+                    <div className="flex justify-between items-center mt-4">
+                        <div className="text-xs">...</div>
+                        <div className="flex">
+                            {[...Array(restaurant.stars)].map((_, starIndex) => (
+                                <AiFillStar key={starIndex} className="text-lg" />
+                            ))}
+                        </div>
+                    </div>
                 </div>
-            </div>
+            ))}
         </div>
     );
 };
 
 export default Card;
+

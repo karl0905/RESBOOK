@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 include($_SERVER["DOCUMENT_ROOT"] . "/functions/authorize.php");
 include($_SERVER["DOCUMENT_ROOT"] . "/functions/handleApiRequest.php");
