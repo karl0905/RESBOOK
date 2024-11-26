@@ -27,7 +27,7 @@ const Card = () => {
     }
 
     return (
-        <div>
+        <article>
             {restaurants.map((restaurant, index) => (
                 <div key={index} className="bg-card-gray text-white py-10 px-5 rounded-lg shadow-md w-1/3 mb-4">
                     <div className="flex justify-between items-center mb-4">
@@ -52,7 +52,7 @@ const Card = () => {
                     </div>
                 </div>
             ))}
-        </div>
+        </article>
     );
 };
 
