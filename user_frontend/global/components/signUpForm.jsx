@@ -4,23 +4,23 @@ import { Input, Button } from "@/global/components"
 import { sign_up } from "@/actions/user"
 
 export default function SignUpForm() {
-  const [firstName, setFirstName] = useState("")
-  const [lastName, setLastName] = useState("")
-  const [phone, setPhone] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [confirmPassword, setConfirmPassword] = useState("")
+  const [confirm_password, setConfirmPassword] = useState("")
+  const [first_name, setFirstName] = useState("")
+  const [last_name, setLastName] = useState("")
+  const [phone, setPhone] = useState("")
 
   const handleSubmit = async (e) => {
     e.preventDefault()
 
     const result = await sign_up(
-      firstName,
-      lastName,
-      phone,
       email,
       password,
-      confirmPassword
+      confirm_password,
+      first_name,
+      last_name,
+      phone
     )
 
     if (result.error) {
@@ -28,13 +28,6 @@ export default function SignUpForm() {
     } else {
       console.log("Success:", result.data)
     }
-
-    console.log("First Name:", firstName)
-    console.log("Last Name:", lastName)
-    console.log("Phone:", phone)
-    console.log("Email:", email)
-    console.log("Password:", password)
-    console.log("Confirm Password:", confirmPassword)
   }
 
   return (
@@ -42,30 +35,33 @@ export default function SignUpForm() {
       <form className="space-y-4 text-xs" onSubmit={handleSubmit}>
         <div>
           <label
-            htmlFor="firstName"
+            htmlFor="first_name"
             className="block font-medium text-gray-700"
           >
             First Name
           </label>
           <Input
-            id="firstName"
-            name="firstName"
+            id="first_name"
+            name="first_name"
             type="text"
             autoComplete="given-name"
-            value={firstName}
+            value={first_name}
             onChange={(value) => setFirstName(value)}
           />
         </div>
         <div>
-          <label htmlFor="lastName" className="block font-medium text-gray-700">
+          <label
+            htmlFor="last_name"
+            className="block font-medium text-gray-700"
+          >
             Last Name
           </label>
           <Input
-            id="lastName"
-            name="lastName"
+            id="last_name"
+            name="last_name"
             type="text"
             autoComplete="family-name"
-            value={lastName}
+            value={last_name}
             onChange={(value) => setLastName(value)}
           />
         </div>
@@ -110,17 +106,17 @@ export default function SignUpForm() {
         </div>
         <div>
           <label
-            htmlFor="confirmPassword"
+            htmlFor="confirm_password"
             className="block font-medium text-gray-700"
           >
             Confirm Password
           </label>
           <Input
-            id="confirmPassword"
-            name="confirmPassword"
+            id="confirm_password"
+            name="confirm_password"
             type="password"
             autoComplete="new-password"
-            value={confirmPassword}
+            value={confirm_password}
             onChange={(value) => setConfirmPassword(value)}
           />
         </div>

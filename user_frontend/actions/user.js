@@ -44,21 +44,22 @@ export async function login(email, password) {
 }
 
 // actions/user.js
+// user.js
 export async function sign_up(
-  first_name,
-  last_name,
-  phone,
   email,
   password,
-  confirm_password
+  confirm_password,
+  first_name,
+  last_name,
+  phone
 ) {
   if (
-    !first_name ||
-    !last_name ||
-    !phone ||
     !email ||
     !password ||
-    !confirm_password
+    !confirm_password ||
+    !first_name ||
+    !last_name ||
+    !phone
   ) {
     return { error: "All fields are required" }
   }
@@ -74,10 +75,10 @@ export async function sign_up(
         body: JSON.stringify({
           email,
           password,
-          phone,
+          confirm_password,
           first_name,
           last_name,
-          confirm_password,
+          phone,
         }),
       }
     )
@@ -93,6 +94,6 @@ export async function sign_up(
     }
   } catch (error) {
     console.error("Network error:", error) // Add this line for debugging
-    return { error: "Failed to register" }
+    return { error: "Failed to create user" }
   }
 }
