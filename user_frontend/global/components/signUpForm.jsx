@@ -44,6 +44,7 @@ export default function SignUpForm() {
             id="first_name"
             name="first_name"
             type="text"
+            placeholder=""
             autoComplete="given-name"
             value={first_name}
             onChange={(value) => setFirstName(value)}
@@ -60,6 +61,7 @@ export default function SignUpForm() {
             id="last_name"
             name="last_name"
             type="text"
+            placeholder=""
             autoComplete="family-name"
             value={last_name}
             onChange={(value) => setLastName(value)}
@@ -73,6 +75,7 @@ export default function SignUpForm() {
             id="phone"
             name="phone"
             type="tel"
+            placeholder=""
             autoComplete="tel"
             value={phone}
             onChange={(value) => setPhone(value)}
@@ -86,6 +89,7 @@ export default function SignUpForm() {
             id="email"
             name="email"
             type="email"
+            placeholder=""
             autoComplete="email"
             value={email}
             onChange={(value) => setEmail(value)}
@@ -99,6 +103,7 @@ export default function SignUpForm() {
             id="password"
             name="password"
             type="password"
+            placeholder=""
             autoComplete="new-password"
             value={password}
             onChange={(value) => setPassword(value)}
@@ -115,6 +120,7 @@ export default function SignUpForm() {
             id="confirm_password"
             name="confirm_password"
             type="password"
+            placeholder=""
             autoComplete="new-password"
             value={confirm_password}
             onChange={(value) => setConfirmPassword(value)}
@@ -122,6 +128,12 @@ export default function SignUpForm() {
         </div>
         <Button type="submit">Sign Up</Button>
       </form>
+      <p className="text-xs my-2 text-gray-600">
+        Already have an account?{" "}
+        <a href="/login" className="text-blue-600 hover:underline">
+          Login
+        </a>
+      </p>
     </div>
   )
 }
