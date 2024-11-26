@@ -6,7 +6,7 @@ $method = $_SERVER['REQUEST_METHOD'];
 // Include the appropriate file based on the method
 switch ($method) {
   case 'GET':
-    require_once 'getUsers.php';
+    require_once 'getUser.php';
     break;
   case 'POST':
     require_once 'createUser.php';
