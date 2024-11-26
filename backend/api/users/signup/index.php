@@ -6,22 +6,22 @@ $input = handle_api_request('POST');
 
 $email = $input['email'];
 $password = $input['password'];
-$confirmPassword = $input['confirmPassword'];
+$confirm_password = $input['confirm_password'];
 $first_name = $input['first_name'];
 $last_name = $input['last_name'];
 $phone = $input['phone'];
 
 // Check if all fields are filled
-if (empty($email) || empty($password) || empty($confirmPassword) || empty($first_name) || empty($last_name) || empty($phone)) {
-  http_response_code(400);
-  echo json_encode(["error" => "All fields are required"]);
-  exit();
+if (empty($email) || empty($password) || empty($confirm_password) || empty($first_name) || empty($last_name) || empty($phone)) {
+    http_response_code(400);
+    echo json_encode(["error" => "All fields are required"]);
+    exit();
 }
 
-if ($password !== $confirmPassword) {
-  http_response_code(400);
-  echo json_encode(["error" => "Passwords do not match"]);
-  exit();
+if ($password !== $confirm_password) {
+    http_response_code(400);
+    echo json_encode(["error" => "Passwords do not match"]);
+    exit();
 }
 
 // Hash the password

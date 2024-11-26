@@ -37,22 +37,23 @@ export async function login(email, password) {
   }
 }
 
-// Function to register a new user
+// actions/user.js
+// user.js
 export async function sign_up(
   email,
   password,
-  phone,
+  confirm_password,
   first_name,
   last_name,
-  confirm_password
+  phone
 ) {
   if (
     !email ||
     !password ||
-    !phone ||
+    !confirm_password ||
     !first_name ||
     !last_name ||
-    !confirm_password
+    !phone
   ) {
     return { error: "All fields are required" }
   }
@@ -68,22 +69,25 @@ export async function sign_up(
         body: JSON.stringify({
           email,
           password,
-          phone,
+          confirm_password,
           first_name,
           last_name,
-          confirm_password,
+          phone,
         }),
       }
     )
 
     const data = await response.json()
+    console.log("Server response:", data) // Add this line for debugging
 
     if (response.ok) {
       return { data }
     } else {
+      console.error("Registration failed:", data.message) // Add this line for debugging
       return { error: data.message || "Failed to register" }
     }
   } catch (error) {
-    return { error: "Failed to register" }
+    console.error("Network error:", error) // Add this line for debugging
+    return { error: "Failed to create user" }
   }
 }
