@@ -1,7 +1,8 @@
 "use server"
 
 // imports
-import { set_cookie } from "./cookie"
+import { set_cookie } from "@/actions/cookie"
+import { encrypt } from "@/actions/encryption"
 
 // function to log in the user
 export async function login(email, password) {
@@ -22,11 +23,10 @@ export async function login(email, password) {
     )
 
     const data = await response.json()
-    console.log(data)
 
     if (response.ok) {
       // Save the session in a cookie
-      await set_cookie(data)
+      await set_cookie(await encrypt(data))
       return { data }
     } else {
       return { error: data.message || "Failed to log in" }

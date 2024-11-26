@@ -29,8 +29,8 @@ $accessToken = bin2hex(random_bytes(32));
 $refreshToken = bin2hex(random_bytes(64));
 
 // Set token expiration times in minutes (optional parameters for procedure)
-$accessTokenExpiry = 120; // in minutes
-$refreshTokenExpiry = 86400; // in minutes (60 days)
+$accessTokenExpiry = 120; // two hours in minutes
+$refreshTokenExpiry = 86400; // 60 days in minutes
 
 // Remove all current sessions for the user 
 $sql = "DELETE FROM session WHERE user_id = {$userResult->ID}";

@@ -2,21 +2,30 @@
 
 import { NextResponse } from "next/server"
 import { get_cookie, set_cookie } from "@/actions/cookie"
+import { decrypt, encrypt } from "@/actions/encryption"
 
 export async function middleware(req) {
   const url = req.nextUrl.clone()
 
-  // Get tokens using the `get_cookie` function
-  const { tokens, error } = await get_cookie()
+  let tokens
+  try {
+    tokens = await get_cookie()
+  } catch (error) {
+    console.error("Error fetching tokens:", error.message)
+    url.pathname = "/login"
+    return NextResponse.redirect(url)
+  }
 
-  if (error || !tokens) {
-    console.error("Error fetching tokens:", error)
+  // Decrypt the tokens
+  const decrypted_tokens = await decrypt(tokens)
+  if (decrypted_tokens === "Invalid JWT") {
+    console.error("Invalid JWT")
     url.pathname = "/login"
     return NextResponse.redirect(url)
   }
 
   const { accessToken, refreshToken, accessTokenExpiry, refreshTokenExpiry } =
-    tokens
+    decrypted_tokens
 
   // Check current date
   const currentDate = new Date()
@@ -41,7 +50,7 @@ export async function middleware(req) {
           const newTokens = await response.json()
 
           // Save the access token as a cookie
-          await set_cookie(newTokens)
+          await set_cookie(await encrypt(newTokens))
 
           return NextResponse.next()
         } else {
@@ -63,7 +72,6 @@ export async function middleware(req) {
   }
 
   // If tokens are valid, proceed to the next middleware or page
-  console.log("Tokens are valid.")
   return NextResponse.next()
 }
 
