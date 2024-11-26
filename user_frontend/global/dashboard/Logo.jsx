@@ -9,8 +9,8 @@ const Header = () => {
                 <Image
                     src="/resbook-logo.png"
                     alt="Logo"
-                    width={450}
-                    height={450}
+                    width={420}
+                    height={420}
                 />
             </div>
         </section>
