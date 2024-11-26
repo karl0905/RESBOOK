@@ -33,12 +33,9 @@ $sql = "CALL create_user('$email', '$password', '$first_name', '$last_name', '$p
 $result = $mySQL->query($sql);
 
 if (!$result) {
-    http_response_code(500);
-    echo json_encode(["error" => "Failed to create user"]);
-    exit();
+  http_response_code(500);
+  echo json_encode(["error" => "Failed to create user"]);
+  exit();
 }
 
 echo json_encode(["success" => "User created successfully"]);
-
-
-
