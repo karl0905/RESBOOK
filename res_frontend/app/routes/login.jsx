@@ -1,21 +1,21 @@
-"use client";
-import React, { useState } from "react";
-import { Button } from "../../global/components/Button";
-import { Input } from "../../global/components/Input";
-import Logo from "../../global/assets/resbooklogo.png";
+"use client"
+import React, { useState } from "react"
+import { Button } from "../../global/components/Button"
+import { Input } from "../../global/components/Input"
+import Logo from "/resbooklogo.png"
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     /* connect til backend */
 
-    console.log("Email:", email);
-    console.log("Password:", password);
-  };
+    console.log("Email:", email)
+    console.log("Password:", password)
+  }
 
   return (
     <div>
@@ -89,5 +89,5 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
-  );
+  )
 }

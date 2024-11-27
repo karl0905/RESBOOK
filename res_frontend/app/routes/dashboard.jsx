@@ -10,6 +10,7 @@ export default function Dashboard() {
       <Logo />
       <Darkbackground>
         <Heading />
+        GGGGggg
       </Darkbackground>
     </div>
   )
