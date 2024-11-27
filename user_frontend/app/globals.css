@@ -16,8 +16,8 @@ body {
     --popover-foreground: 240 10% 3.9%;
     --primary: 142.1 76.2% 36.3%;
     --primary-foreground: 355.7 100% 97.3%;
-    --secondary: 220 14% 90%;  /* Changed */
-    --secondary-foreground: 220 25% 20%;  /* Changed */
+    --secondary: 220 14% 90%; /* Changed */
+    --secondary-foreground: 220 25% 20%; /* Changed */
     --muted: 240 4.8% 95.9%;
     --muted-foreground: 240 3.8% 46.1%;
     --accent: 240 4.8% 95.9%;
@@ -44,8 +44,8 @@ body {
     --popover-foreground: 0 0% 95%;
     --primary: 142.1 70.6% 45.3%;
     --primary-foreground: 144.9 80.4% 10%;
-    --secondary: 220 20% 25%;  /* Changed */
-    --secondary-foreground: 220 15% 85%;  /* Changed */
+    --secondary: 220 20% 25%; /* Changed */
+    --secondary-foreground: 220 15% 85%; /* Changed */
     --muted: 0 0% 15%;
     --muted-foreground: 240 5% 64.9%;
     --accent: 12 6.5% 15.1%;
@@ -71,4 +71,16 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+:root {
+  --swiper-pagination-color: #fff;
+  --swiper-pagination-bullet-size: 8px;
+  --swiper-pagination-bullet-width: 8px;
+  --swiper-pagination-bullet-height: 8px;
+  --swiper-pagination-bullet-inactive-color: #000;
+  --swiper-pagination-bullet-inactive-opacity: 0.2;
+  --swiper-pagination-bullet-opacity: 1;
+  --swiper-pagination-bullet-horizontal-gap: 4px;
+  --swiper-pagination-bullet-vertical-gap: 6px;
 }

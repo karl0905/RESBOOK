@@ -2,8 +2,14 @@
 
 import React, { useEffect, useState } from "react";
 import { AiFillHeart, AiFillStar } from "react-icons/ai";
-import { fetchRestaurant } from '@/actions/';
+import { fetchRestaurant } from "@/actions/";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination } from 'swiper/modules';
 
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 
 export function Card() {
     const [restaurants, setRestaurants] = useState([]);
@@ -39,41 +45,59 @@ export function Card() {
     }
 
     return (
-        <article className="flex flex-wrap gap-4 justify-start items-start py-20">
-            {restaurants.map((restaurant, index) => (
-                <div
-                    key={index}
-                    className="bg-card-gray text-white py-10 px-5 rounded-lg shadow-md w-80 mb-4"
-                >
-                    <div className="flex justify-between items-center mb-4">
-                        <span className="text-md font-normal">
-                            {restaurant.rating || "N/A"} ⭐
-                        </span>
-                        <button
-                            aria-label="Like"
-                            onClick={() => console.log(`Liked: ${restaurant.name}`)}
-                        >
-                            <AiFillHeart className="text-2xl text-red-500" />
-                        </button>
-                    </div>
+        <article className="py-20 px-4">
+            <Swiper
+                modules={[Navigation, Pagination]}
+                spaceBetween={30}
+                slidesPerView={1}
+                pagination={{
+                    clickable: true,
+                }}
+                breakpoints={{
+                    640: {
+                        slidesPerView: 2,
+                    },
+                    1024: {
+                        slidesPerView: 3,
+                    },
+                }}
+            >
+                {restaurants.map((restaurant, index) => (
+                    <SwiperSlide key={index}>
+                        <div className="bg-card-gray text-white py-10 px-5 rounded-lg shadow-md">
 
-                    <div className="font-montserrat">
-                        <h2 className="text-lg font-bold">{restaurant.name}</h2>
-                        <p className="text-sm">{restaurant.description || "No description available."}</p>
-                    </div>
+                            <div className="flex justify-between items-center mb-4">
+                                <span className="text-sm">
+                                    Kapacitet: <strong>{restaurant.capacity || "Unknown"}</strong>
+                                </span>
+                                <button
+                                    aria-label="Like"
+                                    onClick={() => console.log(`Liked: ${restaurant.name}`)}
+                                >
+                                    <AiFillHeart className="text-2xl text-white" />
+                                </button>
+                            </div>
 
-                    <div className="flex justify-between items-center mt-4">
-                        <div className="text-xs">
-                            {restaurant.address || "No address provided"}
+                            <div className="font-montserrat flex justify-between items-center pt-6">
+                                <div>
+                                    <h2 className="text-2xl font-bold">{restaurant.name}</h2>
+                                    <p className="text-sm truncate">{restaurant.description || "No description available."}</p>
+                                </div>
+                                <span className="text-md font-normal flex items-center">
+                                    {restaurant.rating || "N/A"}
+                                    <AiFillStar className="text-white inline ml-1" />
+                                </span>
+                            </div>
+
+                            <div className="flex mt-4">
+                                {[...Array(restaurant.stars || 0)].map((_, starIndex) => (
+                                    <AiFillStar key={starIndex} className="text-lg text-white" />
+                                ))}
+                            </div>
                         </div>
-                        <div className="flex">
-                            {[...Array(restaurant.stars || 0)].map((_, starIndex) => (
-                                <AiFillStar key={starIndex} className="text-lg text-yellow-500" />
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            ))}
+                    </SwiperSlide>
+                ))}
+            </Swiper>
         </article>
     );
 }
