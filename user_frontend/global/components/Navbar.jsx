@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaUtensils, FaHeart, FaStore, FaSearch, FaUser } from 'react-icons/fa';
 
-const Navbar = () => {
+export function Navbar() {
     return (
         <nav className="fixed bottom-0 w-full py-1 bg-card-gray text-white shadow-lg">
             <ul className="flex justify-around items-center py-2">
@@ -39,5 +39,3 @@ const Navbar = () => {
         </nav >
     );
 };
-
-export default Navbar;

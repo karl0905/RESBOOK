@@ -1,4 +1,4 @@
-import { LoginForm } from "@/global/components/"
+import SignUpForm from "@/global/components/signUpForm"
 
 import Image from "next/image"
 
@@ -9,6 +9,7 @@ export default function LoginPage() {
         <div className="flex items-center h-20">
           <Image
             src="/resbooklogo.png"
+            priority
             alt="Logo"
             width={60}
             height={48}
@@ -23,10 +24,10 @@ export default function LoginPage() {
           className="text-xl font-semibold text-center  mt-10 mb-5"
           variant="primary"
         >
-          Welcome back
+          Sign up
         </h2>
 
-        <LoginForm />
+        <SignUpForm />
       </div>
     </div>
   )

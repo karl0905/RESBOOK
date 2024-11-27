@@ -2,7 +2,7 @@
 import React from 'react'
 import Image from 'next/image'
 
-const Header = () => {
+export function Logo() {
     return (
         <section className='flex w-full h-auto py-10'>
             <div className='max-w-1/2 -ml-3'>
@@ -16,5 +16,3 @@ const Header = () => {
         </section>
     )
 }
-
-export default Header
