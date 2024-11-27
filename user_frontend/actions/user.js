@@ -1,7 +1,8 @@
 "use server"
 
 // imports
-import { cookies } from "next/headers"
+import { set_cookie } from "@/actions/cookie"
+import { encrypt } from "@/actions/encryption"
 
 // function to log in the user
 export async function login(email, password) {
@@ -22,17 +23,10 @@ export async function login(email, password) {
     )
 
     const data = await response.json()
-    console.log(data)
 
     if (response.ok) {
       // Save the session in a cookie
-      console.log("trying to set cookie")
-      const refreshTokenExpiry = new Date(data.expires_in.refresh * 1000)
-      ;(await cookies()).set("tokens", JSON.stringify(data), {
-        expires: refreshTokenExpiry,
-        httpOnly: true,
-      })
-      console.log("cookie set successfully")
+      await set_cookie(await encrypt(data))
       return { data }
     } else {
       return { error: data.message || "Failed to log in" }
@@ -43,22 +37,23 @@ export async function login(email, password) {
   }
 }
 
-// Function to register a new user
+// actions/user.js
+// user.js
 export async function sign_up(
   email,
   password,
-  phone,
+  confirm_password,
   first_name,
   last_name,
-  confirm_password
+  phone
 ) {
   if (
     !email ||
     !password ||
-    !phone ||
+    !confirm_password ||
     !first_name ||
     !last_name ||
-    !confirm_password
+    !phone
   ) {
     return { error: "All fields are required" }
   }
@@ -74,22 +69,25 @@ export async function sign_up(
         body: JSON.stringify({
           email,
           password,
-          phone,
+          confirm_password,
           first_name,
           last_name,
-          confirm_password,
+          phone,
         }),
       }
     )
 
     const data = await response.json()
+    console.log("Server response:", data) // Add this line for debugging
 
     if (response.ok) {
       return { data }
     } else {
+      console.error("Registration failed:", data.message) // Add this line for debugging
       return { error: data.message || "Failed to register" }
     }
   } catch (error) {
-    return { error: "Failed to register" }
+    console.error("Network error:", error) // Add this line for debugging
+    return { error: "Failed to create user" }
   }
 }

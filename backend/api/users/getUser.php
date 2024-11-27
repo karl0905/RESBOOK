@@ -22,3 +22,4 @@ if (!$result) {
 
 // Output the data as JSON
 echo json_encode($result);
+

@@ -6,12 +6,20 @@ import { cookies } from "next/headers"
 export async function get_cookie() {
   const tokens = (await cookies()).get("tokens")
   if (!tokens) {
-    return { error: "No cookie found" }
+    throw new Error("No cookie found")
   }
   try {
-    const parsedTokens = JSON.parse(tokens.value)
-    return { tokens: parsedTokens }
+    return tokens.value
   } catch (error) {
-    return { error: "Failed to parse cookie" }
+    throw new Error("Failed to parse cookie")
   }
+}
+
+// function to set a cookie
+export async function set_cookie(tokens) {
+  const refreshTokenExpiry = new Date(Date.now() + 60 * 24 * 60 * 60 * 1000)
+  ;(await cookies()).set("tokens", tokens, {
+    expires: refreshTokenExpiry,
+    httpOnly: true,
+  })
 }
