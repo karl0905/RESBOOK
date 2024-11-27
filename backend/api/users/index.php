@@ -8,9 +8,6 @@ switch ($method) {
   case 'GET':
     require_once 'getUser.php';
     break;
-  case 'POST':
-    require_once 'createUser.php';
-    break;
   case 'PUT':
     require_once 'updateUser.php';
     break;
