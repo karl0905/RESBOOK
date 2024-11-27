@@ -1,13 +1,16 @@
 import React from "react"
 
 import Logo from "../../features/dashboard/Logo"
-import Heading from "../../feautures/dashboard/Heading"
+import Heading from "../../features/dashboard/Heading"
+import Darkbackground from "../../features/dashboard/Darkbackground"
 
 export default function Dashboard() {
   return (
     <div>
       <Logo />
-      <Heading />
+      <Darkbackground>
+        <Heading />
+      </Darkbackground>
     </div>
   )
 }
