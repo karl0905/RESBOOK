@@ -2,23 +2,16 @@ import {
     Logo,
     Heading,
     Card,
-    Darkbackground
+    BigCard,
+    Darkbackground,
 } from '@/features/dashboard/'
 
-import {
-    Navbar
-} from '@/global/components/'
-
-
-export default function page() {
+export default function Page() {
     return (
-        <div>
-            <Logo />
-            <Darkbackground>
-                <Heading />
-                <Card />
-            </Darkbackground>
-            <Navbar />
-        </div>
+        <Darkbackground>
+            <Heading />
+            <Card />
+            <BigCard />
+        </Darkbackground>
     )
 }
