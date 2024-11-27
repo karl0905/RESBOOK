@@ -1,19 +1,24 @@
-import React from 'react'
-import Card from "@/global/dashboard/Card"
-import Logo from "@/global/dashboard/Logo"
-import DarkBackground from '@/global/dashboard/Darkbackground'
-import Heading from '@/global/dashboard/Heading'
-import Navbar from '@/global/components/Navbar'
+import {
+    Logo,
+    Heading,
+    Card,
+    Darkbackground
+} from '@/features/dashboard/'
+
+import {
+    Navbar
+} from '@/global/components/'
 
 
 export default function page() {
     return (
         <div>
             <Logo />
-            <Heading />
+            <Darkbackground>
+                <Heading />
+                <Card />
+            </Darkbackground>
             <Navbar />
         </div>
     )
 }
-
-

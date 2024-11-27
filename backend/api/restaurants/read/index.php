@@ -8,13 +8,32 @@ $id = authorize($mySQL);
 
 header("Content-Type: application/json");
 
-$sql = "SELECT id, name, phone, email, address FROM restaurants WHERE id = $id";
-$result = $mySQL->query($sql);
+// Query to fetch data from both tables
+$query = "
+    SELECT 
+        restaurants.name,
+        restaurants.phone,
+        restaurants.address,
+        restaurant_info.rating,
+        restaurant_info.capacity,
+        restaurant_info.description
+    FROM 
+        restaurants
+    INNER JOIN 
+        restaurant_info
+    ON 
+        restaurants.id = restaurant_info.id
+";
 
-if (!$result) {
-    http_response_code(500);
-    echo json_encode(["error" => "Failed to retrieve restaurant details"]);
-    exit();
+$stmt = $mySQL->prepare($query);
+$stmt->execute();
+$result = $stmt->get_result();
+$stmt->close();
+
+$restaurants = [];
+while ($row = $result->fetch_assoc()) {
+    $restaurants[] = $row;
 }
 
-echo json_encode($result);
+// Return JSON response
+echo json_encode($restaurants);
