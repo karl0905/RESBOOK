@@ -1,7 +1,7 @@
 import React from "react"
 
-import Logo from "../../global/dashboard/Logo"
-import Heading from "../../global/dashboard/Heading"
+import Logo from "../../features/dashboard/Logo"
+import Heading from "../../feautures/dashboard/Heading"
 
 export default function Dashboard() {
   return (
