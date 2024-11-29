@@ -3,7 +3,7 @@ import { FaUtensils, FaHeart, FaStore, FaSearch, FaUser } from 'react-icons/fa';
 
 export function Navbar() {
     return (
-        <nav className="fixed bottom-0 w-full py-1 bg-card-gray text-white shadow-lg">
+        <nav className="fixed bottom-0 w-full py-1 bg-card-dark-gray text-white shadow-lg z-30">
             <ul className="flex justify-around items-center py-2">
                 <li className="flex flex-col items-center">
                     <a href="#restauranter" className="flex flex-col items-center">

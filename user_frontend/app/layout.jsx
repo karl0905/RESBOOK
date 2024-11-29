@@ -1,3 +1,11 @@
+import {
+  Logo
+} from "@/features/dashboard";
+
+import {
+  Navbar
+} from "@/global/components";
+
 import "./globals.css";
 import { Monda } from "next/font/google";
 
@@ -15,7 +23,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={monda.className}>
+        <Logo />
         {children}
+        <Navbar />
       </body>
     </html>
   );

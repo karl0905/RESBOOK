@@ -1,16 +1,15 @@
-import { Logo, Heading, Card, Darkbackground } from "@/features/dashboard/"
-
-import { Navbar } from "@/global/components/"
-
-export default function page() {
+export default function Page() {
   return (
-    <div>
-      <Logo />
-      <Darkbackground>
-        <Heading />
-        <Card />
-      </Darkbackground>
-      <Navbar />
-    </div>
+    <Darkbackground>
+      <Heading title="Restaurants" />
+      <Card />
+      <Heading title="Favoritter" />
+      <BigCard />
+      <AboutCard
+        logoSrc="/resbook-logo-white.png"
+        description="Reserver dit bord nemt & hurtigt."
+        backgroundImageSrc="/res-image.jpg"
+      />
+    </Darkbackground>
   )
 }

@@ -53,6 +53,7 @@ module.exports = {
   			},
 			card:{
 				"gray": "#242424",
+				"dark-gray": "#1c1c1c",
 			}
 
   		},

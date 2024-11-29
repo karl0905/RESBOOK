@@ -4,14 +4,13 @@ import React, { useEffect, useState } from "react";
 import { AiFillHeart, AiFillStar } from "react-icons/ai";
 import { fetchRestaurant } from "@/actions/";
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination } from 'swiper/modules';
+import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 
-// Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-export function Card() {
+export function BigCard() {
     const [restaurants, setRestaurants] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -45,32 +44,26 @@ export function Card() {
     }
 
     return (
-        <article className="pt-4 px-4">
+        <article className="px-4">
             <Swiper
-                modules={[Navigation, Pagination]}
+                modules={[Navigation, Pagination, Autoplay]}
                 spaceBetween={10}
-                slidesPerView={2}
+                slidesPerView={1}
                 pagination={{
                     clickable: true,
                 }}
-                className="custom-swiper"
-                breakpoints={{
-                    640: {
-                        slidesPerView: 2,
-                        spaceBetween: 20,
-                    },
-                    1024: {
-                        slidesPerView: 3,
-                        spaceBetween: 30,
-                    },
+                autoplay={{
+                    delay: 3000,
+                    disableOnInteraction: false,
                 }}
+                speed={800}
+                className="custom-swiper"
             >
                 {restaurants.map((restaurant, index) => (
                     <SwiperSlide key={index}>
-                        <div className="bg-card-gray text-white py-4 px-4 sm:py-10 sm:px-5 rounded-lg shadow-md cursor-pointer relative">
-
+                        <div className="w-full h-40 md:h-[50vh] bg-card-gray text-white py-4 px-4 rounded-lg shadow-md cursor-pointer relative flex flex-col justify-between">
                             <div className="absolute top-4 left-4 text-xs md:text-sm">
-                                Kapacitet: <strong className="text-xs md:text-base">{restaurant.capacity || "Unknown"}</strong>
+                                Capacity: <strong className="text-xs md:text-base">{restaurant.capacity || "Unknown"}</strong>
                             </div>
                             <div className="absolute top-3 right-3">
                                 <button
@@ -81,12 +74,12 @@ export function Card() {
                                 </button>
                             </div>
 
-                            <div className="font-montserrat pt-8 md:pt-12">
-                                <h2 className="text-sm md:text-xl font-bold pb-1 ">{restaurant.name}</h2>
-                                <p className="text-[0.5rem] md:text-sm truncate">{restaurant.description || "No description available."}</p>
+                            <div className="font-montserrat flex flex-col items-center justify-center h-full pt-2 md:pt-12">
+                                <h2 className="text-sm md:text-2xl font-bold pb-1 uppercase text-center">{restaurant.name}</h2>
+                                <p className="text-[0.5rem] md:text-sm truncate text-center">{restaurant.description || "No description available."}</p>
                             </div>
 
-                            <div className="flex mt-4 md:mt-4">
+                            <div className="flex mt-1 md:mt-4 justify-center">
                                 {[...Array(restaurant.stars || 0)].map((_, starIndex) => (
                                     <AiFillStar
                                         key={starIndex}
@@ -95,7 +88,7 @@ export function Card() {
                                 ))}
                             </div>
 
-                            {/* Rating in bottom right */}
+                            {/* Rating Display */}
                             <span className="absolute bottom-2 right-3 text-xs md:text-lg font-normal flex items-center">
                                 {restaurant.rating || "N/A"}
                                 <AiFillStar className="text-white inline ml-1 text-xs md:text-base" />
