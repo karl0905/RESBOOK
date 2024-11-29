@@ -23,3 +23,10 @@ export async function set_cookie(tokens) {
     httpOnly: true,
   })
 }
+
+export async function remove_cookie() {
+  ;(await cookies()).set("tokens", "", {
+    expires: new Date(0),
+    httpOnly: true,
+  })
+}
