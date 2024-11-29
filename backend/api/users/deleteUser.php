@@ -4,10 +4,23 @@
 
 include($_SERVER["DOCUMENT_ROOT"] . "/functions/authorize.php");
 include($_SERVER["DOCUMENT_ROOT"] . "/functions/handleApiRequest.php");
+include($_SERVER["DOCUMENT_ROOT"] . "/functions/is_res_admin.php");
+
+handle_api_request('DELETE');
+$id = authorize($mySQL);
+
+// Check if user is admin on any restaurant
+// if true abort deletion
+if (is_res_admin($mySQL, $id)) {
+  http_response_code(403);
+  echo json_encode([
+    "success" => false,
+    "error" => "User is an admin of a restaurant and cannot be deleted"
+  ]);
+  exit();
+}
 
 try {
-  handle_api_request('DELETE');
-  $id = authorize($mySQL);
 
   // Start transaction
   $mySQL->begin_transaction();
