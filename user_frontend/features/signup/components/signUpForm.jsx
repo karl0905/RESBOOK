@@ -2,6 +2,7 @@
 import React, { useState } from "react"
 import { Input, Button } from "@/global/components"
 import { sign_up } from "@/actions/user"
+import toast from "react-hot-toast"
 
 export function SignUpForm() {
   const [email, setEmail] = useState("")
@@ -10,24 +11,32 @@ export function SignUpForm() {
   const [first_name, setFirstName] = useState("")
   const [last_name, setLastName] = useState("")
   const [phone, setPhone] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setIsLoading(true)
 
-    const result = await sign_up(
-      email,
-      password,
-      confirm_password,
-      first_name,
-      last_name,
-      phone
-    )
+    try {
 
-    if (result.error) {
-      console.error("Error:", result.error)
-    } else {
-      console.log("Success:", result.data)
+      const result = await sign_up(
+        email,
+        password,
+        confirm_password,
+        first_name,
+        last_name,
+        phone
+      )
+
+      if (result.error) {
+        toast.error(`${result.error}`)
+      } else {
+        toast.success("Account created successfully")
+      }
+    } catch (error) {
+      toast.error("An unexpected error occurred. Please try again.")
     }
+    setIsLoading(false)
   }
 
   return (
