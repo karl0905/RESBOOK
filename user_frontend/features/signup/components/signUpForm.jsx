@@ -11,11 +11,9 @@ export function SignUpForm() {
   const [first_name, setFirstName] = useState("")
   const [last_name, setLastName] = useState("")
   const [phone, setPhone] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setIsLoading(true)
 
     try {
 
@@ -36,7 +34,6 @@ export function SignUpForm() {
     } catch (error) {
       toast.error("An unexpected error occurred. Please try again.")
     }
-    setIsLoading(false)
   }
 
   return (
