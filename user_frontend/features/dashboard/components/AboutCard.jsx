@@ -25,7 +25,7 @@ export function AboutCard({ logoSrc, description, backgroundImageSrc }) {
                             height={2048}
                             objectFit="contain"
                         />
-                        <p className="text-white text-center text-xs md:text-lg lg:text-xl max-w-4xl px-4">{description}</p>
+                        <p className="font-montserrat text-white text-center text-xs md:text-lg lg:text-xl max-w-4xl pt-2 px-4">{description}</p>
                     </div>
                 </div>
             </div>
