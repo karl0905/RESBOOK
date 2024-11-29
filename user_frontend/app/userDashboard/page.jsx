@@ -1,24 +1,26 @@
 import {
-    Logo,
     Heading,
     Card,
     BigCard,
     Darkbackground,
     AboutCard,
-} from '@/features/dashboard/'
+    CategorySwiper,
+} from '@/features/dashboard/';
 
 export default function Page() {
     return (
         <Darkbackground>
-            <Heading title="Restaurants" />
-            <Card />
-            <Heading title="Favoritter" />
+            <Heading title="Restauranter" className='pb-12' />
+            <Heading title="Kategorier" className='text-2xl' />
+            <CategorySwiper />
+            <Heading title="Favoritter" className='text-2xl' />
             <BigCard />
+            <Card />
             <AboutCard
                 logoSrc="/resbook-logo-white.png"
                 description="Reserver dit bord nemt & hurtigt."
                 backgroundImageSrc="/res-image.jpg"
             />
         </Darkbackground>
-    )
+    );
 }
