@@ -1,11 +1,17 @@
+import { get_cookie } from "/actions/cookie"
+
 export async function fetchRestaurant() {
+  const tokens = await get_cookie("tokens")
+  console.log("tokens", tokens)
+
   try {
     const response = await fetch(
-      process.env.NEXT_PUBLIC_API_URL + "/restaurants/read",
+      process.env.REMIX_PUBLIC_API_URL + "/restaurants/read",
       {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${tokens.access}`,
         },
       }
     )

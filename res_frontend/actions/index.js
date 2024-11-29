@@ -1,4 +1,4 @@
 // global exports
 
 // Components
-export * from "./Card"
+export * from "./restaurant"
