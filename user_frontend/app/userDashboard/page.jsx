@@ -4,6 +4,7 @@ import {
     Card,
     BigCard,
     Darkbackground,
+    AboutCard,
 } from '@/features/dashboard/'
 
 export default function Page() {
@@ -12,6 +13,11 @@ export default function Page() {
             <Heading />
             <Card />
             <BigCard />
+            <AboutCard
+                logoSrc="/resbook-logo-white.png"
+                description="Reserver dit bord nemt & hurtigt."
+                backgroundImageSrc="/res-image.jpg"
+            />
         </Darkbackground>
     )
 }
