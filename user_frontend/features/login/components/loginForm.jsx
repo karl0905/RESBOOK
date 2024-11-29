@@ -3,7 +3,7 @@ import React, { useState } from "react"
 import { Input, Button } from "@/global/components"
 import { login } from "@/actions"
 
-export default function LoginForm() {
+export function LoginForm() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
