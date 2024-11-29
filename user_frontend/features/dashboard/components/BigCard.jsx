@@ -44,7 +44,7 @@ export function BigCard() {
     }
 
     return (
-        <article className="pb-20 px-4">
+        <article className="px-4">
             <Swiper
                 modules={[Navigation, Pagination, Autoplay]}
                 spaceBetween={10}

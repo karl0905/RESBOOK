@@ -10,8 +10,9 @@ import {
 export default function Page() {
     return (
         <Darkbackground>
-            <Heading />
+            <Heading title="Restaurants" />
             <Card />
+            <Heading title="Favoritter" />
             <BigCard />
             <AboutCard
                 logoSrc="/resbook-logo-white.png"

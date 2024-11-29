@@ -45,7 +45,7 @@ export function Card() {
     }
 
     return (
-        <article className="pt-10 px-4">
+        <article className="pt-4 px-4">
             <Swiper
                 modules={[Navigation, Pagination]}
                 spaceBetween={10}
