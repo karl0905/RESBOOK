@@ -55,7 +55,7 @@ export function LoginForm() {
           />
         </div>
         <div className="flex justify-center">
-          <Button type="submit" title="Login"></Button>
+          <Button type="submit" title="Login"/>
         </div>
         <div className="text-center mt-4">
           <p className="text-xs text-gray-600">

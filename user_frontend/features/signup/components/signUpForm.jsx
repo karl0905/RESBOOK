@@ -126,7 +126,9 @@ export function SignUpForm() {
             onChange={(value) => setConfirmPassword(value)}
           />
         </div>
-        <Button type="submit">Sign Up</Button>
+        <div className="flex justify-center">
+          <Button type="submit" title="Create an acount" />
+        </div>
       </form>
       <p className="text-xs my-2 text-gray-600">
         Already have an account?{" "}
