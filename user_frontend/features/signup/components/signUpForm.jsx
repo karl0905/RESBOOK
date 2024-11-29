@@ -3,7 +3,7 @@ import React, { useState } from "react"
 import { Input, Button } from "@/global/components"
 import { sign_up } from "@/actions/user"
 
-export default function SignUpForm() {
+export function SignUpForm() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [confirm_password, setConfirmPassword] = useState("")
