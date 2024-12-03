@@ -1,6 +1,4 @@
-import React, { useState } from "react"
-import { useEffect } from "react"
-
+import React, { useState, useEffect } from "react"
 import login from "../../actions/user"
 import get_cookie from "../../actions/cookie"
 
@@ -8,8 +6,20 @@ export function LoginForm() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
+  useEffect(() => {
+    console.log("LoginForm component loaded")
+
+    const fetchCookies = async () => {
+      const cookies = await get_cookie("tokens")
+      console.log(cookies)
+    }
+    fetchCookies()
+  }, [])
+
   const handleSubmit = async (e) => {
     e.preventDefault()
+
+    console.log("Form submitted")
 
     const result = await login(email, password)
 
@@ -19,18 +29,7 @@ export function LoginForm() {
       console.log("Success:", result.data)
     }
   }
-  useEffect(() => {
-    const fetchCookies = async () => {
-      const cookies = await get_cookie("tokens")
-      if (cookies) {
-        console.log("Cookies:", cookies)
-      } else {
-        console.log("No cookies found")
-      }
-      return cookies
-    }
-    fetchCookies()
-  }, [])
+
   return (
     <form onSubmit={handleSubmit}>
       <input

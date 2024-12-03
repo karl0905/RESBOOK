@@ -3,10 +3,12 @@ import { useLoaderData } from "@remix-run/react"
 import { LoginForm } from "../../global/components/loginForm"
 
 export const loader = async () => {
+  console.log("Loader function called")
   return json({})
 }
 
 export default function LoginPage() {
+  console.log("LoginPage component loaded")
   return (
     <div>
       <div className="mx-auto w-[70%] max-w-[70.5rem]">
