@@ -1,93 +1,60 @@
-"use client";
-import React, { useState } from "react";
-import { Button } from "../../global/components/Button";
-import { Input } from "../../global/components/Input";
-import Logo from "../../global/assets/resbooklogo.png";
+import { redirect } from "@remix-run/node";
+import { useActionData } from "@remix-run/react";
+import { LoginForm } from "../../global/components/loginForm";
+import { login } from "../../actions/user";
+import { set_cookie } from "../../actions/cookie";
 
+// Loader function to handle GET requests
+export const loader = async () => {
+  console.log("Loader function called"); // Log when loader is triggered
+  return null; // You can return any initial data if needed
+};
+
+// Action function to handle form submissions
+export const action = async ({ request }) => {
+  console.log("Action function called"); // Log when action is triggered
+  const formData = await request.formData();
+  const email = formData.get("email");
+  const password = formData.get("password");
+
+  console.log("Received email:", email); // Log received email
+  console.log("Received password:", password); // Log received password
+
+  try {
+    const result = await login(email, password);
+    if (result.error) {
+      console.error("Login error:", result.error); // Log login error
+      return new Response(JSON.stringify({ error: result.error }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    const cookieValue = await set_cookie(result.data.tokens);
+    console.log("Cookie value set:", cookieValue); // Log cookie value
+
+    return redirect("/dashboard", {
+      headers: {
+        "Set-Cookie": cookieValue,
+      },
+    });
+  } catch (error) {
+    console.error("Unexpected error:", error); // Log unexpected errors
+    return new Response(JSON.stringify({ error: "An unexpected error occurred" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+};
+
+// Default export for the login page
 export default function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    /* connect til backend */
-
-    console.log("Email:", email);
-    console.log("Password:", password);
-  };
-
+  console.log("LoginPage component loaded"); // Log when component is loaded
   return (
     <div>
-      <div className="mx-auto w-[70%] max-w-[70.5rem]">
-        <div className="flex items-center h-20">
-          <img src={Logo} alt="Logo" className="w-15 h-12" />
-          <h2 className="font-bold ml-2">RESBOOK</h2>
-        </div>
-      </div>
-      <div className="bg-gray-700 h-1 w-full"></div>
-      <div className="flex flex-col justify-center items-center  ">
-        <h2
-          className="text-xl font-semibold text-center  mt-10 mb-5"
-          variant="primary"
-        >
-          Welcome back
-        </h2>
-        <div className="max-w-xs px-4 py-4 bg-white border border-gray-200 shadow-sm rounded-md">
-          <form className="space-y-4 text-xs" onSubmit={handleSubmit}>
-            <div>
-              <label
-                htmlFor="email"
-                className="block  font-medium text-gray-700"
-              >
-                Email
-              </label>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                placeholder=""
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="password"
-                className="block font-medium text-gray-700"
-              >
-                Password
-              </label>
-              <Input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="current-password"
-                placeholder=""
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-            <div className="flex justify-center">
-              <Button type="submit" title="Login"></Button>
-            </div>
-            <div className="text-center mt-4">
-              <p className="text-xs text-gray-600">
-                Don't have an account?{" "}
-                <a
-                  href="/create-user"
-                  className="text-blue-600 hover:underline"
-                >
-                  Create one
-                </a>
-              </p>
-            </div>
-          </form>
-        </div>
-      </div>
+      <h1>Login</h1>
+      <LoginForm />
     </div>
   );
 }
+

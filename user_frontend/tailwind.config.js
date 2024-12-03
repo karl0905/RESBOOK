@@ -50,13 +50,21 @@ module.exports = {
   				'3': 'hsl(var(--chart-3))',
   				'4': 'hsl(var(--chart-4))',
   				'5': 'hsl(var(--chart-5))'
-  			}
+  			},
+			card:{
+				"gray": "#242424",
+				"dark-gray": "#1c1c1c",
+			}
+
   		},
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
-  		}
+  		},
+		fontFamily: {
+			montserrat: ['Montserrat', 'sans-serif']
+		},
   	}
   },
   plugins: [require("tailwindcss-animate")],

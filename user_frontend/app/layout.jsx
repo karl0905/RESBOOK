@@ -2,15 +2,16 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
+import {
+  Navbar
+} from "@/global/components";
+
+import "./globals.css";
+import { Monda } from "next/font/google";
+
+const monda = Monda({
+  subsets: ["latin"],
+  weights: [100, 200, 300, 400, 500, 600, 700],
 });
 
 export const metadata = {
@@ -22,10 +23,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${monda.variable} ${monda.variable} antialiased`}
       >
         <Toaster />
         {children}
+        <Navbar />
       </body>
     </html>
   );
