@@ -10,22 +10,29 @@ export function LoginForm() {
   const [isLoading, setIsLoading] = useState(false)
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setIsLoading(true)
+    e.preventDefault();
+
+    const loadingToast = toast.loading("Logging in...");
 
     try {
-      const result = await login(email, password)
+      const result = await login(email, password);
 
       if (result.error) {
-        toast.error(`Error: ${result.error}`)
+        toast.error(`Error: ${result.error}`, { id: loadingToast });
       } else {
-        toast.success("Successfully logged in", { description: result.data })
+        toast.success("Successfully logged in!", {
+          id: loadingToast,
+          description: result.data,
+        });
       }
     } catch (error) {
-      toast.error("An unexpected error occurred. Please try again.")
+      toast.error("An unexpected error occurred. Please try again later.", {
+        id: loadingToast,
+      });
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false)
-  }
+  };
 
   return (
     <div className="max-w-xs px-4 py-4 bg-white border border-gray-200 shadow-sm rounded-md">

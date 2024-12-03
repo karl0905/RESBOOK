@@ -13,10 +13,11 @@ export function SignUpForm() {
   const [phone, setPhone] = useState("")
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
+
+    const loadingToast = toast.loading("Creating your account...");
 
     try {
-
       const result = await sign_up(
         email,
         password,
@@ -24,17 +25,21 @@ export function SignUpForm() {
         first_name,
         last_name,
         phone
-      )
+      );
 
       if (result.error) {
-        toast.error(`${result.error}`)
+        toast.error(result.error, { id: loadingToast });
       } else {
-        toast.success("Account created successfully")
+        toast.success("Account created successfully!", { id: loadingToast });
       }
     } catch (error) {
-      toast.error("An unexpected error occurred. Please try again.")
+      console.error("Error during sign-up:", error);
+      toast.error("An unexpected error occurred. Please try again later.", {
+        id: loadingToast,
+      });
     }
-  }
+  };
+
 
   return (
     <div className="max-w-xs px-4 py-4 bg-white border border-gray-200 shadow-sm rounded-md">
