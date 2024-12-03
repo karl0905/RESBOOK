@@ -14,16 +14,16 @@ if (json_last_error() !== JSON_ERROR_NONE) {
     exit;
 }
 
-if (!isset($data['name'], $data['phone'], $data['address'], $data['rating'], $data['capacity'], $data['description'])) {
+if (!isset($data['name'], $data['phone'], $data['email'], $data['address'], $data['rating'], $data['capacity'], $data['description'])) {
     echo json_encode(['message' => 'Missing required parameters']);
     exit;
 }
 
-$query1 = "INSERT INTO restaurants (name, phone, address) VALUES (?, ?, ?);";
+$query1 = "INSERT INTO restaurants (name, phone, email, address) VALUES (?, ?, ?, ?);";
 $query2 = "INSERT INTO restaurant_info (id, rating, capacity, description) VALUES (LAST_INSERT_ID(), ?, ?, ?);";
 
 $stmt1 = $mySQL->prepare($query1);
-$stmt1->bind_param('sss', $data['name'], $data['phone'], $data['address']);
+$stmt1->bind_param('ssss', $data['name'], $data['phone'], $data['email'], $data['address']);
 $stmt1->execute();
 $stmt1->close();
 
