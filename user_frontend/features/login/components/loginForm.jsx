@@ -2,25 +2,38 @@
 import React, { useState } from "react"
 import { Input, Button } from "@/global/components"
 import { login } from "@/actions"
+import toast from "react-hot-toast"
 
 export function LoginForm() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    const result = await login(email, password)
+    const loadingToast = toast.loading("Logging in...");
 
-    if (result.error) {
-      console.error("Error:", result.error)
-    } else {
-      console.log("Succes", result.data)
+    try {
+      const result = await login(email, password);
+
+      if (result.error) {
+        toast.error(`Error: ${result.error}`, { id: loadingToast });
+      } else {
+        toast.success("Successfully logged in!", {
+          id: loadingToast,
+          description: result.data,
+        });
+      }
+    } catch (error) {
+      toast.error("An unexpected error occurred. Please try again later.", {
+        id: loadingToast,
+      });
+    } finally {
+      setIsLoading(false);
     }
+  };
 
-    console.log("Email:", email)
-    console.log("Password:", password)
-  }
   return (
     <div className="max-w-xs px-4 py-4 bg-white border border-gray-200 shadow-sm rounded-md">
       <form className="space-y-4 text-xs" onSubmit={handleSubmit}>
@@ -55,7 +68,7 @@ export function LoginForm() {
           />
         </div>
         <div className="flex justify-center">
-          <Button type="submit" title="Login"/>
+          <Button type="submit" title="Login" />
         </div>
         <div className="text-center mt-4">
           <p className="text-xs text-gray-600">
