@@ -1,8 +1,8 @@
-import { get_cookie } from "/actions/cookie"
+import { get_cookie } from "./cookie.js";
 
-export async function fetchRestaurant() {
-  const tokens = await get_cookie("tokens")
-  console.log("tokens", tokens)
+export async function fetchRestaurant(request) {
+  const tokens = await get_cookie(request);
+  console.log("tokens", tokens);
 
   try {
     const response = await fetch(
@@ -14,13 +14,14 @@ export async function fetchRestaurant() {
           Authorization: `Bearer ${tokens.access}`,
         },
       }
-    )
+    );
     if (!response.ok) {
-      throw new Error("Network response was not ok")
+      throw new Error("Network response was not ok");
     }
-    const data = await response.json()
-    return data
+    const data = await response.json();
+    return data;
   } catch (error) {
-    console.error("There was a problem with the fetch operation:", error)
+    console.error("There was a problem with the fetch operation:", error);
+    throw error;
   }
 }
