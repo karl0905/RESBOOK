@@ -1,6 +1,5 @@
 <?php
-require_once("../../../functions/handleApiRequest.php");
-
+include_once($_SERVER["DOCUMENT_ROOT"] . "/functions/handleApiRequest.php");
 
 $input = handle_api_request('POST');
 

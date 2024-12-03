@@ -3,7 +3,7 @@
 // Remove all sessions for the user, delete the user from the database
 
 include($_SERVER["DOCUMENT_ROOT"] . "/functions/authorize.php");
-include($_SERVER["DOCUMENT_ROOT"] . "/functions/handleApiRequest.php");
+include_once($_SERVER["DOCUMENT_ROOT"] . "/functions/handleApiRequest.php");
 include($_SERVER["DOCUMENT_ROOT"] . "/functions/is_res_admin.php");
 
 handle_api_request('DELETE');
