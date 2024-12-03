@@ -29,65 +29,49 @@ export async function login(email, password) {
       await set_cookie(await encrypt(data))
       return { data }
     } else {
-      return { error: data.message || "Failed to log in" }
+      return { error: data.error || "Failed to log in" }
     }
   } catch (error) {
-    console.error("Error setting cookie:", error)
-    return { error: "try block failed" }
+    return { error: data.error || "Failed to log in" }
   }
 }
 
 // actions/user.js
 // user.js
-export async function sign_up(
-  email,
-  password,
-  confirm_password,
-  first_name,
-  last_name,
-  phone
-) {
-  if (
-    !email ||
-    !password ||
-    !confirm_password ||
-    !first_name ||
-    !last_name ||
-    !phone
-  ) {
-    return { error: "All fields are required" }
+export async function sign_up(email, password, confirm_password, first_name, last_name, phone) {
+  if (!email || !password || !confirm_password || !first_name || !last_name || !phone) {
+    return { error: "All fields are required" };
+  }
+
+  if (password !== confirm_password) {
+    return { error: "Passwords do not match" };
   }
 
   try {
-    const response = await fetch(
-      process.env.NEXT_PUBLIC_API_URL + "/users/signup",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          password,
-          confirm_password,
-          first_name,
-          last_name,
-          phone,
-        }),
-      }
-    )
+    const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "/users/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        password,
+        confirm_password,
+        first_name,
+        last_name,
+        phone,
+      }),
+    });
 
-    const data = await response.json()
-    console.log("Server response:", data) // Add this line for debugging
+    const data = await response.json();
 
     if (response.ok) {
-      return { data }
+      return { data };
     } else {
-      console.error("Registration failed:", data.message) // Add this line for debugging
-      return { error: data.message || "Failed to register" }
+      return { error: data.error || "Failed to register" };
     }
   } catch (error) {
-    console.error("Network error:", error) // Add this line for debugging
-    return { error: "Failed to create user" }
+    console.error("Sign up error:", error);
+    return { error: "An unexpected error occurred. Please try again later." };
   }
 }
