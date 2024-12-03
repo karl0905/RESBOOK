@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 import {
   Logo
 } from "@/features/dashboard";
+=======
+import localFont from "next/font/local";
+import "./globals.css";
+import { Toaster } from "react-hot-toast";
+>>>>>>> origin/development
 
 import {
   Navbar
@@ -22,8 +28,15 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+<<<<<<< HEAD
       <body className={monda.className}>
         <Logo />
+=======
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <Toaster />
+>>>>>>> origin/development
         {children}
         <Navbar />
       </body>

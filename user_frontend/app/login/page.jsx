@@ -1,4 +1,4 @@
-import { LoginForm } from "@/global/components/"
+import { LoginForm } from "@/features/login"
 
 import Image from "next/image"
 

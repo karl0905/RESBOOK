@@ -2,6 +2,7 @@
 import React, { useState } from "react"
 import { Input, Button } from "@/global/components"
 import { sign_up } from "@/actions/user"
+import toast from "react-hot-toast"
 
 export function SignUpForm() {
   const [email, setEmail] = useState("")
@@ -12,23 +13,33 @@ export function SignUpForm() {
   const [phone, setPhone] = useState("")
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    const result = await sign_up(
-      email,
-      password,
-      confirm_password,
-      first_name,
-      last_name,
-      phone
-    )
+    const loadingToast = toast.loading("Creating your account...");
 
-    if (result.error) {
-      console.error("Error:", result.error)
-    } else {
-      console.log("Success:", result.data)
+    try {
+      const result = await sign_up(
+        email,
+        password,
+        confirm_password,
+        first_name,
+        last_name,
+        phone
+      );
+
+      if (result.error) {
+        toast.error(result.error, { id: loadingToast });
+      } else {
+        toast.success("Account created successfully!", { id: loadingToast });
+      }
+    } catch (error) {
+      console.error("Error during sign-up:", error);
+      toast.error("An unexpected error occurred. Please try again later.", {
+        id: loadingToast,
+      });
     }
-  }
+  };
+
 
   return (
     <div className="max-w-xs px-4 py-4 bg-white border border-gray-200 shadow-sm rounded-md">
@@ -126,7 +137,9 @@ export function SignUpForm() {
             onChange={(value) => setConfirmPassword(value)}
           />
         </div>
-        <Button type="submit">Sign Up</Button>
+        <div className="flex justify-center">
+          <Button type="submit" title="Create an acount" />
+        </div>
       </form>
       <p className="text-xs my-2 text-gray-600">
         Already have an account?{" "}
