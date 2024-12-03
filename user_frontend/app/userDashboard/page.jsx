@@ -1,3 +1,11 @@
+import {
+  Darkbackground,
+  Heading,
+  Card,
+  BigCard,
+  AboutCard,
+} from "@/features/dashboard"
+
 export default function Page() {
   return (
     <Darkbackground>
