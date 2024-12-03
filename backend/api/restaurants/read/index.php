@@ -8,7 +8,6 @@ $id = authorize($mySQL);
 
 header("Content-Type: application/json");
 
-// Query to fetch data from both tables
 $query = "
     SELECT 
         restaurants.name,
@@ -20,7 +19,7 @@ $query = "
     FROM 
         restaurants
     INNER JOIN 
-        restaurant_info
+        restaurant_info 
     ON 
         restaurants.id = restaurant_info.id
 ";

@@ -95,7 +95,6 @@ export function Card() {
                                 ))}
                             </div>
 
-                            {/* Rating in bottom right */}
                             <span className="absolute bottom-2 right-3 text-xs md:text-lg font-normal flex items-center">
                                 {restaurant.rating || "N/A"}
                                 <AiFillStar className="text-white inline ml-1 text-xs md:text-base" />

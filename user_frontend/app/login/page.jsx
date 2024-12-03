@@ -1,5 +1,4 @@
 import { LoginForm } from "@/features/login"
-
 import Image from "next/image"
 
 export default function LoginPage() {

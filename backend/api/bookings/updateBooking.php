@@ -1,6 +1,6 @@
 <?php
 include($_SERVER["DOCUMENT_ROOT"] . "/functions/authorize.php");
-include($_SERVER["DOCUMENT_ROOT"] . "/functions/handleApiRequest.php");
+include_once($_SERVER["DOCUMENT_ROOT"] . "/functions/handleApiRequest.php");
 
 $input = handle_api_request('PUT');
 
