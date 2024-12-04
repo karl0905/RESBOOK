@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { AiFillHeart, AiFillStar } from "react-icons/ai";
-import { fetchRestaurant, addFavorite, deleteFavorites } from "@/actions/";
+import { fetchRestaurant, addFavorite, deleteFavorite } from "@/actions/";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 
@@ -33,18 +33,21 @@ export function Card() {
         getRestaurants();
     }, []);
 
-    // Function to handle liking/unliking a restaurant
     const toggleLike = async (restaurantId) => {
         try {
             if (likedRestaurants.includes(restaurantId)) {
-                // If already liked, call deleteFavorite
-                await deleteFavorites(restaurantId);
+                // Call deleteFavorite if already liked
+                console.log("Calling deleteFavorite for restaurant:", restaurantId);
+                const response = await deleteFavorite(restaurantId);
+                console.log("Delete response:", response);
                 setLikedRestaurants((prevLiked) =>
                     prevLiked.filter((id) => id !== restaurantId)
                 );
             } else {
-                // If not liked, call addFavorite
-                await addFavorite(restaurantId);
+                // Call addFavorite if not liked
+                console.log("Calling addFavorite for restaurant:", restaurantId);
+                const response = await addFavorite(restaurantId);
+                console.log("Add response:", response);
                 setLikedRestaurants((prevLiked) => [...prevLiked, restaurantId]);
             }
         } catch (error) {

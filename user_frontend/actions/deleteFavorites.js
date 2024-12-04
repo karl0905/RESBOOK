@@ -1,5 +1,10 @@
-import { get_cookie } from "@/actions/cookie";
-import { decrypt } from "@/actions/encryption";
+import {
+    get_cookie,
+} from "@/actions/cookie";
+
+import {
+    decrypt
+} from "@/actions/encryption";
 
 export async function deleteFavorite(restaurantId) {
     const encrypted_tokens = await get_cookie("tokens");
@@ -12,17 +17,19 @@ export async function deleteFavorite(restaurantId) {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${decrypted_tokens.tokens.access}`,
+                    Authorization: `Bearer ${decrypted_tokens.tokens.access}`,
                 },
                 body: JSON.stringify({ restaurant_id: restaurantId }),
             }
         );
+
         if (!response.ok) {
-            throw new Error("Network response was not ok");
+            throw new Error("Failed to delete favorite");
         }
-        const data = await response.json();
-        return data;
+
+        return await response.json();
     } catch (error) {
-        console.error("There was a problem with the fetch operation:", error);
+        console.error("Error deleting favorite:", error);
+        throw error;
     }
 }
