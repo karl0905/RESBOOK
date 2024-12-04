@@ -22,6 +22,9 @@ export default function Dashboard() {
     return <div>{error}</div>
   }
 
+  function handleClick() {
+    console.log("Clicked")
+  }
   return (
     <>
       <Logo />
@@ -30,6 +33,7 @@ export default function Dashboard() {
         <div className="flex flex-wrap gap-20">
           {restaurants.map((restaurant, index) => (
             <Card
+              onClick={handleClick}
               key={index}
               name={restaurant.name}
               address={restaurant.address}
