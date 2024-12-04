@@ -6,20 +6,21 @@ import {
     decrypt
 } from "@/actions/encryption";
 
-export async function fetchRestaurant () {
+export async function addFavorite(restaurantId) {
     const encrypted_tokens = await get_cookie("tokens");
     const decrypted_tokens = await decrypt(encrypted_tokens);
 
     try {
         const response = await fetch(
-            process.env.NEXT_PUBLIC_API_URL + "/restaurants/read",
+            process.env.NEXT_PUBLIC_API_URL + "/users/favorites/",
             {
-                method: "GET",
+                method: "POST",
                 headers: {
-                  "Content-Type": "application/json",
-                  "Authorization": `Bearer ${decrypted_tokens.tokens.access}`,
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${decrypted_tokens.tokens.access}`,
                 },
-              }
+                body: JSON.stringify({ restaurant_id: restaurantId }),
+            }
         );
         if (!response.ok) {
             throw new Error("Network response was not ok");

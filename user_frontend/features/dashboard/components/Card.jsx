@@ -2,17 +2,18 @@
 
 import React, { useEffect, useState } from "react";
 import { AiFillHeart, AiFillStar } from "react-icons/ai";
-import { fetchRestaurant } from "@/actions/";
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination } from 'swiper/modules';
+import { fetchRestaurant, addFavorite, deleteFavorites } from "@/actions/";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination } from "swiper/modules";
 
 // Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 export function Card() {
     const [restaurants, setRestaurants] = useState([]);
+    const [likedRestaurants, setLikedRestaurants] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -31,6 +32,25 @@ export function Card() {
 
         getRestaurants();
     }, []);
+
+    // Function to handle liking/unliking a restaurant
+    const toggleLike = async (restaurantId) => {
+        try {
+            if (likedRestaurants.includes(restaurantId)) {
+                // If already liked, call deleteFavorite
+                await deleteFavorites(restaurantId);
+                setLikedRestaurants((prevLiked) =>
+                    prevLiked.filter((id) => id !== restaurantId)
+                );
+            } else {
+                // If not liked, call addFavorite
+                await addFavorite(restaurantId);
+                setLikedRestaurants((prevLiked) => [...prevLiked, restaurantId]);
+            }
+        } catch (error) {
+            console.error("Error toggling like for the restaurant:", error);
+        }
+    };
 
     if (loading) {
         return <div className="text-white">Loading...</div>;
@@ -75,9 +95,14 @@ export function Card() {
                             <div className="absolute top-3 right-3">
                                 <button
                                     aria-label="Like"
-                                    onClick={() => console.log(`Liked: ${restaurant.name}`)}
+                                    onClick={() => toggleLike(restaurant.id)}
                                 >
-                                    <AiFillHeart className="text-lg md:text-2xl text-white" />
+                                    <AiFillHeart
+                                        className={`text-lg md:text-2xl ${likedRestaurants.includes(restaurant.id)
+                                            ? "text-red-500"
+                                            : "text-white"
+                                            }`}
+                                    />
                                 </button>
                             </div>
 

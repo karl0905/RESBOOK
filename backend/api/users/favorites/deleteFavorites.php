@@ -3,12 +3,14 @@
 include($_SERVER["DOCUMENT_ROOT"] . "/functions/authorize.php");
 include_once($_SERVER["DOCUMENT_ROOT"] . "/functions/handleApiRequest.php");
 
+// Expect a DELETE request
 handle_api_request('DELETE');
 
 $userId = authorize($mySQL);
 
 header("Content-Type: application/json");
 
+// Decode the JSON payload
 $data = json_decode(file_get_contents("php://input"), true);
 
 if (!isset($data['restaurant_id']) || empty($data['restaurant_id'])) {

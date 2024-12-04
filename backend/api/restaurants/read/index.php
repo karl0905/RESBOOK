@@ -9,7 +9,8 @@ $id = authorize($mySQL);
 header("Content-Type: application/json");
 
 $query = "
-    SELECT 
+    SELECT
+        restaurants.id, 
         restaurants.name,
         restaurants.phone,
         restaurants.address,
