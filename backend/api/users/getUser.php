@@ -1,25 +1,42 @@
 <?php
 
 include($_SERVER["DOCUMENT_ROOT"] . "/functions/authorize.php");
-include($_SERVER["DOCUMENT_ROOT"] . "/functions/handleApiRequest.php");
+include_once($_SERVER["DOCUMENT_ROOT"] . "/functions/handleApiRequest.php");
 
 handle_api_request('GET');
 
 $id = authorize($mySQL);
 
-// Set response type for JSON
-header("Content-Type: application/json");
+try {
+  $stmt = $mySQL->prepare("SELECT * FROM users WHERE ID = ?");
+  if (!$stmt) {
+    throw new Exception("Prepare failed: " . $mySQL->error);
+  }
 
-// Fetch data from the database
-$sql = "SELECT * FROM users WHERE ID = $id";
-$result = $mySQL->query($sql)->fetch_object();
+  $stmt->bind_param("i", $id);
+  if (!$stmt->execute()) {
+    throw new Exception("Execute failed: " . $stmt->error);
+  }
 
-if (!$result) {
-    http_response_code(500);
-    echo json_encode(["error" => "Failed to retrieve user details"]);
+  $result = $stmt->get_result();
+  $user = $result->fetch_object();
+  $stmt->close();
+
+  if (!$user) {
+    http_response_code(404);
+    echo json_encode(["error" => "User not found"]);
     exit();
+  }
+
+  echo json_encode($user);
+} catch (Exception $e) {
+  http_response_code(500);
+  echo json_encode([
+    "success" => false,
+    "error" => "An error occurred: " . $e->getMessage()
+  ]);
+} finally {
+  if (isset($mySQL) && $mySQL instanceof mysqli) {
+    $mySQL->close();
+  }
 }
-
-// Output the data as JSON
-echo json_encode($result);
-

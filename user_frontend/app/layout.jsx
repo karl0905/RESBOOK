@@ -1,6 +1,6 @@
-import {
-  Logo
-} from "@/features/dashboard";
+import localFont from "next/font/local";
+import "./globals.css";
+import { Toaster } from "react-hot-toast";
 
 import {
   Navbar
@@ -22,8 +22,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={monda.className}>
-        <Logo />
+      <body
+        className={`${monda.variable} ${monda.variable} antialiased`}
+      >
+        <Toaster />
         {children}
         <Navbar />
       </body>
