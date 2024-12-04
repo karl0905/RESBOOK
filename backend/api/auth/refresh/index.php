@@ -1,7 +1,7 @@
 <?php
 
 // Include necessary dependencies
-include($_SERVER["DOCUMENT_ROOT"] . "/functions/handleApiRequest.php");
+include_once($_SERVER["DOCUMENT_ROOT"] . "/functions/handleApiRequest.php");
 
 // Fetch POST request body
 $input = handle_api_request('POST');

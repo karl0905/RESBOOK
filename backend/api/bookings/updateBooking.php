@@ -1,6 +1,6 @@
 <?php
 include($_SERVER["DOCUMENT_ROOT"] . "/functions/authorize.php");
-include($_SERVER["DOCUMENT_ROOT"] . "/functions/handleApiRequest.php");
+include_once($_SERVER["DOCUMENT_ROOT"] . "/functions/handleApiRequest.php");
 
 $input = handle_api_request('PUT');
 
@@ -32,17 +32,23 @@ if (isset($input['date']) && strtotime($input['date']) < strtotime('today')) {
     exit();
 }
 
-if (isset($input['datetime'])) {
+if (isset($input['date']) && isset($input['time'])) {
+    $input['datetime'] = $input['date'] . ' ' . $input['time'];
     $datetime = DateTime::createFromFormat('Y-m-d H:i:s', $input['datetime']);
     if (!$datetime) {
         http_response_code(400);
         echo json_encode(['error' => 'Invalid datetime format']);
         exit();
     }
-    $input['datetime'] = $datetime->format('Y-m-d H:i:s');
 }
 
 $booking_id = $input['booking_id'];
+
+if (isset($input['date']) && isset($input['time'])) {
+    // include the check_capacity function - this function checks if the capacity for the restaurant has been exceeded for the given date and time and exits with an error if it has
+    include($_SERVER["DOCUMENT_ROOT"] . "/functions/res_capacity.php");
+    check_capacity($mySQL, $input, $booking_id);
+}
 
 $stmt = $mySQL->prepare("SELECT * FROM bookings WHERE ID = ?");
 if (!$stmt) {

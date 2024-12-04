@@ -2,6 +2,9 @@
 
 // Determine the HTTP method
 $method = $_SERVER['REQUEST_METHOD'];
+include($_SERVER["DOCUMENT_ROOT"] . "/functions/handleApiRequest.php");
+
+handle_api_request($method);
 
 // Include the appropriate file based on the method
 switch ($method) {

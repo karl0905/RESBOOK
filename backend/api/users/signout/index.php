@@ -3,7 +3,7 @@
 // Remove current session, redirect to login page
 
 include($_SERVER["DOCUMENT_ROOT"] . "/functions/authorize.php");
-include($_SERVER["DOCUMENT_ROOT"] . "/functions/handleApiRequest.php");
+include_once($_SERVER["DOCUMENT_ROOT"] . "/functions/handleApiRequest.php");
 
 handle_api_request('POST');
 $id = authorize($mySQL);

@@ -3,32 +3,40 @@
 include($_SERVER["DOCUMENT_ROOT"] . "/functions/authorize.php");
 include($_SERVER["DOCUMENT_ROOT"] . "/functions/handleApiRequest.php");
 
-header("Content-Type: application/json");
-
+$input = handle_api_request('POST');
 $id = authorize($mySQL);
 
-$data = json_decode(file_get_contents('php://input'), true);
-
-if (json_last_error() !== JSON_ERROR_NONE) {
-    echo json_encode(['message' => 'Invalid JSON input']);
-    exit;
-}
-
-if (!isset($data['name'], $data['phone'], $data['email'], $data['address'], $data['rating'], $data['capacity'], $data['description'])) {
+if (!isset($input['name'], $input['phone'], $input['email'], $input['address'], $input['rating'], $input['capacity'], $input['description'], $input['booking_duration'], $input['admin_email'])) {
     echo json_encode(['message' => 'Missing required parameters']);
     exit;
 }
 
-$query1 = "INSERT INTO restaurants (name, phone, email, address) VALUES (?, ?, ?, ?);";
-$query2 = "INSERT INTO restaurant_info (id, rating, capacity, description) VALUES (LAST_INSERT_ID(), ?, ?, ?);";
+// Fetch admin_id from users table
+$query_admin = "SELECT id FROM users WHERE email = ?";
+$stmt_admin = $mySQL->prepare($query_admin);
+$stmt_admin->bind_param('s', $input['admin_email']);
+$stmt_admin->execute();
+$stmt_admin->bind_result($admin_id);
+$stmt_admin->fetch();
+$stmt_admin->close();
 
+if (!$admin_id) {
+    echo json_encode(['message' => 'Admin email not found']);
+    exit;
+}
+
+// Insert into restaurants table
+$query1 = "INSERT INTO restaurants (name, phone, email, address) VALUES (?, ?, ?, ?);";
 $stmt1 = $mySQL->prepare($query1);
-$stmt1->bind_param('ssss', $data['name'], $data['phone'], $data['email'], $data['address']);
+$stmt1->bind_param('ssss', $input['name'], $input['phone'], $input['email'], $input['address']);
 $stmt1->execute();
+$restaurant_id = $stmt1->insert_id; // Get the last inserted id
 $stmt1->close();
 
+// Insert into restaurant_info table
+$query2 = "INSERT INTO restaurant_info (id, rating, capacity, description, booking_duration, admin_id) VALUES (?, ?, ?, ?, ?, ?);";
 $stmt2 = $mySQL->prepare($query2);
-$stmt2->bind_param('sss', $data['rating'], $data['capacity'], $data['description']);
+$stmt2->bind_param('issssi', $restaurant_id, $input['rating'], $input['capacity'], $input['description'], $input['booking_duration'], $admin_id);
 $stmt2->execute();
 $stmt2->close();
 
