@@ -23,7 +23,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${monda.variable} ${monda.variable} antialiased`}
+        className={`${monda.className} antialiased`}
       >
         <Toaster />
         {children}
