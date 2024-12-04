@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 export function AboutCard({ logoSrc, description, backgroundImageSrc }) {
     return (
-        <article className="flex justify-center items-center h-screen pb-20 px-4">
+        <article className="flex justify-center items-center pb-20 px-4">
             <div className="w-full h-40 md:h-[80vh] bg-card-gray text-white rounded-lg shadow-md relative overflow-hidden">
                 <Image
                     src={backgroundImageSrc}

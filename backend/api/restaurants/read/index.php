@@ -21,7 +21,7 @@ $query = "
     FROM 
         restaurants
     INNER JOIN 
-        restaurant_info
+        restaurant_info 
     ON 
         restaurants.id = restaurant_info.id
     LEFT JOIN 
