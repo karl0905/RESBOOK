@@ -28,7 +28,7 @@ export default function Dashboard() {
       <Logo />
       <Darkbackground>
         <h2>MINE RESTAURANTER</h2>
-        <div className="flex flex-wrap gap-4">
+        <div className="flex flex-wrap gap-20">
           {restaurants.map((restaurant, index) => (
             <Card
               key={index}
