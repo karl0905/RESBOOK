@@ -8,10 +8,9 @@ import Card from "../../features/dashboard/Card"
 export async function loader({ request }) {
   try {
     const restaurants = await fetchRestaurant(request)
-    console.log("restaurants", restaurants)
+
     return { restaurants }
   } catch (error) {
-    console.error("Error fetching restaurants:", error)
     return json({ error: "Failed to load restaurants" }, { status: 500 })
   }
 }
@@ -27,13 +26,13 @@ export default function Dashboard() {
     <>
       <Logo />
       <Darkbackground>
-        <h2>MINE RESTAURANTER</h2>
+        <h2 className="mb-4 text-xl font-bold ">MINE RESTAURANTER</h2>
         <div className="flex flex-wrap gap-20">
           {restaurants.map((restaurant, index) => (
             <Card
               key={index}
               name={restaurant.name}
-              description={restaurant.description}
+              address={restaurant.address}
             />
           ))}
         </div>
