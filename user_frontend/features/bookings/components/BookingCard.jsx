@@ -1,7 +1,9 @@
 "use client"
 
 import { useState } from "react"
-import Modal from "@/global/components/modal"
+import Modal from "@/global/components/Modal"
+import { Input } from "@/global/components/Input"
+import { Button } from "@/global/components"
 
 export default function BookingCard({ booking, greyedOut }) {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -34,7 +36,43 @@ export default function BookingCard({ booking, greyedOut }) {
               Rediger Booking
             </span>
             <Modal isOpen={isModalOpen} closeModal={closeModal}>
-              <div className="text-black">Hej</div>
+              <div className="text-black flex flex-col gap-4">
+                <div>
+                  <span className="font-bold">Antal gæster:</span>
+                  <Input
+                    type="number"
+                    defaultValue={booking?.guest_count}
+                    variant="primary"
+                    max="10"
+                    min="1"
+                  />
+                </div>
+                <div>
+                  <span className="font-bold">Dato og tid:</span>
+                  <Input
+                    type="date"
+                    defaultValue={booking?.datetime.split(" ")[0]}
+                    variant="primary"
+                    className="mb-2"
+                    min={new Date().toISOString().split("T")[0]} // Set min date to today
+                  />
+                  <Input
+                    type="time"
+                    defaultValue={booking?.datetime.split(" ")[1]}
+                    variant="primary"
+                    min="12:00"
+                    max="23:00"
+                  />
+                </div>
+                <div className="flex justify-between">
+                  <Button title="Gem" onClick={closeModal} />
+                  <Button
+                    variant="destructive"
+                    title="Slet booking"
+                    onClick={closeModal}
+                  />
+                </div>
+              </div>
             </Modal>
           </div>
         </div>

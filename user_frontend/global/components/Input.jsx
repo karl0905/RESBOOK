@@ -9,8 +9,11 @@ export function Input({
   disabled = false,
   onChange = () => {},
   className = "",
+  defaultValue = "",
+  max = "",
+  min = "",
 }) {
-  const [value, setValue] = useState("")
+  const [value, setValue] = useState(defaultValue)
 
   const handleChange = (e) => {
     setValue(e.target.value)
@@ -24,6 +27,8 @@ export function Input({
       disabled={disabled}
       type={type}
       placeholder={placeholder}
+      max={max}
+      min={min}
       className={twMerge(
         "border rounded-md px-2 py-1 w-full focus:outline-none focus:ring-2 transition duration-150 ease-in-out",
         variant === "primary" &&
