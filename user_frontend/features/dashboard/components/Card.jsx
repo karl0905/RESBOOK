@@ -35,10 +35,12 @@ export function Card() {
     getRestaurants();
   }, []);
 
-  const handleClick = (restaurant_id) => {
+  const handleClick = (restaurant_id, e) => {
+    console.log("parent clcked")
     router.push(`/restaurant/${restaurant_id}`);
   };
-  const toggleLike = async (restaurantId) => {
+  const toggleLike = async (restaurantId, e) => {
+    e.stopPropagation();
     try {
       if (likedRestaurants.includes(restaurantId)) {
         // Call deleteFavorite if already liked
@@ -97,7 +99,7 @@ export function Card() {
           <SwiperSlide key={index}>
             <div className="bg-card-gray text-white py-4 px-4 sm:py-10 sm:px-5 
               rounded-lg shadow-md cursor-pointer relative"
-              onClick={() => handleClick(restaurant.id)}
+              onClick={(e) => handleClick(restaurant.id, e)}
             >
 
               <div className="absolute top-4 left-4 text-xs md:text-sm">
@@ -106,12 +108,13 @@ export function Card() {
               <div className="absolute top-3 right-3">
                 <button
                   aria-label="Like"
-                  onClick={() => toggleLike(restaurant.id)}
+                  onClick={(e) => toggleLike(restaurant.id, e)}
                 >
                   <AiFillHeart
-                    className={`text-lg md:text-2xl ${likedRestaurants.includes(restaurant.id)
-                      ? "text-red-500"
-                      : "text-white"
+                    className={`text-lg md:text-2xl hover:scale-125 transition-all
+                      ${likedRestaurants.includes(restaurant.id)
+                        ? "text-red-500"
+                        : "text-white"
                       }`}
                   />
                 </button>
