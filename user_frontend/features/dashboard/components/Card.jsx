@@ -36,7 +36,6 @@ export function Card() {
   }, []);
 
   const handleClick = (restaurant_id) => {
-    console.log("parent clcked")
     router.push(`/restaurant/${restaurant_id}`);
   };
   const toggleLike = async (restaurantId, e) => {
