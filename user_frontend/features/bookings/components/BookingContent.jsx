@@ -8,10 +8,18 @@ export default function BookingContent({ bookings }) {
   console.log(bookings)
   const [filter, setFilter] = useState("1")
 
-  const filteredBookings = bookings.filter((booking) => {
-    const bookingDate = new Date(booking.datetime)
-    return filter === "1" ? bookingDate >= Date.now() : bookingDate < Date.now()
-  })
+  const filteredBookings = bookings
+    .filter((booking) => {
+      const bookingDate = new Date(booking.datetime)
+      return filter === "1"
+        ? bookingDate >= Date.now()
+        : bookingDate < Date.now()
+    })
+    .sort((a, b) => {
+      const dateA = new Date(a.datetime)
+      const dateB = new Date(b.datetime)
+      return filter === "1" ? dateA - dateB : dateB - dateA
+    })
 
   return (
     <>
@@ -22,9 +30,17 @@ export default function BookingContent({ bookings }) {
         setFilter={setFilter}
       />
       <article className="pt-4 px-4 flex flex-col gap-3">
-        {filteredBookings.map((booking) => (
-          <BookingCard key={booking?.ID} booking={booking} />
-        ))}
+        {filteredBookings.map((booking) => {
+          const bookingDate = new Date(booking.datetime)
+          const isPast = bookingDate < Date.now()
+          return (
+            <BookingCard
+              key={booking?.ID}
+              booking={booking}
+              greyedOut={isPast ? "opacity-75" : ""}
+            />
+          )
+        })}
       </article>
     </>
   )

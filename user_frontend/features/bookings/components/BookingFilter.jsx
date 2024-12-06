@@ -34,24 +34,24 @@ export default function BookingFilter({ title_1, title_2, filter, setFilter }) {
   return (
     <>
       <div className="flex gap-12 m-auto relative">
-        <div
+        <h3
           ref={title1Ref}
-          className={`text-sm px-0 pb-0 cursor-pointer ${
+          className={`text-md font-bold px-0 pb-0 cursor-pointer ${
             filter === "1" ? "active" : ""
           }`}
           onClick={() => handleChange("1")}
         >
           {title_1}
-        </div>
-        <div
+        </h3>
+        <h3
           ref={title2Ref}
-          className={`text-sm px-0 pb-0 cursor-pointer ${
+          className={`text-md font-bold px-0 pb-0 cursor-pointer ${
             filter === "2" ? "active" : ""
           }`}
           onClick={() => handleChange("2")}
         >
           {title_2}
-        </div>
+        </h3>
         <div
           className="absolute bottom-0 h-0.5 bg-white transition-all duration-300"
           style={{ width: underlineWidth, left: underlineLeft }}
