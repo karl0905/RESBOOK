@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { AiFillHeart, AiFillStar } from "react-icons/ai";
-import { fetchRestaurant, addFavorite, deleteFavorite } from "@/actions/";
+import { fetchRestaurant, addFavorite, deleteFavorite, getUserFavorites } from "@/actions/";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 
@@ -33,25 +33,43 @@ export function Card() {
         getRestaurants();
     }, []);
 
+    const fetchUserFavorites = useCallback(async () => {
+        try {
+            const userFavorites = await getUserFavorites();
+            setLikedRestaurants(userFavorites.map(fav => fav.restaurant_id) || []);
+        } catch (error) {
+            console.error("Error fetching user favorites:", error);
+            setError("Failed to fetch user favorites.");
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
+    useEffect(() => {
+        fetchUserFavorites();
+    }, [fetchUserFavorites]);
+
+    useEffect(() => {
+        if (likedRestaurants.length > 0) {
+            console.log("Liked Restaurants updated:", likedRestaurants);
+        }
+    }, [likedRestaurants]);
+
     const toggleLike = async (restaurantId) => {
         try {
             if (likedRestaurants.includes(restaurantId)) {
-                // Call deleteFavorite if already liked
                 console.log("Calling deleteFavorite for restaurant:", restaurantId);
-                const response = await deleteFavorite(restaurantId);
-                console.log("Delete response:", response);
-                setLikedRestaurants((prevLiked) =>
-                    prevLiked.filter((id) => id !== restaurantId)
-                );
+                await deleteFavorite(restaurantId);
+                setLikedRestaurants(prev => prev.filter(id => id !== restaurantId));
             } else {
-                // Call addFavorite if not liked
                 console.log("Calling addFavorite for restaurant:", restaurantId);
-                const response = await addFavorite(restaurantId);
-                console.log("Add response:", response);
-                setLikedRestaurants((prevLiked) => [...prevLiked, restaurantId]);
+                await addFavorite(restaurantId);
+                setLikedRestaurants(prev => [...prev, restaurantId]);
             }
+            await fetchUserFavorites();
         } catch (error) {
-            console.error("Error toggling like for the restaurant:", error);
+            console.error("Error toggling like:", error);
+            setError("Failed to update favorite. Please try again.");
         }
     };
 
@@ -91,13 +109,12 @@ export function Card() {
                 {restaurants.map((restaurant, index) => (
                     <SwiperSlide key={index}>
                         <div className="bg-card-gray text-white py-4 px-4 sm:py-10 sm:px-5 rounded-lg shadow-md cursor-pointer relative">
-
                             <div className="absolute top-4 left-4 text-xs md:text-sm">
                                 Kapacitet: <strong className="text-xs md:text-base">{restaurant.capacity || "Unknown"}</strong>
                             </div>
                             <div className="absolute top-3 right-3">
                                 <button
-                                    aria-label="Like"
+                                    aria-label={likedRestaurants.includes(restaurant.id) ? "Unlike" : "Like"}
                                     onClick={() => toggleLike(restaurant.id)}
                                 >
                                     <AiFillHeart

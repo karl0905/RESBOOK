@@ -10,21 +10,21 @@ $userId = authorize($mySQL);
 header("Content-Type: application/json");
 
 $query = "
-    SELECT 
-        r.id AS restaurant_id,
-        r.name AS restaurant_name,
-        r.phone,
-        r.email,
-        r.address,
-        ri.rating,
-        ri.capacity,
-        ri.description,
-        ri.booking_duration
-    FROM user_favorites uf
-    INNER JOIN restaurants r ON uf.restaurant_id = r.id
-    INNER JOIN restaurant_info ri ON r.id = ri.admin_id
-    WHERE uf.user_id = ?
-    ORDER BY r.name ASC
+        SELECT 
+            uf.restaurant_id,
+            r.name AS restaurant_name,
+            r.phone,
+            r.email,
+            r.address,
+            ri.rating,
+            ri.capacity,
+            ri.description,
+            ri.booking_duration
+        FROM user_favorites uf
+        INNER JOIN restaurant_info ri ON uf.restaurant_id = ri.ID   
+        INNER JOIN restaurants r ON uf.restaurant_id = r.id
+        WHERE uf.user_id = ?
+        ORDER BY r.name ASC
 ";
 
 $stmt = $mySQL->prepare($query);
