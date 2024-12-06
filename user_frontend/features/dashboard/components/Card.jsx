@@ -35,7 +35,7 @@ export function Card() {
     getRestaurants();
   }, []);
 
-  const handleClick = (restaurant_id, e) => {
+  const handleClick = (restaurant_id) => {
     console.log("parent clcked")
     router.push(`/restaurant/${restaurant_id}`);
   };
@@ -99,7 +99,7 @@ export function Card() {
           <SwiperSlide key={index}>
             <div className="bg-card-gray text-white py-4 px-4 sm:py-10 sm:px-5 
               rounded-lg shadow-md cursor-pointer relative"
-              onClick={(e) => handleClick(restaurant.id, e)}
+              onClick={() => handleClick(restaurant.id)}
             >
 
               <div className="absolute top-4 left-4 text-xs md:text-sm">
