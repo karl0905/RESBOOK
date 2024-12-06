@@ -45,6 +45,7 @@ export default function BookingCard({ booking, greyedOut }) {
                     variant="primary"
                     max="10"
                     min="1"
+                    placeholder="Antal gæster"
                   />
                 </div>
                 <div>
