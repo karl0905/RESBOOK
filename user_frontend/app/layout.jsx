@@ -27,7 +27,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={monda.className}>
+      <body className={`${monda.className}`}>
         <Toaster />
         <Logo />
         {children}
