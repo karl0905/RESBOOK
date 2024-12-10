@@ -39,10 +39,6 @@ export function RestaurantSite({
     resetBooking()
   }, [])
 
-  function handleButtonSelectClick(count) {
-    setGuestCount(count)
-  }
-
   function increaseStep() {
     setBookingStep(bookingStep + 1)
   }
@@ -101,7 +97,7 @@ export function RestaurantSite({
                     count={index + 1}
                     selected={useBookingStore.getState().guestCount === index + 1}
                     onClick={() => {
-                      handleButtonSelectClick(index + 1)
+                      setGuestCount(index + 1)
                       increaseStep()
                     }}
                   />
