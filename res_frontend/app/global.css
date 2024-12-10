@@ -73,34 +73,13 @@ body {
   }
 }
 
-/* :root {
-  --swiper-pagination-color: #fff;
-  --swiper-pagination-bullet-size: 8px;
-  --swiper-pagination-bullet-width: 8px;
-  --swiper-pagination-bullet-height: 8px;
-  --swiper-pagination-bullet-inactive-color: #000;
-  --swiper-pagination-bullet-inactive-opacity: 0.2;
-  --swiper-pagination-bullet-opacity: 1;
-  --swiper-pagination-bullet-horizontal-gap: 4px;
-  --swiper-pagination-bullet-vertical-gap: 6px;
-} */
-
-.custom-swiper {
-  @apply pb-16; /* Add padding to the bottom of the Swiper to make room for pagination */
+.swiper-pagination-horizontal {
+  margin-bottom: 100px;
+}
+.swiper-pagination-bullet.swiper-pagination-bullet {
+  @apply bg-gray-300;
 }
 
-.custom-swiper .swiper-pagination {
-  @apply bottom-4 !important; /* Force the bottom positioning */
-}
-
-.custom-swiper .swiper-pagination-bullet {
-  @apply w-2 h-2 bg-card-gray opacity-100 mx-1;
-}
-
-.custom-swiper .swiper-pagination-bullet-active {
+.swiper-pagination-bullet.swiper-pagination-bullet-active {
   @apply bg-white;
-}
-
-.custom-swiper .swiper-wrapper {
-  @apply mb-14;
 }

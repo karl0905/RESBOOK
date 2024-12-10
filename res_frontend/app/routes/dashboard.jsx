@@ -4,6 +4,14 @@ import { fetchRestaurant } from "../../actions/restaurants.js"
 import Darkbackground from "../../features/dashboard/Darkbackground"
 import Logo from "../../features/dashboard/Logo"
 import Card from "../../features/dashboard/Card"
+import { Swiper, SwiperSlide } from "swiper/react"
+import { Navigation, Pagination } from "swiper/modules"
+
+// Import Swiper styles
+import "swiper/css"
+import "swiper/css/navigation"
+import "swiper/css/pagination"
+import "../global.css" // Import custom CSS
 
 export async function loader({ request }) {
   try {
@@ -26,21 +34,44 @@ export default function Dashboard() {
     console.log("Clicked")
   }
   return (
-    <>
+    <div className="overflow-y-hidden">
       <Logo />
-      <Darkbackground>
-        <h2 className="mb-4 text-xl font-bold ">MINE RESTAURANTER</h2>
-        <div className="flex flex-wrap gap-20">
-          {restaurants.map((restaurant, index) => (
-            <Card
-              onClick={handleClick}
-              key={index}
-              name={restaurant.name}
-              address={restaurant.address}
-            />
-          ))}
+      <Darkbackground className="h-full">
+        <div className="mx-4 ">
+          <h2 className="mb-4 text-white text-xl font-bold relative">
+            MINE RESTAURANTER
+          </h2>
+          <Swiper
+            modules={[Navigation, Pagination]}
+            pagination={{
+              clickable: true,
+              el: ".swiper-pagination", // Custom pagination element
+            }}
+            breakpoints={{
+              640: {
+                slidesPerView: 1,
+                spaceBetween: 20,
+              },
+              1024: {
+                slidesPerView: 2,
+                spaceBetween: 30,
+              },
+            }}
+          >
+            {restaurants.map((restaurant, index) => (
+              <SwiperSlide key={index}>
+                <Card
+                  onClick={handleClick}
+                  name={restaurant.name}
+                  address={restaurant.address}
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+          <div className="swiper-pagination"></div>{" "}
+          {/* Custom pagination element */}
         </div>
       </Darkbackground>
-    </>
+    </div>
   )
 }
