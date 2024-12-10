@@ -22,7 +22,7 @@ export function BookingStep({
     <div onClick={onClick}>
       <div className="w-full h-[0.5px] bg-white"></div>
       <div
-        className={`py-5 ${!currentBookingStep ? "hover:bg-gray-800 cursor-pointer" : ""}`}
+        className={`py-5 ${!currentBookingStep ? "active:bg-gray-800 cursor-pointer" : ""}`}
       >
         <div className="flex justify-between items-center">
           <h2 className="text-xl">{title}</h2>

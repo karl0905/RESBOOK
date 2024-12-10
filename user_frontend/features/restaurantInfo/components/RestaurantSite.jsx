@@ -24,6 +24,7 @@ import {
   create_booking
 } from "@/actions";
 import { useState, useEffect } from "react";
+import { toast } from "react-hot-toast";
 
 export function RestaurantSite({
   restaurant,
@@ -31,6 +32,7 @@ export function RestaurantSite({
 }) {
   const [bookingState, setBookingState] = useState(false)
   const [bookingStep, setBookingStep] = useState(1)
+  const [isLoading, setIsLoading] = useState(false)
   const maxGuestCount = 10
 
   const { setGuestCount, setDate, setTime, setComment, resetBooking } = useBookingStore()
@@ -41,6 +43,38 @@ export function RestaurantSite({
 
   function increaseStep() {
     setBookingStep(bookingStep + 1)
+  }
+
+  async function handleBooking(e) {
+    let loadingToastId; 
+
+    try {
+      e.stopPropagation();
+      loadingToastId = toast.loading("Creating booking..."); 
+      const response = await create_booking(useBookingStore.getState(), restaurant.id);
+
+      if (!response || !response.success) {
+        throw new Error("Failed to create booking.");
+      }
+
+      resetBooking();
+      setBookingStep(1);
+      setBookingState(false);
+      toast.success("Booking created successfully");
+    } catch (error) {
+      toast.error(`Error creating booking: ${error.message}`); 
+    } finally {
+      if (loadingToastId) {
+        toast.dismiss(loadingToastId); 
+      }
+    }
+  }
+
+  function handleBookingCancel(e) {
+    e.stopPropagation()
+    setBookingStep(1)
+    resetBooking()
+    setBookingState(false)
   }
 
   const availableTimes = ['11:30', '12:00', '12:30', '13:00', '13:15', '13:45',
@@ -161,23 +195,16 @@ export function RestaurantSite({
                     rows={6}
                   />
                   <Button
-                    title="Reserver"
+                    title={`${isLoading ? "Reserverer" : "Reserver"}`}
                     onClick={(e) => {
-                      e.stopPropagation()
-                      create_booking(useBookingStore.getState(), restaurant.id)
-                      resetBooking()
-                      setBookingStep(1)
-                      setBookingState(false)
+                      handleBooking(e)
                     }}
                   />
                   <Button
                     title="Annuller reservation"
                     variant="secondary"
                     onClick={(e) => {
-                      e.stopPropagation()
-                      setBookingStep(1)
-                      resetBooking()
-                      setBookingState(false)
+                      handleBookingCancel(e)
                     }}
                   />
                 </BookingStep>
