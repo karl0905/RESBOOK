@@ -1,33 +1,46 @@
-import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import { fetchRestaurant } from "../../actions/restaurant.js";
+import { json } from "@remix-run/node"
+import { useLoaderData } from "@remix-run/react"
+import { fetchRestaurant } from "../../actions/restaurants.js"
+import Darkbackground from "../../features/dashboard/Darkbackground"
+import Logo from "../../features/dashboard/Logo"
+import Card from "../../features/dashboard/Card"
 
 export async function loader({ request }) {
   try {
-    const restaurants = await fetchRestaurant(request);
-    console.log("restaurants", restaurants);
-    return { restaurants };
+    const restaurants = await fetchRestaurant(request)
+
+    return { restaurants }
   } catch (error) {
-    console.error("Error fetching restaurants:", error);
-    return json({ error: "Failed to load restaurants" }, { status: 500 });
+    return json({ error: "Failed to load restaurants" }, { status: 500 })
   }
 }
 
 export default function Dashboard() {
-  const { restaurants, error } = useLoaderData();
+  const { restaurants, error } = useLoaderData()
 
   if (error) {
-    return <div>{error}</div>;
+    return <div>{error}</div>
   }
 
+  function handleClick() {
+    console.log("Clicked")
+  }
   return (
-    <div>
-      {restaurants.map((restaurant, index) => (
-        <div key={index}>
-          <h2 className="text-black">{restaurant.name}</h2>
-          <p className="text-black">{restaurant.description}</p>
+    <>
+      <Logo />
+      <Darkbackground>
+        <h2 className="mb-4 text-xl font-bold ">MINE RESTAURANTER</h2>
+        <div className="flex flex-wrap gap-20">
+          {restaurants.map((restaurant, index) => (
+            <Card
+              onClick={handleClick}
+              key={index}
+              name={restaurant.name}
+              address={restaurant.address}
+            />
+          ))}
         </div>
-      ))}
-    </div>
-  );
+      </Darkbackground>
+    </>
+  )
 }
