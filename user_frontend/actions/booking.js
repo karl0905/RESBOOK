@@ -3,13 +3,13 @@
 import { get_cookie } from "@/actions/cookie"
 import { decrypt } from "@/actions/encryption"
 
-export async function create_booking(body, restaurantId, userId) {
-  const encrypted_tokens = await get_cookie("tokens")
-  const decrypted_tokens = await decrypt(encrypted_tokens)
+export async function create_booking(body, restaurantId) {
+  const encrypted_tokens = await get_cookie("tokens");
+  const decrypted_tokens = await decrypt(encrypted_tokens);
 
   try {
     const response = await fetch(
-      process.env.NEXT_PUBLIC_API_URL + "/bookings/",
+      `${process.env.NEXT_PUBLIC_API_URL}/bookings/`,
       {
         method: "POST",
         headers: {
@@ -24,15 +24,19 @@ export async function create_booking(body, restaurantId, userId) {
           comment: body.comment
         }),
       }
-    )
+    );
+
     if (!response.ok) {
-      const errorBody = await response.text();
-      console.error('Error response:', response.status, errorBody);
-      throw new Error(`Network response was not ok: ${response.status} ${errorBody}`);
+      const errorData = await response.json(); 
+      return { success: false, error: errorData.error || "An unknown error occurred." };
     }
-    const data = await response.json()
-    return data
+
+    const data = await response.json();
+    return { success: true, data };
+
   } catch (error) {
-    console.error("There was a problem with the fetch operation:", error)
+    console.error("There was a problem with the fetch operation:", error);
+    return { success: false, error: "An unexpected error occurred while creating the booking." };
   }
 }
+

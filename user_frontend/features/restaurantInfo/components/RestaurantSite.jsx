@@ -46,26 +46,29 @@ export function RestaurantSite({
   }
 
   async function handleBooking(e) {
-    let loadingToastId; 
+    let loadingToastId;
 
     try {
       e.stopPropagation();
-      loadingToastId = toast.loading("Creating booking..."); 
+      loadingToastId = toast.loading("Creating booking...");
+
       const response = await create_booking(useBookingStore.getState(), restaurant.id);
 
-      if (!response || !response.success) {
-        throw new Error("Failed to create booking.");
+      if (!response.success) {
+        throw new Error(response.error);
       }
 
       resetBooking();
       setBookingStep(1);
       setBookingState(false);
+
       toast.success("Booking created successfully");
+
     } catch (error) {
-      toast.error(`Error creating booking: ${error.message}`); 
+      toast.error(`Error creating booking: ${error.message}`);
     } finally {
       if (loadingToastId) {
-        toast.dismiss(loadingToastId); 
+        toast.dismiss(loadingToastId);
       }
     }
   }
