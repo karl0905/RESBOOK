@@ -149,6 +149,7 @@ export function RestaurantSite({
                   <MyDatePicker
                     onDateSelect={
                       (selectedDate) => {
+                        if (!selectedDate) return
                         setDate(selectedDate)
                         increaseStep()
                       }}
