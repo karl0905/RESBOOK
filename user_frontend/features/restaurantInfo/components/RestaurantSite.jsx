@@ -35,6 +35,10 @@ export function RestaurantSite({
 
   const { setGuestCount, setDate, setTime, setComment, resetBooking } = useBookingStore()
 
+  useEffect(() => {
+    resetBooking()
+  }, [])
+
   function handleButtonSelectClick(count) {
     setGuestCount(count)
   }
