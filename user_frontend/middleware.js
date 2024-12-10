@@ -24,16 +24,22 @@ export async function middleware(req) {
     return NextResponse.redirect(url)
   }
 
-  const { accessToken, refreshToken, accessTokenExpiry, refreshTokenExpiry } =
-    decrypted_tokens
+  const refreshToken = decrypted_tokens.tokens.refresh
+  const accessTokenExpiry = decrypted_tokens.expires_in.access
+  const refreshTokenExpiry = decrypted_tokens.expires_in.refresh
 
   // Check current date
   const currentDate = new Date()
 
+  // convert current date to unix timestamp
+  const currentUnix = Math.floor(currentDate.getTime() / 1000)
+
   // Check if the access token is expired
-  if (new Date(accessTokenExpiry) <= currentDate) {
+  if (new Date(accessTokenExpiry) <= currentUnix) {
+    console.log("Access token expired.")
     // Access token is expired
-    if (new Date(refreshTokenExpiry) > currentDate) {
+    if (new Date(refreshTokenExpiry) > currentUnix) {
+      console.log("Refreshing tokens...")
       // Refresh token is still valid
       try {
         const response = await fetch(
@@ -72,6 +78,7 @@ export async function middleware(req) {
   }
 
   // If tokens are valid, proceed to the next middleware or page
+  console.log("Access token is still valid.")
   return NextResponse.next()
 }
 
