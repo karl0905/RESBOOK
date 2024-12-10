@@ -3,6 +3,7 @@
 import { useState } from "react"
 import BookingCard from "@/features/bookings/components/BookingCard"
 import BookingFilter from "@/features/bookings/components/BookingFilter"
+import Link from "next/link"
 
 export default function BookingContent({ bookings }) {
   const [filter, setFilter] = useState("1")
@@ -29,18 +30,28 @@ export default function BookingContent({ bookings }) {
         setFilter={setFilter}
       />
       <article className="pt-4 px-4 flex flex-col gap-3">
-        {filteredBookings.map((booking) => {
-          const bookingDate = new Date(booking.datetime)
-          const isPast = bookingDate < Date.now()
-          return (
-            <BookingCard
-              key={booking?.ID}
-              booking={booking}
-              greyedOut={isPast ? "opacity-75" : ""}
-              isPast={isPast}
-            />
-          )
-        })}
+        {filteredBookings.length === 0 && filter === "1" ? (
+          <p className="text-center">
+            Ingen kommende bookinger. Udforsk restauranter{" "}
+            <Link href="/userDashboard" className="underline">
+              her
+            </Link>
+            .
+          </p>
+        ) : (
+          filteredBookings.map((booking) => {
+            const bookingDate = new Date(booking.datetime)
+            const isPast = bookingDate < Date.now()
+            return (
+              <BookingCard
+                key={booking?.ID}
+                booking={booking}
+                greyedOut={isPast ? "opacity-75" : ""}
+                isPast={isPast}
+              />
+            )
+          })
+        )}
       </article>
     </>
   )
