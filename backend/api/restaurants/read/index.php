@@ -7,7 +7,6 @@ include($_SERVER["DOCUMENT_ROOT"] . "/functions/is_res_admin.php");
 $input = handle_api_request('GET');
 $id = authorize($mySQL);
 
-
 $isAdmin = is_res_admin($mySQL, $id);
 
 if (!$isAdmin) {
@@ -51,9 +50,10 @@ if (!$isAdmin) {
     // Return JSON response
     echo json_encode($restaurants);
 } else {
-    // Query to fetch restaurants that belong to the user ID
-    $query = "
-    SELECT 
+  // Query to fetch data from both tables and calculate current capacity
+  $query = "
+    SELECT
+        restaurants.id, 
         restaurants.name,
         restaurants.phone,
         restaurants.address,

@@ -6,6 +6,11 @@ import {
   Navbar
 } from "@/global/components";
 
+import {
+  Logo
+} from "@/features/dashboard";
+
+
 import "./globals.css";
 import { Monda } from "next/font/google";
 
@@ -22,10 +27,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body
-        className={`${monda.variable} ${monda.variable} antialiased`}
-      >
+      <body className={`${monda.className}`}>
         <Toaster />
+        <Logo />
         {children}
         <Navbar />
       </body>
