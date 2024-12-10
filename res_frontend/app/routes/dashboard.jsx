@@ -34,15 +34,16 @@ export default function Dashboard() {
     console.log("Clicked")
   }
   return (
-    <div className="overflow-y-hidden">
+    <div className="min-h-screen flex flex-col">
       <Logo />
-      <Darkbackground className="h-full">
-        <div className="mx-4 ">
-          <h2 className="mb-4 text-white text-xl font-bold relative">
+      <Darkbackground>
+        <div className="p-6">
+          <h2 className="mb-6 text-white text-xl font-bold">
             MINE RESTAURANTER
           </h2>
           <Swiper
             modules={[Navigation, Pagination]}
+            spaceBetween={20}
             pagination={{
               clickable: true,
               el: ".swiper-pagination", // Custom pagination element
@@ -68,7 +69,7 @@ export default function Dashboard() {
               </SwiperSlide>
             ))}
           </Swiper>
-          <div className="swiper-pagination"></div>{" "}
+          <div className="swiper-pagination mt-4"></div>{" "}
           {/* Custom pagination element */}
         </div>
       </Darkbackground>
