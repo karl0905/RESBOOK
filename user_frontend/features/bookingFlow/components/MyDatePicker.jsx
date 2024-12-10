@@ -4,7 +4,7 @@ import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 
 export function MyDatePicker({
-  onDateSelect
+  onDateSelect,
 }) {
   const [selected, setSelected] = useState(null);
 
