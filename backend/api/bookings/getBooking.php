@@ -26,7 +26,7 @@ if ($is_admin) {
     echo json_encode($bookings);
 } else {
     // if the user is not admin, select all bookings from the user
-    $stmt = $mySQL->prepare("SELECT * FROM bookings WHERE user_id = ?");
+    $stmt = $mySQL->prepare("SELECT bookings.*, restaurants.name FROM bookings INNER JOIN restaurants ON bookings.restaurant_id = restaurants.ID WHERE bookings.user_id = ?");
     $stmt->bind_param("i", $id);
     $stmt->execute();
     $result = $stmt->get_result();
