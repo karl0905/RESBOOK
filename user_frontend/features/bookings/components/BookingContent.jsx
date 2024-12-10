@@ -5,7 +5,6 @@ import BookingCard from "@/features/bookings/components/BookingCard"
 import BookingFilter from "@/features/bookings/components/BookingFilter"
 
 export default function BookingContent({ bookings }) {
-  console.log(bookings)
   const [filter, setFilter] = useState("1")
 
   const filteredBookings = bookings
@@ -38,6 +37,7 @@ export default function BookingContent({ bookings }) {
               key={booking?.ID}
               booking={booking}
               greyedOut={isPast ? "opacity-75" : ""}
+              isPast={isPast}
             />
           )
         })}

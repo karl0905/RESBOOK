@@ -2,6 +2,7 @@
 
 import { get_cookie } from "@/actions/cookie"
 import { decrypt } from "@/actions/encryption"
+import { revalidatePath } from "next/cache"
 
 export async function get_bookings() {
   const encrypted_tokens = await get_cookie("tokens")
@@ -9,7 +10,7 @@ export async function get_bookings() {
 
   try {
     const response = await fetch(
-      process.env.NEXT_PUBLIC_API_URL + "/bookings/read",
+      process.env.NEXT_PUBLIC_API_URL + "/bookings/",
       {
         method: "GET",
         headers: {
@@ -28,13 +29,13 @@ export async function get_bookings() {
   }
 }
 
-export async function update_booking(booking) {
+export async function update_booking(booking, path) {
   const encrypted_tokens = await get_cookie("tokens")
   const decrypted_tokens = await decrypt(encrypted_tokens)
 
   try {
     const response = await fetch(
-      process.env.NEXT_PUBLIC_API_URL + "/bookings/update",
+      process.env.NEXT_PUBLIC_API_URL + "/bookings/",
       {
         method: "PUT",
         headers: {
@@ -44,23 +45,25 @@ export async function update_booking(booking) {
         body: JSON.stringify(booking),
       }
     )
-    if (!response.ok) {
-      throw new Error("Network response was not ok")
-    }
     const data = await response.json()
+    if (!response.ok) {
+      return { error: data.error }
+    }
+    revalidatePath(path)
     return data
   } catch (error) {
     console.error("There was a problem with the fetch operation:", error)
+    return { error: "There was a problem with the fetch operation" }
   }
 }
 
-export async function delete_booking(booking) {
+export async function delete_booking(booking, path) {
   const encrypted_tokens = await get_cookie("tokens")
   const decrypted_tokens = await decrypt(encrypted_tokens)
 
   try {
     const response = await fetch(
-      process.env.NEXT_PUBLIC_API_URL + "/bookings/delete",
+      process.env.NEXT_PUBLIC_API_URL + "/bookings/",
       {
         method: "DELETE",
         headers: {
@@ -70,12 +73,14 @@ export async function delete_booking(booking) {
         body: JSON.stringify(booking),
       }
     )
-    if (!response.ok) {
-      throw new Error("Network response was not ok")
-    }
     const data = await response.json()
+    if (!response.ok) {
+      return { error: data.error }
+    }
+    revalidatePath(path)
     return data
   } catch (error) {
     console.error("There was a problem with the fetch operation:", error)
+    return { error: "There was a problem with the fetch operation" }
   }
 }
