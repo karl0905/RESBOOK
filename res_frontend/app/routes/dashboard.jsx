@@ -1,11 +1,11 @@
 import { json } from "@remix-run/node"
+import { Swiper, SwiperSlide } from "swiper/react"
+import { Navigation, Pagination } from "swiper/modules"
 import { useLoaderData } from "@remix-run/react"
 import { fetchRestaurant } from "../../actions/restaurants.js"
 import Darkbackground from "../../features/dashboard/Darkbackground"
 import Logo from "../../features/dashboard/Logo"
 import Card from "../../features/dashboard/Card"
-import { Swiper, SwiperSlide } from "swiper/react"
-import { Navigation, Pagination } from "swiper/modules"
 
 // Import Swiper styles
 import "swiper/css"
