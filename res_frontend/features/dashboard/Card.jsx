@@ -1,17 +1,24 @@
-import React from "react"
-
 export default function Card({ name, address, onClick }) {
   return (
     <div
       style={{
-        fontFamily: "'Monda', sans-serif", // Apply Monda font
+        fontFamily: "'Monda', sans-serif",
       }}
-      className="bg-card-gray p-4 rounded-xl shadow-md flex-grow relative w-80 h-80 cursor-pointer"
+      className="bg-card-gray w-full h-[300px] rounded-xl cursor-pointer relative" // Add margin to the card
       onClick={onClick}
     >
       <div className="absolute top-2 right-2 text-sm text-white">{address}</div>
       <div className="flex flex-col items-center justify-center h-full">
-        <h2 className="text-xl font-bold mb-2 text-center text-white">
+        <h2
+          style={{
+            fontFamily: "montserrat",
+            WebkitTextStroke: "0.01em white",
+            color: "transparent",
+            WebkitTextFillColor: "transparent",
+            fontSize: "2rem",
+          }}
+          className="font-bold text-center uppercase"
+        >
           {name}
         </h2>
       </div>
