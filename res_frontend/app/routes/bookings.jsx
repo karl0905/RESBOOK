@@ -1,6 +1,7 @@
+// Bookings.jsx
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { fetchBookings, deleteBooking } from "../../actions/bookings.js";
+import { fetchBookings, deleteBooking, updateBooking } from "../../actions/bookings.js";
 import Card from "../../features/bookingDashboard/components/Card";
 import Darkbackground from "../../features/dashboard/Darkbackground.jsx";
 import Logo from "../../features/dashboard/Logo"
@@ -19,12 +20,20 @@ export async function loader({ request }) {
 
 export async function action({ request }) {
     try {
-        const response = await deleteBooking(request);
-        return json(response);
+        const formData = await request.formData();
+        const intent = formData.get("intent");
+
+        if (intent === "delete") {
+            const response = await deleteBooking(request);
+            return json(response);
+        } else if (intent === "update") {
+            const response = await updateBooking(request);
+            return json(response);
+        }
     }
     catch (error) {
-        console.error("Error deleting booking:", error);
-        return json({ error: "Failed to delete booking" });
+        console.error("Error processing action:", error);
+        return json({ error: "Failed to process action" });
     }
 }
 
@@ -38,6 +47,17 @@ export default function Bookings() {
             setBookings(bookings.filter(booking => booking.ID !== bookingId));
         } catch (error) {
             console.error("Failed to delete booking:", error);
+        }
+    };
+
+    const handleUpdate = async (bookingId, updatedData) => {
+        try {
+            const response = await updateBooking({ ...updatedData, bookingId });
+            setBookings(bookings.map(booking =>
+                booking.ID === bookingId ? { ...booking, ...updatedData } : booking
+            ));
+        } catch (error) {
+            console.error("Failed to update booking:", error);
         }
     };
 
@@ -68,6 +88,7 @@ export default function Bookings() {
                                 email={booking.email}
                                 comment={booking.comment}
                                 datetime={booking.datetime}
+                                onUpdate={(updatedData) => handleUpdate(booking.ID, updatedData)}
                             />
                         ))}
                 </div>

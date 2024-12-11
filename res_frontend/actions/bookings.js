@@ -52,3 +52,44 @@ export async function deleteBooking(request) {
     throw error;
   }
 }
+
+
+export async function updateBooking(request) {
+  const tokens = await get_cookie(request);
+  const formData = await request.formData();
+
+  const bookingId = formData.get("bookingId");
+  const restaurantId = formData.get("restaurantId");
+  const date = formData.get("date");
+  const time = formData.get("time");
+  const guestCount = formData.get("guestCount");
+  try {
+    const response = await fetch(
+      process.env.REMIX_PUBLIC_API_URL + "/bookings",
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${tokens.access}`,
+        },
+        body: JSON.stringify({
+          booking_id: bookingId,
+          restaurant_id: restaurantId,
+          date: date,
+          time: time,
+          guest_count: guestCount,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || "Failed to update booking");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("There was a problem updating the booking:", error);
+    throw error;
+  }
+}

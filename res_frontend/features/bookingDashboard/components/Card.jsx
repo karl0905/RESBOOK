@@ -1,11 +1,11 @@
+// Card.jsx
 import { Form } from "@remix-run/react";
-import React from "react";
-import { FaTimes } from "react-icons/fa";
+import React, { useState } from "react";
+import { FaTimes, FaEdit, FaSave } from "react-icons/fa";
 
-export default function Card({ guestCount, first_name, phone, email, comment, datetime, bookingId }) {
+export default function Card({ guestCount, first_name, phone, email, comment, datetime, bookingId, onUpdate }) {
     const [date, time] = datetime ? datetime.split(' ') : ["Ingen dato", "Ingen tid"];
     const [year, month, day] = date.split('-');
-    console.log("id", bookingId);
     const formattedDate = new Date(year, month - 1, day).toLocaleDateString('da-DK', {
         day: '2-digit',
         month: '2-digit',
@@ -14,10 +14,50 @@ export default function Card({ guestCount, first_name, phone, email, comment, da
     const [hours, minutes] = time.split(':');
     const formattedTime = `${hours}:${minutes}`;
 
+    const [editingField, setEditingField] = useState(null);
+    const [editValue, setEditValue] = useState('');
+
     const isExpired = () => {
         const cardDateTime = new Date(`${date}T${time}`);
         return cardDateTime < new Date();
     };
+
+    const handleEdit = (field, value) => {
+        setEditingField(field);
+        setEditValue(value);
+    };
+
+    const handleSave = () => {
+        onUpdate({ [editingField]: editValue });
+        setEditingField(null);
+    };
+
+    const EditableField = ({ label, value, name }) => (
+        <div className="text-sm mt-2 flex items-center justify-between">
+            <span>
+                <span className="text-gray-400">{label} |</span>
+                {editingField === name ? (
+                    <input
+                        type="text"
+                        value={editValue}
+                        onChange={(e) => setEditValue(e.target.value)}
+                        className="bg-gray-700 text-white px-2 py-1 rounded"
+                    />
+                ) : (
+                    <span>{value}</span>
+                )}
+            </span>
+            {editingField === name ? (
+                <button onClick={handleSave} className="text-green-400 hover:text-green-300 transition-colors">
+                    <FaSave />
+                </button>
+            ) : (
+                <button onClick={() => handleEdit(name, value)} className="text-gray-400 hover:text-gray-600 transition-colors">
+                    <FaEdit />
+                </button>
+            )}
+        </div>
+    );
 
     if (isExpired()) {
         return null;
@@ -33,24 +73,17 @@ export default function Card({ guestCount, first_name, phone, email, comment, da
             </div>
 
             <div className="mt-6">
-                <p className="text-sm mt-2">
-                    <span className="text-gray-400">Dato |</span> {formattedDate}
-                </p>
-                <p className="text-sm mt-2">
-                    <span className="text-gray-400">Tid |</span> {formattedTime}
-                </p>
-                <p className="text-sm mt-2">
-                    <span className="text-gray-400">Telefon |</span> {phone || "00 00 00 00"}
-                </p>
-                <p className="text-sm mt-2">
-                    <span className="text-gray-400">Email |</span> {email || "N/A"}
-                </p>
-                <p className="text-sm mt-2">
-                    <span className="text-gray-400">Kommentar |</span> {comment || "Ingen kommentar"}
-                </p>
+                <EditableField label="Dato" value={formattedDate} name="date" />
+                <EditableField label="Tid" value={formattedTime} name="time" />
+                <EditableField label="Telefon" value={phone || "00 00 00 00"} name="phone" />
+                <EditableField label="Email" value={email || "N/A"} name="email" />
+                <EditableField label="Kommentar" value={comment || "Ingen kommentar"} name="comment" />
+            </div>
+
+            <div className="mt-10">
                 <Form action="" method="POST">
-                    <button name="bookingId" value={bookingId} type="submit" className="absolute bottom-4 right-4 text-red-500">
-                        <FaTimes />
+                    <button name="bookingId" value={bookingId} type="submit" className="absolute bottom-4 left-6 text-red-500 uppercase text-xs">
+                        Slet reservation
                     </button>
                 </Form>
             </div>
