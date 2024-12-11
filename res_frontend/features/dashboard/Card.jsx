@@ -16,7 +16,7 @@ export default function Card({ id, name, address }) {
       onClick={handleCardClick}
     >
       <div className="absolute top-2 right-2 text-sm text-white">{address}</div>
-      <div className="flex flex-col items-center justify-center h-full">
+      <div className="flex flex-col items-center justify-center ">
         <h2
           style={{
             fontFamily: "montserrat",

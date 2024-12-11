@@ -13,9 +13,10 @@ import "swiper/css/navigation"
 import "swiper/css/pagination"
 import "../global.css" // Import custom CSS
 
-export async function loader({ request }) {
+export async function loader({ params, request }) {
   try {
     const restaurants = await fetchRestaurant(request)
+    const restaurant = restaurants.find((r) => r.id === parseInt(params.id))
 
     return { restaurants }
   } catch (error) {
@@ -32,7 +33,11 @@ export default function Dashboard() {
   }
 
   function handleCardClick(restaurantId) {
-    navigate(`/restaurants/${restaurantId}`)
+    if (restaurantId) {
+      navigate(`/restaurants/${restaurantId}`)
+    } else {
+      console.error("Restaurant ID is undefined")
+    }
   }
 
   return (
@@ -65,6 +70,7 @@ export default function Dashboard() {
               <SwiperSlide key={restaurant.id}>
                 <Card
                   onClick={() => handleCardClick(restaurant.id)}
+                  id={restaurant.id}
                   name={restaurant.name}
                   address={restaurant.address}
                 />

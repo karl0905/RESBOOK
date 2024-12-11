@@ -1,6 +1,8 @@
 import { json } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
 import { fetchRestaurant } from "../../actions/restaurants.js"
+import Logo from "../../features/dashboard/Logo"
+import Darkbackground from "../../features/dashboard/Darkbackground"
 
 export async function loader({ params, request }) {
   try {
@@ -26,9 +28,11 @@ export default function RestaurantDetails() {
 
   return (
     <div>
-      <h1>{restaurant.name}</h1>
-      <p>{restaurant.description}</p>
-      {/* Add other restaurant details here */}
+      <Logo />
+      <Darkbackground>
+        <h1>{restaurant.name}</h1>
+        <p>{restaurant.description}</p>
+      </Darkbackground>
     </div>
   )
 }
