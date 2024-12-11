@@ -17,7 +17,10 @@ export function Navbar() {
     <nav className="fixed bottom-0 w-full py-1 bg-card-dark-gray text-white shadow-lg z-30">
       <ul className="flex justify-around items-center py-2">
         <li className="flex flex-col items-center">
-          <Link href="/userDashboard" className="flex flex-col items-center w-16">
+          <Link
+            href="/userDashboard"
+            className="flex flex-col items-center w-16"
+          >
             <FaUtensils
               className={`${getIconColor([
                 "/userDashboard",
@@ -40,14 +43,6 @@ export function Navbar() {
               className={`${getIconColor(["/bookings"])} text-lg sm:text-2xl`}
             />
             <span className="text-xs sm:text-sm pt-2">Bookings</span>
-          </Link>
-        </li>
-        <li className="flex flex-col items-center">
-          <Link href="/search" className="flex flex-col items-center w-16">
-            <FaSearch
-              className={`${getIconColor(["/search"])} text-lg sm:text-2xl`}
-            />
-            <span className="text-xs sm:text-sm pt-2">Søg</span>
           </Link>
         </li>
         <li className="flex flex-col items-center">
