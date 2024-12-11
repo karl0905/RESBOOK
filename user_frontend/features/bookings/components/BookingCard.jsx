@@ -72,7 +72,7 @@ export default function BookingCard({ booking, greyedOut, isPast }) {
   return (
     <div
       key={booking?.ID}
-      className={`bg-card-gray text-white py-4 px-4 sm:py-10 sm:px-5 rounded-lg shadow-md relative flex flex-col justify-between min-h-44 ${greyedOut}`}
+      className={`bg-card-gray text-white py-4 px-4 my-3 mx-1 sm:py-10 sm:px-5 rounded-lg shadow-md relative flex flex-col justify-between min-h-44 ${greyedOut}`}
       style={{
         backgroundImage: `url(${process.env.NEXT_PUBLIC_API_URL}/${booking?.image})`,
         backgroundSize: "cover",
