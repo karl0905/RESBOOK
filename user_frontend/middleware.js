@@ -40,6 +40,10 @@ export async function middleware(req) {
     // Access token is expired
     if (new Date(refreshTokenExpiry) > currentUnix) {
       console.log("Refreshing tokens...")
+      console.log(refreshToken)
+      const refreshToken_object = JSON.stringify({
+        refresh_token: refreshToken,
+      })
       // Refresh token is still valid
       try {
         const response = await fetch(
@@ -49,7 +53,7 @@ export async function middleware(req) {
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ refreshToken }),
+            body: refreshToken_object,
           }
         )
         if (response.ok) {
@@ -57,11 +61,12 @@ export async function middleware(req) {
 
           // Save the access token as a cookie
           await set_cookie(await encrypt(newTokens))
-
+          console.log("Tokens refreshed.")
           return NextResponse.next()
         } else {
           console.error("Failed to refresh tokens:", response.statusText)
           url.pathname = "/login"
+          console.log("Redirecting to login page")
           return NextResponse.redirect(url)
         }
       } catch (error) {
