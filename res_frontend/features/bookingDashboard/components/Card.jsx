@@ -1,8 +1,11 @@
+import { Form } from "@remix-run/react";
 import React from "react";
+import { FaTimes } from "react-icons/fa";
 
-export default function Card({ guestCount, first_name, phone, email, comment, datetime }) {
+export default function Card({ guestCount, first_name, phone, email, comment, datetime, bookingId }) {
     const [date, time] = datetime ? datetime.split(' ') : ["Ingen dato", "Ingen tid"];
     const [year, month, day] = date.split('-');
+    console.log("id", bookingId);
     const formattedDate = new Date(year, month - 1, day).toLocaleDateString('da-DK', {
         day: '2-digit',
         month: '2-digit',
@@ -25,7 +28,6 @@ export default function Card({ guestCount, first_name, phone, email, comment, da
             <div className="font-bold text-xl md:text-2xl tracking-wider uppercase font-montserrat stroke-white-200">
                 {first_name || "Unknown Name"}
             </div>
-
             <div className="absolute top-6 right-6 text-sm text-white font-bold uppercase">
                 {guestCount || 0} personer
             </div>
@@ -46,6 +48,11 @@ export default function Card({ guestCount, first_name, phone, email, comment, da
                 <p className="text-sm mt-2">
                     <span className="text-gray-400">Kommentar |</span> {comment || "Ingen kommentar"}
                 </p>
+                <Form action="" method="POST">
+                    <button name="bookingId" value={bookingId} type="submit" className="absolute bottom-4 right-4 text-red-500">
+                        <FaTimes />
+                    </button>
+                </Form>
             </div>
         </div>
     );

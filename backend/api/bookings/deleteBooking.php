@@ -7,15 +7,14 @@ $input = handle_api_request('DELETE');
 
 $id = authorize($mySQL);
 
-if (!isset($input['restaurant_id']) || !isset($input['booking_id'])) {
+if (!isset($input['booking_id'])) {
     http_response_code(400);
-    echo json_encode(['error' => 'Missing required restaurant or booking id']);
+    echo json_encode(['error' => 'Missing required booking id']);
     exit();
 }
 
 // include the is_res_admin function
 include($_SERVER["DOCUMENT_ROOT"] . "/functions/is_res_admin.php");
-$is_admin = is_res_admin($mySQL, $id, $input['restaurant_id']);
 
 $booking_id = $input['booking_id'];
 
@@ -31,7 +30,10 @@ if ($result->num_rows == 0) {
     exit();
 }
 
+
 $booking = $result->fetch_assoc();
+
+$is_admin = is_res_admin($mySQL, $id, $booking['restaurant_id']);
 
 if ($booking == null) {
     http_response_code(404);

@@ -13,7 +13,7 @@ $is_admin = is_res_admin($mySQL, $id);
 // if the user is admin, select all bookings from the restaurant
 if ($is_admin) {
     $stmt = $mySQL->prepare("
-        SELECT bookings.*, restaurants.name, users.*
+        SELECT bookings.*, restaurants.name, users.first_name, users.last_name, users.email, users.phone
         FROM bookings
         INNER JOIN restaurant_info ON bookings.restaurant_id = restaurant_info.ID
         INNER JOIN restaurants ON restaurant_info.ID = restaurants.ID

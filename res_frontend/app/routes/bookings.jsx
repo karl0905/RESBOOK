@@ -1,10 +1,11 @@
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { fetchBookings } from "../../actions/bookings.js";
+import { fetchBookings, deleteBooking } from "../../actions/bookings.js";
 import Card from "../../features/bookingDashboard/components/Card";
 import Darkbackground from "../../features/dashboard/Darkbackground.jsx";
 import Logo from "../../features/dashboard/Logo"
 import { Heading } from "../../features/bookingDashboard/components/Heading.jsx";
+import { useState } from "react";
 
 export async function loader({ request }) {
     try {
@@ -16,8 +17,29 @@ export async function loader({ request }) {
     }
 }
 
+export async function action({ request }) {
+    try {
+        const response = await deleteBooking(request);
+        return json(response);
+    }
+    catch (error) {
+        console.error("Error deleting booking:", error);
+        return json({ error: "Failed to delete booking" });
+    }
+}
+
 export default function Bookings() {
-    const { bookings, error } = useLoaderData();
+    const { bookings: initialBookings, error } = useLoaderData();
+    const [bookings, setBookings] = useState(initialBookings);
+
+    const handleDelete = async (bookingId) => {
+        try {
+            await deleteBooking(bookingId);
+            setBookings(bookings.filter(booking => booking.ID !== bookingId));
+        } catch (error) {
+            console.error("Failed to delete booking:", error);
+        }
+    };
 
     if (error) {
         return <div className="text-white">{error}</div>;
@@ -28,9 +50,9 @@ export default function Bookings() {
     }
 
     return (
-        < >
+        <>
             <Logo />
-            <Darkbackground >
+            <Darkbackground>
                 <Heading title="Reservations" />
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {bookings
@@ -38,6 +60,7 @@ export default function Bookings() {
                         .map((booking) => (
                             <Card
                                 key={booking.ID}
+                                bookingId={booking.ID}
                                 guestCount={booking.guest_count}
                                 first_name={booking.first_name}
                                 last_name={booking.last_name}
