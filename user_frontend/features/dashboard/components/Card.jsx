@@ -35,6 +35,22 @@ export function Card() {
     getRestaurants();
   }, []);
 
+  const fetchUserFavorites = useCallback(async () => {
+    try {
+      const userFavorites = await getUserFavorites();
+      setLikedRestaurants(userFavorites.map(fav => fav.restaurant_id) || []);
+    } catch (error) {
+      console.error("Error fetching user favorites:", error);
+      setError("Failed to fetch user favorites.");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchUserFavorites();
+  }, [fetchUserFavorites]);
+
   const handleClick = (restaurant_id) => {
     router.push(`/restaurant/${restaurant_id}`);
   };
@@ -106,7 +122,7 @@ export function Card() {
               <div className="absolute top-3 right-3">
                 <button
                   aria-label={likedRestaurants.includes(restaurant.id) ? "Unlike" : "Like"}
-                  onClick={() => toggleLike(restaurant.id)}
+                  onClick={(e) => toggleLike(restaurant.id, e)}
                 >
                   <AiFillHeart
                     className={`text-lg md:text-2xl ${likedRestaurants.includes(restaurant.id)
