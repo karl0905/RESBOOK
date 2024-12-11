@@ -62,7 +62,7 @@ export function RestaurantSite({
       setBookingStep(1);
       setBookingState(false);
 
-      toast.success("Booking created successfully");
+      toast.success("Reservation oprettet!");
 
     } catch (error) {
       toast.error(`Error creating booking: ${error.message}`);
@@ -152,6 +152,7 @@ export function RestaurantSite({
                     onDateSelect={
                       (selectedDate) => {
                         if (!selectedDate) return
+                        console.log("selected date", selectedDate)
                         setDate(selectedDate)
                         increaseStep()
                       }}

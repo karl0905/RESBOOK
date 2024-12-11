@@ -16,6 +16,7 @@ export function MyDatePicker({
   return (
     <DayPicker
       mode="single"
+      timeZone="CET"
       selected={selected}
       onSelect={handleSelect}
       disabled={{ before: new Date() }}
