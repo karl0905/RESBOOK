@@ -78,7 +78,6 @@ export default function Dashboard() {
             ))}
           </Swiper>
           <div className="swiper-pagination mt-4"></div>{" "}
-          {/* Custom pagination element */}
         </div>
       </Darkbackground>
     </div>
