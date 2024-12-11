@@ -1,9 +1,8 @@
-// Card.jsx
 import { Form } from "@remix-run/react";
-import React, { useState } from "react";
-import { FaTimes, FaEdit, FaSave } from "react-icons/fa";
+import { useState } from "react";
+import { FaTimes, FaEdit } from "react-icons/fa";
 
-export default function Card({ guestCount, first_name, phone, email, comment, datetime, bookingId, onUpdate }) {
+export default function Card({ guestCount, first_name, phone, email, comment, datetime, bookingId }) {
     const [date, time] = datetime ? datetime.split(' ') : ["Ingen dato", "Ingen tid"];
     const [year, month, day] = date.split('-');
     const formattedDate = new Date(year, month - 1, day).toLocaleDateString('da-DK', {
@@ -14,54 +13,25 @@ export default function Card({ guestCount, first_name, phone, email, comment, da
     const [hours, minutes] = time.split(':');
     const formattedTime = `${hours}:${minutes}`;
 
-    const [editingField, setEditingField] = useState(null);
-    const [editValue, setEditValue] = useState('');
-
     const isExpired = () => {
         const cardDateTime = new Date(`${date}T${time}`);
         return cardDateTime < new Date();
     };
 
-    const handleEdit = (field, value) => {
-        setEditingField(field);
-        setEditValue(value);
-    };
-
-    const handleSave = () => {
-        onUpdate({ [editingField]: editValue });
-        setEditingField(null);
-    };
-
-    const EditableField = ({ label, value, name }) => (
-        <div className="text-sm mt-2 flex items-center justify-between">
-            <span>
-                <span className="text-gray-400">{label} |</span>
-                {editingField === name ? (
-                    <input
-                        type="text"
-                        value={editValue}
-                        onChange={(e) => setEditValue(e.target.value)}
-                        className="bg-gray-700 text-white px-2 py-1 rounded"
-                    />
-                ) : (
-                    <span>{value}</span>
-                )}
-            </span>
-            {editingField === name ? (
-                <button onClick={handleSave} className="text-green-400 hover:text-green-300 transition-colors">
-                    <FaSave />
-                </button>
-            ) : (
-                <button onClick={() => handleEdit(name, value)} className="text-gray-400 hover:text-gray-600 transition-colors">
-                    <FaEdit />
-                </button>
-            )}
-        </div>
-    );
-
     if (isExpired()) {
         return null;
     }
+
+    const [showModal, setShowModal] = useState(false);
+
+    const handleOpenModal = () => {
+        console.log("Edit Clicked");
+        setShowModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+    };
 
     return (
         <div className="bg-card-gray text-white p-6 rounded-xl shadow-md relative">
@@ -73,13 +43,22 @@ export default function Card({ guestCount, first_name, phone, email, comment, da
             </div>
 
             <div className="mt-6">
-                <EditableField label="Dato" value={formattedDate} name="date" />
-                <EditableField label="Tid" value={formattedTime} name="time" />
-                <EditableField label="Telefon" value={phone || "00 00 00 00"} name="phone" />
-                <EditableField label="Email" value={email || "N/A"} name="email" />
-                <EditableField label="Kommentar" value={comment || "Ingen kommentar"} name="comment" />
+                <p className="text-sm mt-2">
+                    <span className="text-gray-400">Dato |</span> {formattedDate}
+                </p>
+                <p className="text-sm mt-2">
+                    <span className="text-gray-400">Tid |</span> {formattedTime}
+                </p>
+                <p className="text-sm mt-2">
+                    <span className="text-gray-400">Telefon |</span> {phone || "00 00 00 00"}
+                </p>
+                <p className="text-sm mt-2">
+                    <span className="text-gray-400">Email |</span> {email || "N/A"}
+                </p>
+                <p className="text-sm mt-2">
+                    <span className="text-gray-400">Kommentar |</span> {comment || "Ingen kommentar"}
+                </p>
             </div>
-
             <div className="mt-10">
                 <Form action="" method="POST">
                     <button name="bookingId" value={bookingId} type="submit" className="absolute bottom-4 left-6 text-red-500 uppercase text-xs">
@@ -87,6 +66,36 @@ export default function Card({ guestCount, first_name, phone, email, comment, da
                     </button>
                 </Form>
             </div>
+            <div>
+                <button
+                    type="button"
+                    onClick={handleOpenModal}
+                    className="absolute bottom-4 right-6 text-green-400 uppercase text-xs flex items-center"
+                >
+                    <FaEdit className="mr-1" /> Rediger
+                </button>
+            </div>
+
+            {showModal && (
+                <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-50">
+                    <div className="bg-white text-black rounded-lg shadow-lg p-6 w-11/12 md:w-1/2 relative">
+                        <button
+                            className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+                            onClick={handleCloseModal}
+                        >
+                            <FaTimes />
+                        </button>
+                        <h2 className="text-xl font-bold mb-4">Rediger reservation</h2>
+                        {/* Edit form elements go here */}
+                        <button
+                            className="mt-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+                            onClick={handleCloseModal}
+                        >
+                            Gem ændringer
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
