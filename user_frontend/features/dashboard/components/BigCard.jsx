@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -7,9 +7,9 @@ import { fetchFavorites } from "@/actions";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
+import "swiper/css"
+import "swiper/css/navigation"
+import "swiper/css/pagination"
 
 export function BigCard() {
   const router = useRouter();
@@ -68,17 +68,27 @@ export function BigCard() {
         {favorites.map((favorite, index) => (
           <SwiperSlide key={index}>
             <div
-              className="w-full h-40 md:h-[50vh] bg-card-gray text-white py-4 px-4 rounded-lg shadow-md 
-              cursor-pointer relative flex flex-col justify-between"
-              onClick={() => handleClick(favorite.restaurant_id)}
+              className="w-full h-40 md:h-[50vh] bg-card-gray text-white py-4 px-4 rounded-lg shadow-md cursor-pointer relative flex flex-col justify-between"
+              style={{
+                backgroundImage: `url(${process.env.NEXT_PUBLIC_API_URL}/${favorite.image})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
             >
-              <div className="absolute top-4 left-4 text-xs md:text-sm">
-                Capacity: <strong className="text-xs md:text-base">{favorite.capacity || "Unknown"}</strong>
+              <div className="absolute z-20 top-4 left-4 text-xs md:text-sm">
+                Capacity:{" "}
+                <strong className="text-xs md:text-base">
+                  {favorite.capacity || "Unknown"}
+                </strong>
               </div>
 
-              <div className="font-montserrat flex flex-col items-center justify-center h-full pt-2 md:pt-12">
-                <h2 className="text-sm md:text-2xl font-bold pb-1 uppercase text-center">{favorite.restaurant_name}</h2>
-                <p className="text-[0.5rem] md:text-sm truncate text-center">{favorite.description || "No description available."}</p>
+              <div className="font-montserrat z-20 relative flex flex-col items-center justify-center h-full pt-2 md:pt-12">
+                <h2 className="text-sm md:text-2xl font-bold pb-1 uppercase text-center">
+                  {favorite.restaurant_name}
+                </h2>
+                <p className="text-[0.5rem] md:text-sm truncate text-center">
+                  {favorite.description || "No description available."}
+                </p>
               </div>
 
               <div className="flex mt-1 md:mt-4 justify-center">
@@ -90,10 +100,11 @@ export function BigCard() {
                 ))}
               </div>
 
-              <span className="absolute bottom-2 right-3 text-xs md:text-lg font-normal flex items-center">
+              <span className="absolute z-20 bottom-2 right-3 text-xs md:text-lg font-normal flex items-center">
                 {favorite.rating || "N/A"}
                 <AiFillStar className="text-white inline ml-1 text-xs md:text-base" />
               </span>
+              <div className="absolute inset-0 bg-black bg-opacity-50 z-10"></div>
             </div>
           </SwiperSlide>
         ))}
