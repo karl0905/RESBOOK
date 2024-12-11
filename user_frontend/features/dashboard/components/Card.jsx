@@ -1,15 +1,12 @@
-"use client"
 
-import React, { useEffect, useState, useCallback } from "react"
-import { AiFillHeart, AiFillStar } from "react-icons/ai"
-import {
-  fetchRestaurant,
-  addFavorite,
-  deleteFavorite,
-  getUserFavorites,
-} from "@/actions/"
-import { Swiper, SwiperSlide } from "swiper/react"
-import { Navigation, Pagination } from "swiper/modules"
+"use client";
+
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState, useCallback } from "react";
+import { AiFillHeart, AiFillStar } from "react-icons/ai";
+import { fetchRestaurant, addFavorite, deleteFavorite, getUserFavorites } from "@/actions/";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination } from "swiper/modules";
 
 // Import Swiper styles
 import "swiper/css"
@@ -17,77 +14,82 @@ import "swiper/css/navigation"
 import "swiper/css/pagination"
 
 export function Card() {
-  const [restaurants, setRestaurants] = useState([])
-  const [likedRestaurants, setLikedRestaurants] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+
+  const router = useRouter();
+  const [restaurants, setRestaurants] = useState([]);
+  const [likedRestaurants, setLikedRestaurants] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const getRestaurants = async () => {
       try {
-        const data = await fetchRestaurant()
-        setRestaurants(data || [])
+        const data = await fetchRestaurant();
+        setRestaurants(data || []);
       } catch (err) {
-        console.error("Error fetching restaurants:", err)
-        setError("Failed to load restaurants.")
+        console.error("Error fetching restaurants:", err);
+        setError("Failed to load restaurants.");
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    getRestaurants()
-  }, [])
+    getRestaurants();
+  }, []);
 
   const fetchUserFavorites = useCallback(async () => {
     try {
-      const userFavorites = await getUserFavorites()
-      setLikedRestaurants(userFavorites.map((fav) => fav.restaurant_id) || [])
+      const userFavorites = await getUserFavorites();
+      setLikedRestaurants(userFavorites.map(fav => fav.restaurant_id) || []);
     } catch (error) {
-      console.error("Error fetching user favorites:", error)
-      setError("Failed to fetch user favorites.")
+      console.error("Error fetching user favorites:", error);
+      setError("Failed to fetch user favorites.");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
-    fetchUserFavorites()
-  }, [fetchUserFavorites])
+    fetchUserFavorites();
+  }, [fetchUserFavorites]);
 
-  useEffect(() => {
-    if (likedRestaurants.length > 0) {
-      console.log("Liked Restaurants updated:", likedRestaurants)
-    }
-  }, [likedRestaurants])
+  const handleClick = (restaurant_id) => {
+    router.push(`/restaurant/${restaurant_id}`);
+  };
 
-  const toggleLike = async (restaurantId) => {
+  const toggleLike = async (restaurantId, e) => {
+    e.stopPropagation();
     try {
       if (likedRestaurants.includes(restaurantId)) {
-        console.log("Calling deleteFavorite for restaurant:", restaurantId)
-        await deleteFavorite(restaurantId)
-        setLikedRestaurants((prev) => prev.filter((id) => id !== restaurantId))
+        // Call deleteFavorite if already liked
+        console.log("Calling deleteFavorite for restaurant:", restaurantId);
+        const response = await deleteFavorite(restaurantId);
+        console.log("Delete response:", response);
+        setLikedRestaurants((prevLiked) =>
+          prevLiked.filter((id) => id !== restaurantId)
+        );
       } else {
-        console.log("Calling addFavorite for restaurant:", restaurantId)
-        await addFavorite(restaurantId)
-        setLikedRestaurants((prev) => [...prev, restaurantId])
+        // Call addFavorite if not liked
+        console.log("Calling addFavorite for restaurant:", restaurantId);
+        const response = await addFavorite(restaurantId);
+        console.log("Add response:", response);
+        setLikedRestaurants((prevLiked) => [...prevLiked, restaurantId]);
       }
-      await fetchUserFavorites()
     } catch (error) {
-      console.error("Error toggling like:", error)
-      setError("Failed to update favorite. Please try again.")
+      console.error("Error toggling like for the restaurant:", error);
     }
-  }
+  };
 
   if (loading) {
-    return <div className="text-white">Loading...</div>
+    return <div className="text-white">Loading...</div>;
   }
 
   if (error) {
-    return <div className="text-red-500">Error: {error}</div>
+    return <div className="text-red-500">Error: {error}</div>;
   }
 
   if (restaurants.length === 0) {
-    return <div className="text-white">No restaurants available.</div>
+    return <div className="text-white">No restaurants available.</div>;
   }
 
   return (

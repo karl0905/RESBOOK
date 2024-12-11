@@ -1,46 +1,52 @@
 "use client"
 
-import React, { useEffect, useState } from "react"
-import { AiFillStar } from "react-icons/ai"
-import { fetchFavorites } from "@/actions"
-import { Swiper, SwiperSlide } from "swiper/react"
-import { Navigation, Pagination, Autoplay } from "swiper/modules"
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { AiFillStar } from "react-icons/ai";
+import { fetchFavorites } from "@/actions";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 
 import "swiper/css"
 import "swiper/css/navigation"
 import "swiper/css/pagination"
 
 export function BigCard() {
-  const [favorites, setFavorites] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+  const router = useRouter();
+  const [favorites, setFavorites] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const getFavorites = async () => {
       try {
-        const data = await fetchFavorites()
-        setFavorites(data || [])
+        const data = await fetchFavorites();
+        setFavorites(data || []);
       } catch (err) {
-        console.error("Error fetching favorites:", err)
-        setError("Failed to load favorites.")
+        console.error("Error fetching favorites:", err);
+        setError("Failed to load favorites.");
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    getFavorites()
-  }, [])
+    getFavorites();
+  }, []);
+
+  const handleClick = (restaurant_id) => {
+    router.push(`/restaurant/${restaurant_id}`);
+  };
 
   if (loading) {
-    return <div className="text-white">Loading...</div>
+    return <div className="text-white">Loading...</div>;
   }
 
   if (error) {
-    return <div className="text-red-500">Error: {error}</div>
+    return <div className="text-red-500">Error: {error}</div>;
   }
 
   if (favorites.length === 0) {
-    return <div className="text-white">No favorites available.</div>
+    return <div className="text-white">No favorites available.</div>;
   }
 
   return (
@@ -104,5 +110,5 @@ export function BigCard() {
         ))}
       </Swiper>
     </article>
-  )
+  );
 }
