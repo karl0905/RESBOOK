@@ -1,7 +1,7 @@
 import { json } from "@remix-run/node"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { Navigation, Pagination } from "swiper/modules"
-import { useLoaderData } from "@remix-run/react"
+import { useLoaderData, useNavigate } from "@remix-run/react"
 import { fetchRestaurant } from "../../actions/restaurants.js"
 import Darkbackground from "../../features/dashboard/Darkbackground"
 import Logo from "../../features/dashboard/Logo"
@@ -25,14 +25,16 @@ export async function loader({ request }) {
 
 export default function Dashboard() {
   const { restaurants, error } = useLoaderData()
+  const navigate = useNavigate()
 
   if (error) {
     return <div>{error}</div>
   }
 
-  function handleClick() {
-    console.log("Clicked")
+  function handleCardClick(restaurantId) {
+    navigate(`/restaurants/${restaurantId}`)
   }
+
   return (
     <div className="min-h-screen flex flex-col">
       <Logo />
@@ -59,10 +61,10 @@ export default function Dashboard() {
               },
             }}
           >
-            {restaurants.map((restaurant, index) => (
-              <SwiperSlide key={index}>
+            {restaurants.map((restaurant) => (
+              <SwiperSlide key={restaurant.id}>
                 <Card
-                  onClick={handleClick}
+                  onClick={() => handleCardClick(restaurant.id)}
                   name={restaurant.name}
                   address={restaurant.address}
                 />
