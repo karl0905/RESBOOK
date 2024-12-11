@@ -15,6 +15,8 @@ export function Button({
         variant === 'primary' && 'bg-white text-black border-2 border-black hover:bg-gray-100 hover:border-gray-700',
         // Secondary Button: Transparent background with subtle hover effects
         variant === 'secondary' && 'bg-transparent text-white border-2 border-gray-600 hover:bg-gray-800 hover:border-white',
+        // Tertiary Button: Black background with white text, reversed colors on hover
+        variant === 'tertiary' && 'bg-black text-white border-2 border-black hover:bg-white hover:text-black hover:border-black',
         // Destructive Button: Red background with hover effects
         variant === 'destructive' && 'bg-red-600 text-white hover:bg-red-700 border-transparent hover:border-red-700',
         // Disabled State
