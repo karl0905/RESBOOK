@@ -11,6 +11,15 @@ export default function Card({ guestCount, first_name, phone, email, comment, da
     const [hours, minutes] = time.split(':');
     const formattedTime = `${hours}:${minutes}`;
 
+    const isExpired = () => {
+        const cardDateTime = new Date(`${date}T${time}`);
+        return cardDateTime < new Date();
+    };
+
+    if (isExpired()) {
+        return null;
+    }
+
     return (
         <div className="bg-card-gray text-white p-6 rounded-xl shadow-md relative">
             <div className="font-bold text-xl md:text-2xl tracking-wider uppercase font-montserrat stroke-white-200">
