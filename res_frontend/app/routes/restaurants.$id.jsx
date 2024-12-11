@@ -30,7 +30,7 @@ export default function RestaurantDetails() {
   const [description, setDescription] = useState(
     restaurant.description || "Placeholder Beskrivelse"
   )
-  const [email, setEmail] = useState(restaurant.email || "Placeholder Email")
+  const [email, setEmail] = useState(restaurant.email || "Placeholder@Email.dk")
   const [capacity, setCapacity] = useState(
     restaurant.capacity || "Placeholder Kapacitet"
   )
