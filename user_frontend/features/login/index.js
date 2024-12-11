@@ -1,4 +1,4 @@
 // Exports for feature login 
 
 // Components 
-export * from "./components/LoginForm"
+export * from "./components/loginForm"
