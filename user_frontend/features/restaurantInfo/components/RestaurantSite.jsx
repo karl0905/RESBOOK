@@ -110,9 +110,9 @@ export function RestaurantSite({
             </div>
             <p className="text-sm">{restaurant?.description}</p>
             {!bookingState &&
-              (<div>
-                <Button title="Reserver" onClick={() => { setBookingState(!bookingState) }} />
+              (<div className="flex flex-col gap-4">
                 <p className="text-xs">Phone: {restaurant?.phone}</p>
+                <Button title="Reserver" onClick={() => { setBookingState(!bookingState) }} />
               </div>
               )}
           </div>
