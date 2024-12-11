@@ -19,6 +19,7 @@ if (!$isAdmin) {
         restaurant_info.rating,
         restaurant_info.capacity,
         restaurant_info.description,
+        restaurant_info.image,
         restaurant_info.capacity - COALESCE(SUM(CASE 
             WHEN bookings.datetime <= NOW() AND bookings.booking_end >= NOW() 
             THEN 1 ELSE 0 END), 0) AS current_capacity
@@ -45,6 +46,17 @@ if (!$isAdmin) {
     while ($row = $result->fetch_assoc()) {
         $row['current_capacity'] = (int)$row['current_capacity']; // Cast to integer
         $restaurants[] = $row;
+    }
+
+    // get the image from the file system
+    foreach ($restaurants as $key => $restaurant) {
+        $image = $restaurant['image'];
+        if ($image) {
+            $imagePath = "/images/$image";            
+        } else {
+            $imagePath = "/images/placeholder-image.webp";
+        }
+        $restaurants[$key]['image'] = $imagePath;
     }
 
     // Return JSON response
