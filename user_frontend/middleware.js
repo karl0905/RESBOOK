@@ -24,16 +24,26 @@ export async function middleware(req) {
     return NextResponse.redirect(url)
   }
 
-  const { accessToken, refreshToken, accessTokenExpiry, refreshTokenExpiry } =
-    decrypted_tokens
+  const refreshToken = decrypted_tokens.tokens.refresh
+  const accessTokenExpiry = decrypted_tokens.expires_in.access
+  const refreshTokenExpiry = decrypted_tokens.expires_in.refresh
 
   // Check current date
   const currentDate = new Date()
 
+  // convert current date to unix timestamp
+  const currentUnix = Math.floor(currentDate.getTime() / 1000)
+
   // Check if the access token is expired
-  if (new Date(accessTokenExpiry) <= currentDate) {
+  if (new Date(accessTokenExpiry) <= currentUnix) {
+    console.log("Access token expired.")
     // Access token is expired
-    if (new Date(refreshTokenExpiry) > currentDate) {
+    if (new Date(refreshTokenExpiry) > currentUnix) {
+      console.log("Refreshing tokens...")
+      console.log(refreshToken)
+      const refreshToken_object = JSON.stringify({
+        refresh_token: refreshToken,
+      })
       // Refresh token is still valid
       try {
         const response = await fetch(
@@ -43,7 +53,7 @@ export async function middleware(req) {
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ refreshToken }),
+            body: refreshToken_object,
           }
         )
         if (response.ok) {
@@ -51,11 +61,12 @@ export async function middleware(req) {
 
           // Save the access token as a cookie
           await set_cookie(await encrypt(newTokens))
-
+          console.log("Tokens refreshed.")
           return NextResponse.next()
         } else {
           console.error("Failed to refresh tokens:", response.statusText)
           url.pathname = "/login"
+          console.log("Redirecting to login page")
           return NextResponse.redirect(url)
         }
       } catch (error) {
@@ -72,6 +83,7 @@ export async function middleware(req) {
   }
 
   // If tokens are valid, proceed to the next middleware or page
+  console.log("Access token is still valid.")
   return NextResponse.next()
 }
 
