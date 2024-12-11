@@ -2,13 +2,16 @@
 
 include($_SERVER["DOCUMENT_ROOT"] . "/functions/authorize.php");
 include($_SERVER["DOCUMENT_ROOT"] . "/functions/handleApiRequest.php");
+include($_SERVER["DOCUMENT_ROOT"] . "/functions/is_res_admin.php");
 
 $input = handle_api_request('GET');
 $id = authorize($mySQL);
+$isAdmin = is_res_admin($mySQL, $id);
 
 // Get the restaurant ID from the query parameter
 $restaurant_id = isset($_GET['id']) ? intval($_GET['id']) : null;
 
+// Base query
 $query = "
     SELECT
         restaurants.id, 
@@ -31,20 +34,33 @@ $query = "
         bookings
     ON 
         restaurants.id = bookings.restaurant_id
+    WHERE 1=1
 ";
 
-// Only add the WHERE clause if a specific restaurant ID is provided in the query
+$params = [];
+$types = "";
+
+// Add restaurant_id condition if present
 if ($restaurant_id !== null) {
-  $query .= " WHERE restaurants.id = ?";
+    $query .= " AND restaurants.id = ?";
+    $params[] = $restaurant_id;
+    $types .= "i";
+}
+
+// Add admin condition if user is admin
+if ($isAdmin) {
+    $query .= " AND restaurant_info.admin_id = ?";
+    $params[] = $id;
+    $types .= "i";
 }
 
 $query .= " GROUP BY restaurants.id, restaurant_info.id";
 
 $stmt = $mySQL->prepare($query);
 
-// Bind the parameter only if a specific restaurant ID is provided
-if ($restaurant_id !== null) {
-  $stmt->bind_param("i", $restaurant_id);
+// Bind parameters if any
+if (!empty($params)) {
+    $stmt->bind_param($types, ...$params);
 }
 
 $stmt->execute();
@@ -53,14 +69,14 @@ $stmt->close();
 
 $restaurants = [];
 while ($row = $result->fetch_assoc()) {
-  $row['current_capacity'] = (int)$row['current_capacity'];
-  $restaurants[] = $row;
+    $row['current_capacity'] = (int)$row['current_capacity'];
+    $restaurants[] = $row;
 }
 
 // Check if a specific ID was requested and if no results were found
 if ($restaurant_id !== null && empty($restaurants)) {
-  echo json_encode(['error' => 'Restaurant with ID ' . $restaurant_id . ' not found']);
+    echo json_encode(['error' => 'Restaurant with ID ' . $restaurant_id . ' not found']);
 } else {
-  // Return the results as JSON
-  echo json_encode($restaurants);
+    // Return the results as JSON
+    echo json_encode($restaurants);
 }

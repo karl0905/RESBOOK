@@ -1,9 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { AiFillHeart, AiFillStar } from "react-icons/ai";
-import { fetchRestaurant, addFavorite, deleteFavorite } from "@/actions/";
+import { fetchRestaurant, addFavorite, deleteFavorite, getUserFavorites } from "@/actions/";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 
@@ -38,6 +38,7 @@ export function Card() {
   const handleClick = (restaurant_id) => {
     router.push(`/restaurant/${restaurant_id}`);
   };
+
   const toggleLike = async (restaurantId, e) => {
     e.stopPropagation();
     try {
@@ -96,24 +97,21 @@ export function Card() {
       >
         {restaurants.map((restaurant, index) => (
           <SwiperSlide key={index}>
-            <div className="bg-card-gray text-white py-4 px-4 sm:py-10 sm:px-5 
-              rounded-lg shadow-md cursor-pointer relative"
+            <div className="bg-card-gray text-white py-4 px-4 sm:py-10 sm:px-5 rounded-lg shadow-md cursor-pointer relative"
               onClick={() => handleClick(restaurant.id)}
             >
-
               <div className="absolute top-4 left-4 text-xs md:text-sm">
                 Kapacitet: <strong className="text-xs md:text-base">{restaurant.capacity || "Unknown"}</strong>
               </div>
               <div className="absolute top-3 right-3">
                 <button
-                  aria-label="Like"
-                  onClick={(e) => toggleLike(restaurant.id, e)}
+                  aria-label={likedRestaurants.includes(restaurant.id) ? "Unlike" : "Like"}
+                  onClick={() => toggleLike(restaurant.id)}
                 >
                   <AiFillHeart
-                    className={`text-lg md:text-2xl hover:scale-125 transition-all
-                      ${likedRestaurants.includes(restaurant.id)
-                        ? "text-red-500"
-                        : "text-white"
+                    className={`text-lg md:text-2xl ${likedRestaurants.includes(restaurant.id)
+                      ? "text-red-500"
+                      : "text-white"
                       }`}
                   />
                 </button>
@@ -131,16 +129,17 @@ export function Card() {
                     className="text-sm md:text-lg text-white"
                   />
                 ))}
-              </div>
+              </div >
 
               <span className="absolute bottom-2 right-3 text-xs md:text-lg font-normal flex items-center">
                 {restaurant.rating || "N/A"}
                 <AiFillStar className="text-white inline ml-1 text-xs md:text-base" />
               </span>
-            </div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
-    </article>
+            </div >
+          </SwiperSlide >
+        ))
+        }
+      </Swiper >
+    </article >
   );
 }

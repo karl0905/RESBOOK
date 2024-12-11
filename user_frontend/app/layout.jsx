@@ -6,6 +6,11 @@ import {
   Navbar
 } from "@/global/components";
 
+import {
+  Logo
+} from "@/features/dashboard";
+
+
 import "./globals.css";
 import { Monda } from "next/font/google";
 
@@ -26,6 +31,7 @@ export default function RootLayout({ children }) {
         className={`${monda.className} antialiased`}
       >
         <Toaster />
+        <Logo />
         {children}
         <Navbar />
       </body>

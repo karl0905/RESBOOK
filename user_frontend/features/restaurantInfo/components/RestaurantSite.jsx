@@ -85,7 +85,6 @@ export function RestaurantSite({
 
   return (
     <div className="h-screen">
-      <Logo />
       <Darkbackground>
         <div className="px-3">
           <div className="flex flex-col gap-4">

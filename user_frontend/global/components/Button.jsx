@@ -5,7 +5,7 @@ export function Button({
   title = "Button",
   variant = "primary",
   disabled = false,
-  onClick = () => { }
+  onClick = () => {},
 }) {
   return (
     <button
@@ -25,6 +25,6 @@ export function Button({
     >
       {title}
     </button>
-  );
+  )
 }
 
