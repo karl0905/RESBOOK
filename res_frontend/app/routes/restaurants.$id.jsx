@@ -1,11 +1,12 @@
 import { json } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
-import { fetchRestaurant } from "../../actions/restaurants.js"
+import { fetchRestaurant, updateRestaurant } from "../../actions/restaurants.js"
 import Darkbackground from "../../features/dashboard/Darkbackground"
 import Logo from "../../features/dashboard/Logo"
 import tonniImage from "../../global/assets/tonni.jpg" // Import the image
 import React, { useState } from "react"
 
+// GET
 export async function loader({ params, request }) {
   try {
     const restaurants = await fetchRestaurant(request)
@@ -23,40 +24,26 @@ export async function loader({ params, request }) {
 
 export default function RestaurantDetails() {
   const { restaurant, error } = useLoaderData()
-  const [name, setName] = useState(restaurant.name || "Placeholder name")
-  const [address, setAddress] = useState(
-    restaurant.address || "Placeholder Address"
-  )
-  const [description, setDescription] = useState(
-    restaurant.description || "Placeholder Beskrivelse"
-  )
-  const [email, setEmail] = useState(restaurant.email || "Placeholder Email")
-  const [capacity, setCapacity] = useState(
-    restaurant.capacity || "Placeholder Kapacitet"
-  )
-  const [phone, setPhone] = useState(restaurant.phone || "Placeholder Telefon")
+  const [name, setName] = useState(restaurant.name || "")
+  const [address, setAddress] = useState(restaurant.address || "")
+  const [description, setDescription] = useState(restaurant.description || "")
+  const [email, setEmail] = useState(restaurant.email || "")
+  const [capacity, setCapacity] = useState(restaurant.capacity || "")
+  const [phone, setPhone] = useState(restaurant.phone || "")
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    // Add your update logic here, e.g., make an API call to update the restaurant data
     try {
-      const response = await fetch(`/restaurants/${restaurant.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name,
-          address,
-          description,
-          email,
-          capacity,
-          phone,
-        }),
-      })
-      if (!response.ok) {
-        throw new Error("Failed to update restaurant")
+      const updatedRestaurant = {
+        id: restaurant.id,
+        name,
+        address,
+        description,
+        email,
+        capacity,
+        phone,
       }
+      const response = await updateRestaurant(updatedRestaurant)
       alert("Restaurant updated successfully")
     } catch (error) {
       console.error(error)
