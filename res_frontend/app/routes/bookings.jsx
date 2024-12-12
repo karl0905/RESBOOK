@@ -88,7 +88,6 @@ export default function Bookings() {
                                 email={booking.email}
                                 comment={booking.comment}
                                 datetime={booking.datetime}
-                                onUpdate={(updatedData) => handleUpdate(booking.ID, updatedData)}
                             />
                         ))}
                 </div>

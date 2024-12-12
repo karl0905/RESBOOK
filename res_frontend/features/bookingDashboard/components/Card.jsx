@@ -1,5 +1,5 @@
 import { Form } from "@remix-run/react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { FaTimes, FaEdit } from "react-icons/fa";
 
 export default function Card({ guestCount, first_name, phone, email, comment, datetime, bookingId }) {
@@ -24,8 +24,7 @@ export default function Card({ guestCount, first_name, phone, email, comment, da
 
     const [showModal, setShowModal] = useState(false);
 
-    const handleOpenModal = () => {
-        console.log("Edit Clicked");
+    const handleEditClick = () => {
         setShowModal(true);
     };
 
@@ -67,35 +66,18 @@ export default function Card({ guestCount, first_name, phone, email, comment, da
                 </Form>
             </div>
             <div>
-                <button
-                    type="button"
-                    onClick={handleOpenModal}
-                    className="absolute bottom-4 right-6 text-green-400 uppercase text-xs flex items-center"
-                >
-                    <FaEdit className="mr-1" /> Rediger
-                </button>
+                <Form action="" medthod="PUT">
+                    <button
+                        type="button"
+                        value={bookingId}
+                        type="submit"
+                        className="absolute bottom-4 right-6 text-green-400 uppercase text-xs flex items-center"
+                        onClick={handleEditClick}
+                    >
+                        <FaEdit className="mr-1" /> Rediger
+                    </button>
+                </Form>
             </div>
-
-            {showModal && (
-                <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-50">
-                    <div className="bg-white text-black rounded-lg shadow-lg p-6 w-11/12 md:w-1/2 relative">
-                        <button
-                            className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
-                            onClick={handleCloseModal}
-                        >
-                            <FaTimes />
-                        </button>
-                        <h2 className="text-xl font-bold mb-4">Rediger reservation</h2>
-                        {/* Edit form elements go here */}
-                        <button
-                            className="mt-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
-                            onClick={handleCloseModal}
-                        >
-                            Gem ændringer
-                        </button>
-                    </div>
-                </div>
-            )}
         </div>
     );
 }
