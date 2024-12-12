@@ -1,5 +1,8 @@
 import { get_cookie } from "./cookie.js"
 
+// CUstom useragent to work around simply 555 error 
+const customUserAgent = "MinUserAgent/1.0"
+
 export async function fetchRestaurant(request) {
   const tokens = await get_cookie(request)
   console.log("tokens", tokens)
@@ -11,6 +14,7 @@ export async function fetchRestaurant(request) {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
+          "user-agent": customUserAgent,
           Authorization: `Bearer ${tokens.access}`,
         },
       }
@@ -35,6 +39,7 @@ export async function updateRestaurant(request, restaurantData) {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          "user-agent": customUserAgent,
           Authorization: `Bearer ${tokens.access}`,
         },
         body: JSON.stringify(restaurantData),
