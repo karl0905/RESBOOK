@@ -128,7 +128,11 @@ export default function BookingCard({ booking, greyedOut, isPast }) {
             />
           </div>
           <div className="flex justify-between">
-            <Button title="Gem" onClick={handleUpdateBooking} />
+            <Button
+              variant="tertiary"
+              title="Gem"
+              onClick={handleUpdateBooking}
+            />
             <Button
               variant="destructive"
               title="Slet booking"
