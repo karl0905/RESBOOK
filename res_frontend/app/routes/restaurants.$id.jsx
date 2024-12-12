@@ -98,6 +98,7 @@ export default function RestaurantDetails() {
                   Restaurant Name
                 </label>
                 <input
+                  autoComplete="off"
                   id="name"
                   name="name"
                   type="text"
@@ -114,6 +115,7 @@ export default function RestaurantDetails() {
                   Phone
                 </label>
                 <input
+                  autoComplete="off"
                   id="phone"
                   name="phone"
                   type="text"
@@ -130,6 +132,7 @@ export default function RestaurantDetails() {
                   Email
                 </label>
                 <input
+                  autoComplete="off"
                   id="email"
                   name="email"
                   type="email"
@@ -146,6 +149,7 @@ export default function RestaurantDetails() {
                   Address
                 </label>
                 <input
+                  autoComplete="off"
                   id="address"
                   name="address"
                   type="text"
@@ -162,6 +166,7 @@ export default function RestaurantDetails() {
                   Capacity
                 </label>
                 <input
+                  autoComplete="off"
                   id="capacity"
                   name="capacity"
                   type="number"
@@ -178,6 +183,7 @@ export default function RestaurantDetails() {
                   Description
                 </label>
                 <input
+                  autoComplete="off"
                   id="description"
                   name="description"
                   type="text"

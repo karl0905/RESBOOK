@@ -18,6 +18,7 @@ $query = "
         restaurants.name,
         restaurants.phone,
         restaurants.address,
+        restaurants.email,
         restaurant_info.rating,
         restaurant_info.capacity,
         restaurant_info.description,
