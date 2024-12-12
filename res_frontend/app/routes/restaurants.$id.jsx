@@ -3,7 +3,6 @@ import { useLoaderData, useActionData } from "@remix-run/react"
 import { fetchRestaurant, updateRestaurant } from "../../actions/restaurants.js"
 import Darkbackground from "../../features/dashboard/Darkbackground"
 import Logo from "../../features/dashboard/Logo"
-import tonniImage from "../../global/assets/tonni.jpg" // Import the image
 import React, { useState } from "react"
 import { Form } from "@remix-run/react"
 
@@ -40,10 +39,10 @@ export async function action({ request }) {
     }
 
     try {
-      const update = await updateRestaurant(restaurantData)
+      const update = await updateRestaurant(request, restaurantData)
       return { update }
     } catch (error) {
-      return json({ error: "Failed to update restaurant details" })
+      return json({ error: "Action failed" }, { status: 500 })
     }
   }
 
@@ -51,17 +50,17 @@ export async function action({ request }) {
 }
 
 export default function RestaurantDetails() {
-  const { restaurant, error } = useLoaderData()
+  const { restaurant, error } = useLoaderData() || {}
   const actionData = useActionData()
-  const [name, setName] = useState(restaurant.name)
-  const [phone, setPhone] = useState(restaurant.phone)
-  const [email, setEmail] = useState(restaurant.email)
-  const [address, setAddress] = useState(restaurant.address)
-  const [rating, setRating] = useState(restaurant.rating)
-  const [capacity, setCapacity] = useState(restaurant.capacity)
-  const [description, setDescription] = useState(restaurant.description)
+  const [name, setName] = useState(restaurant?.name || "")
+  const [phone, setPhone] = useState(restaurant?.phone || "")
+  const [email, setEmail] = useState(restaurant?.email || "")
+  const [address, setAddress] = useState(restaurant?.address || "")
+  const [rating, setRating] = useState(restaurant?.rating || 0)
+  const [capacity, setCapacity] = useState(restaurant?.capacity || 0)
+  const [description, setDescription] = useState(restaurant?.description || "")
   const [bookingDuration, setBookingDuration] = useState(
-    restaurant.booking_duration
+    restaurant?.booking_duration || 0
   )
 
   if (error) {
@@ -214,6 +213,14 @@ export default function RestaurantDetails() {
               Submit
             </button>
           </Form>
+          {actionData?.error && (
+            <div className="text-red-500 mt-4">{actionData.error}</div>
+          )}
+          {actionData?.update && (
+            <div className="text-green-500 mt-4">
+              Restaurant updated successfully!
+            </div>
+          )}
         </div>
       </Darkbackground>
     </div>

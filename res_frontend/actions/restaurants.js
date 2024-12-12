@@ -26,9 +26,8 @@ export async function fetchRestaurant(request) {
   }
 }
 
-import { get_cookie } from "./cookie.js"
-
-export async function updateRestaurant(restaurantData) {
+export async function updateRestaurant(request, restaurantData) {
+  const tokens = await get_cookie(request)
   try {
     const response = await fetch(
       `${process.env.REMIX_PUBLIC_API_URL}/restaurants/update`,
