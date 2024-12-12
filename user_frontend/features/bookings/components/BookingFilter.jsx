@@ -33,7 +33,7 @@ export default function BookingFilter({ title_1, title_2, filter, setFilter }) {
 
   return (
     <>
-      <div className="flex gap-12 m-auto relative">
+      <div className="flex gap-12 mx-auto relative">
         <h3
           ref={title1Ref}
           className={`text-md font-bold px-0 pb-0 cursor-pointer ${
