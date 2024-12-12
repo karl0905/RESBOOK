@@ -54,8 +54,7 @@ export const action = async ({ request }) => {
 export default function LoginPage() {
   console.log("LoginPage component loaded") // Log when component is loaded
   return (
-    <div>
-      <h1>Login</h1>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <LoginForm />
     </div>
   )

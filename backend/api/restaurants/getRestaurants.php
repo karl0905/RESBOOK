@@ -22,6 +22,7 @@ $query = "
         restaurant_info.capacity,
         restaurant_info.description,
         restaurant_info.image,
+        restaurant_info.admin_id,
         restaurant_info.capacity - COALESCE(SUM(CASE 
             WHEN bookings.datetime <= NOW() AND bookings.booking_end >= NOW() 
             THEN 1 ELSE 0 END), 0) AS current_capacity
@@ -41,9 +42,13 @@ $params = [];
 $types = "";
 
 if ($restaurant_id !== null) {
-    $query .= " WHERE restaurants.id = ?";
-    $params[] = $restaurant_id;
-    $types .= "i";
+  $query .= " WHERE restaurants.id = ?";
+  $params[] = $restaurant_id;
+  $types .= "i";
+} elseif ($isAdmin) {
+  $query .= " WHERE restaurant_info.admin_id = ?";
+  $params[] = $id;
+  $types .= "i";
 }
 
 $query .= " GROUP BY restaurants.id, restaurant_info.id";
@@ -51,7 +56,7 @@ $query .= " GROUP BY restaurants.id, restaurant_info.id";
 $stmt = $mySQL->prepare($query);
 
 if (!empty($params)) {
-    $stmt->bind_param($types, ...$params);
+  $stmt->bind_param($types, ...$params);
 }
 
 $stmt->execute();
@@ -60,43 +65,28 @@ $stmt->close();
 
 $restaurants = [];
 while ($row = $result->fetch_assoc()) {
-    $row['current_capacity'] = (int)$row['current_capacity'];
-    
-    // Process image
-    $image = $row['image'];
-    if ($image) {
-        $imagePath = "/images/$image";
-    } else {
-        $imagePath = "/images/placeholder-image.webp";
-    }
-    $row['image'] = $imagePath;
+  $row['current_capacity'] = (int)$row['current_capacity'];
 
-    // Check if user is admin for this restaurant
-    if ($isAdmin) {
-        $adminQuery = "SELECT admin_id FROM restaurant_info WHERE id = ?";
-        $adminStmt = $mySQL->prepare($adminQuery);
-        $adminStmt->bind_param("i", $row['id']);
-        $adminStmt->execute();
-        $adminResult = $adminStmt->get_result();
-        $adminStmt->close();
+  // Process image
+  $image = $row['image'];
+  if ($image) {
+    $imagePath = "/images/$image";
+  } else {
+    $imagePath = "/images/placeholder-image.webp";
+  }
+  $row['image'] = $imagePath;
 
-        if ($adminResult->num_rows > 0) {
-            $adminRow = $adminResult->fetch_assoc();
-            $row['is_admin'] = ($adminRow['admin_id'] == $id);
-        } else {
-            $row['is_admin'] = false;
-        }
-    } else {
-        $row['is_admin'] = false;
-    }
+  // Check if user is admin for this restaurant
+  $row['is_admin'] = ($isAdmin && $row['admin_id'] == $id);
 
-    $restaurants[] = $row;
+  unset($row['admin_id']); // Remove admin_id from the output
+
+  $restaurants[] = $row;
 }
 
 if ($restaurant_id !== null && empty($restaurants)) {
-    echo json_encode(['error' => 'Restaurant with ID ' . $restaurant_id . ' not found']);
+  echo json_encode(['error' => 'Restaurant with ID ' . $restaurant_id . ' not found']);
 } else {
-    // Return single restaurant or array of restaurants
-    echo json_encode($restaurant_id !== null ? $restaurants[0] : $restaurants);
+  // Return single restaurant or array of restaurants
+  echo json_encode($restaurant_id !== null ? $restaurants[0] : $restaurants);
 }
-
