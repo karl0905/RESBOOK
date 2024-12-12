@@ -2,7 +2,7 @@ const customUserAgent = 'MinUserAgent/1.0';
 
 export async function login(email, password) {
   try {
-    const response = await fetch(`${process.env.REMIX_PUBLIC_API_URL}/users/login`, {
+    const response = await fetch(`${process.env.REMIX_PUBLIC_API_URL}/users/login/index.php`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
