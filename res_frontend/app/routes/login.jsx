@@ -13,6 +13,7 @@ export const loader = async () => {
 // Action function to handle form submissions
 export const action = async ({ request }) => {
   console.log("Action function called") // Log when action is triggered
+  console.log("Request method:", request.method) // Log request method
   const formData = await request.formData()
   const email = formData.get("email")
   const password = formData.get("password")
