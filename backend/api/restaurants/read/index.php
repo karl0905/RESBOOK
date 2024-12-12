@@ -16,6 +16,7 @@ if (!$isAdmin) {
         restaurants.name,
         restaurants.phone,
         restaurants.address,
+        restaurants.email,
         restaurant_info.rating,
         restaurant_info.capacity,
         restaurant_info.description,
@@ -57,6 +58,7 @@ if (!$isAdmin) {
         restaurants.name,
         restaurants.phone,
         restaurants.address,
+        restaurants.email,
         restaurant_info.rating,
         restaurant_info.capacity,
         restaurant_info.description,
@@ -94,3 +96,4 @@ if (!$isAdmin) {
     // Return JSON response
     echo json_encode($restaurants);
 }
+?>

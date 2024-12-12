@@ -1,10 +1,9 @@
 import { json } from "@remix-run/node"
-import { useLoaderData, useActionData } from "@remix-run/react"
+import { useLoaderData, useActionData, Form } from "@remix-run/react"
 import { fetchRestaurant, updateRestaurant } from "../../actions/restaurants.js"
 import Darkbackground from "../../features/dashboard/Darkbackground"
 import Logo from "../../features/dashboard/Logo"
 import React, { useState } from "react"
-import { Form } from "@remix-run/react"
 
 export async function loader({ params, request }) {
   try {
@@ -71,156 +70,142 @@ export default function RestaurantDetails() {
     <div className="min-h-screen bg-gray-100">
       <Logo />
       <Darkbackground>
-        <div className="flex items-center justify-center py-10">
+        <div className="flex flex-col items-center justify-center py-10">
+          <div className="absolute top-[100px]">
+            <img
+              src="/global/assets/ppicture.png"
+              alt="Profile"
+              className="w-48 h-48 rounded-full shadow-md"
+            />
+          </div>
           <Form
             method="PUT"
-            className="text-black bg-white p-6 rounded-lg shadow-md w-full max-w-md"
+            className="mt-[150px] text-white bg-transparent p-6 rounded-lg shadow-md w-full max-w-md "
           >
             <input type="hidden" name="id" value={restaurant.id} />
-            <div className="mb-4">
-              <label
-                htmlFor="name"
-                className="block text-gray-700 font-bold mb-2"
-              >
-                Restaurant Name
-              </label>
-              <input
-                id="name"
-                name="name"
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md"
-              />
+            <input type="hidden" name="rating" value={rating} />
+            <input
+              type="hidden"
+              name="booking_duration"
+              value={bookingDuration}
+            />
+            <div className="grid grid-cols-2 gap-10">
+              <div className="mb-4">
+                <label
+                  htmlFor="name"
+                  className="block text-gray-700 font-bold mb-2"
+                >
+                  Restaurant Name
+                </label>
+                <input
+                  id="name"
+                  name="name"
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="w-full bg-transparent text-white border-none focus:outline-none focus:border-none"
+                />
+              </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="phone"
+                  className="block text-gray-700 font-bold mb-2"
+                >
+                  Phone
+                </label>
+                <input
+                  id="phone"
+                  name="phone"
+                  type="text"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  className="w-full bg-transparent text-white border-none focus:outline-none focus:border-none"
+                />
+              </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="email"
+                  className="block text-gray-700 font-bold mb-2"
+                >
+                  Email
+                </label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full bg-transparent text-white border-none focus:outline-none focus:border-none"
+                />
+              </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="address"
+                  className="block text-gray-700 font-bold mb-2"
+                >
+                  Address
+                </label>
+                <input
+                  id="address"
+                  name="address"
+                  type="text"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  className="w-full bg-transparent text-white border-none focus:outline-none focus:border-none"
+                />
+              </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="capacity"
+                  className="block text-gray-700 font-bold mb-2"
+                >
+                  Capacity
+                </label>
+                <input
+                  id="capacity"
+                  name="capacity"
+                  type="number"
+                  value={capacity}
+                  onChange={(e) => setCapacity(parseInt(e.target.value))}
+                  className="w-full bg-transparent text-white border-none focus:outline-none focus:border-none no-spinner"
+                />
+              </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="description"
+                  className="block text-gray-700 font-bold mb-2"
+                >
+                  Description
+                </label>
+                <input
+                  id="description"
+                  name="description"
+                  type="text"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  className="w-full bg-transparent text-white border-none focus:outline-none focus:border-none"
+                />
+              </div>
             </div>
-            <div className="mb-4">
-              <label
-                htmlFor="phone"
-                className="block text-gray-700 font-bold mb-2"
+            <div className="flex mt-4">
+              <button
+                type="submit"
+                className="bg-white text-black py-2 px-4 rounded-md hover:bg-gray-200"
               >
-                Phone
-              </label>
-              <input
-                id="phone"
-                name="phone"
-                type="text"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md"
-              />
+                Update
+              </button>
             </div>
-            <div className="mb-4">
-              <label
-                htmlFor="email"
-                className="block text-gray-700 font-bold mb-2"
-              >
-                Email
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md"
-              />
-            </div>
-            <div className="mb-4">
-              <label
-                htmlFor="address"
-                className="block text-gray-700 font-bold mb-2"
-              >
-                Address
-              </label>
-              <input
-                id="address"
-                name="address"
-                type="text"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md"
-              />
-            </div>
-            <div className="mb-4">
-              <label
-                htmlFor="rating"
-                className="block text-gray-700 font-bold mb-2"
-              >
-                Rating
-              </label>
-              <input
-                id="rating"
-                name="rating"
-                type="number"
-                step="0.1"
-                value={rating}
-                onChange={(e) => setRating(parseFloat(e.target.value))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md"
-              />
-            </div>
-            <div className="mb-4">
-              <label
-                htmlFor="capacity"
-                className="block text-gray-700 font-bold mb-2"
-              >
-                Capacity
-              </label>
-              <input
-                id="capacity"
-                name="capacity"
-                type="number"
-                value={capacity}
-                onChange={(e) => setCapacity(parseInt(e.target.value))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md"
-              />
-            </div>
-            <div className="mb-4">
-              <label
-                htmlFor="description"
-                className="block text-gray-700 font-bold mb-2"
-              >
-                Description
-              </label>
-              <input
-                id="description"
-                name="description"
-                type="text"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md"
-              />
-            </div>
-            <div className="mb-4">
-              <label
-                htmlFor="booking_duration"
-                className="block text-gray-700 font-bold mb-2"
-              >
-                Booking Duration
-              </label>
-              <input
-                id="booking_duration"
-                name="booking_duration"
-                type="number"
-                value={bookingDuration}
-                onChange={(e) => setBookingDuration(parseInt(e.target.value))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md"
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600"
-            >
-              Submit
-            </button>
           </Form>
-          {actionData?.error && (
-            <div className="text-red-500 mt-4">{actionData.error}</div>
-          )}
-          {actionData?.update && (
-            <div className="text-green-500 mt-4">
-              Restaurant updated successfully!
-            </div>
-          )}
+          <div>
+            {actionData?.error && (
+              <div className="text-red-500 mt-4">{actionData.error}</div>
+            )}
+            {actionData?.update && (
+              <div className="text-green-500 mt-4">
+                Restaurant updated successfully!
+              </div>
+            )}
+          </div>
         </div>
       </Darkbackground>
     </div>
