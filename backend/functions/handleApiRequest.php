@@ -10,7 +10,7 @@ function handle_api_request($method)
   header("Content-Type: application/json");
 
   // Define allowed origins for CORS
-  $allowed_origins = array("http://localhost:3000", "https://resbook.vercel.app");
+  $allowed_origins = array("http://localhost:3000", "https://resbook.vercel.app", "https://resbookdev.vercel.app");
 
   // Get the origin of the incoming request
   $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
