@@ -1,7 +1,7 @@
 "use client"
 import React from "react"
 
-export const Header = () => {
+const Header = () => {
   return (
     <section className="flex w-full h-auto py-10">
       <div className="max-w-1/2 -ml-3">
@@ -10,3 +10,5 @@ export const Header = () => {
     </section>
   )
 }
+
+export default Header

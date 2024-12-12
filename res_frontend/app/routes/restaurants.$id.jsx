@@ -3,9 +3,8 @@ import { useLoaderData } from "@remix-run/react"
 import { fetchRestaurant } from "../../actions/restaurants.js"
 import Darkbackground from "../../features/dashboard/Darkbackground"
 import Logo from "../../features/dashboard/Logo"
-import tonniImage from "../../global/assets/tonni.jpg"
+import tonniImage from "../../global/assets/tonni.jpg" // Import the image
 import React, { useState } from "react"
-import { get_cookie } from "../../actions/cookie.js"
 
 export async function loader({ params, request }) {
   try {
@@ -41,34 +40,27 @@ export default function RestaurantDetails() {
     e.preventDefault()
     // Add your update logic here, e.g., make an API call to update the restaurant data
     try {
-      const response = await fetch(
-        "http://localhost:8000/api/restaurants/update",
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${tokens.access}`,
-          },
-          body: JSON.stringify({
-            id: restaurant.id,
-            name,
-            phone,
-            email,
-            address,
-            rating: restaurant.rating, // Assuming rating is a state or prop
-            capacity,
-            description,
-            booking_duration: restaurant.booking_duration, // Assuming booking_duration is a state or prop
-          }),
-        }
-      )
+      const response = await fetch(`/restaurants/${restaurant.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          address,
+          description,
+          email,
+          capacity,
+          phone,
+        }),
+      })
       if (!response.ok) {
         throw new Error("Failed to update restaurant")
       }
       alert("Restaurant updated successfully")
     } catch (error) {
       console.error(error)
-      alert("Failed to upddawdate restaurant")
+      alert("Failed to update restaurant")
     }
   }
 
@@ -87,7 +79,7 @@ export default function RestaurantDetails() {
             className="w-40 h-40 rounded-full object-cover"
           />
         </div>
-        <Form onSubmit={handleSubmit} className="flex p-8 mt-32 ml-20">
+        <form onSubmit={handleSubmit} className="flex p-8 mt-32 ml-20">
           <div className="w-full p-4">
             <div className="h-[100px]">
               <label className="text-lg font-semibold mb-2">
@@ -164,7 +156,7 @@ export default function RestaurantDetails() {
           >
             Update
           </button>
-        </Form>
+        </form>
       </Darkbackground>
     </div>
   )
