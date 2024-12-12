@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useRouter } from "next/navigation";
@@ -8,11 +9,12 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 
 // Import Swiper styles
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
+import "swiper/css"
+import "swiper/css/navigation"
+import "swiper/css/pagination"
 
 export function Card() {
+
   const router = useRouter();
   const [restaurants, setRestaurants] = useState([]);
   const [likedRestaurants, setLikedRestaurants] = useState([]);
@@ -60,19 +62,16 @@ export function Card() {
     try {
       if (likedRestaurants.includes(restaurantId)) {
         // Call deleteFavorite if already liked
-        console.log("Calling deleteFavorite for restaurant:", restaurantId);
         const response = await deleteFavorite(restaurantId);
-        console.log("Delete response:", response);
         setLikedRestaurants((prevLiked) =>
           prevLiked.filter((id) => id !== restaurantId)
         );
       } else {
         // Call addFavorite if not liked
-        console.log("Calling addFavorite for restaurant:", restaurantId);
         const response = await addFavorite(restaurantId);
-        console.log("Add response:", response);
         setLikedRestaurants((prevLiked) => [...prevLiked, restaurantId]);
       }
+      console.log("Toggled like for restaurant:", restaurantId);
     } catch (error) {
       console.error("Error toggling like for the restaurant:", error);
     }
@@ -113,49 +112,67 @@ export function Card() {
       >
         {restaurants.map((restaurant, index) => (
           <SwiperSlide key={index}>
-            <div className="bg-card-gray text-white py-4 px-4 sm:py-10 sm:px-5 rounded-lg shadow-md cursor-pointer relative"
+            <div className="relative"
               onClick={() => handleClick(restaurant.id)}
             >
-              <div className="absolute top-4 left-4 text-xs md:text-sm">
-                Kapacitet: <strong className="text-xs md:text-base">{restaurant.capacity || "Unknown"}</strong>
+              <div
+                className="text-white py-4 px-4 sm:py-10 sm:px-5 rounded-lg shadow-md cursor-pointer relative"
+                style={{
+                  backgroundImage: `url(${process.env.NEXT_PUBLIC_API_URL}/${restaurant.image})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+              >
+                {" "}
+                <div className="absolute top-4 left-4 text-xs md:text-sm z-20">
+                  Kapacitet:{" "}
+                  <strong className="text-xs md:text-base">
+                    {restaurant.capacity || "Unknown"}
+                  </strong>
+                </div>
+                <div className="absolute top-3 right-3 z-30">
+                  <button
+                    aria-label={
+                      likedRestaurants.includes(restaurant.id)
+                        ? "Unlike"
+                        : "Like"
+                    }
+                    onClick={(e) => toggleLike(restaurant.id, e)}
+                  >
+                    <AiFillHeart
+                      className={`text-lg md:text-2xl ${likedRestaurants.includes(restaurant.id)
+                        ? "text-red-500"
+                        : "text-white"
+                        }`}
+                    />
+                  </button>
+                </div>
+                <div className="font-montserrat relative pt-8 md:pt-12 z-20">
+                  <h2 className="text-sm md:text-xl font-bold pb-1">
+                    {restaurant.name}
+                  </h2>
+                  <p className="text-[0.5rem] md:text-sm truncate">
+                    {restaurant.description || "No description available."}
+                  </p>
+                </div>
+                <div className="flex mt-4 z-20 md:mt-4">
+                  {[...Array(restaurant.stars || 0)].map((_, starIndex) => (
+                    <AiFillStar
+                      key={starIndex}
+                      className="text-sm md:text-lg text-white"
+                    />
+                  ))}
+                </div>
+                <span className="absolute bottom-2 right-3 text-xs md:text-lg font-normal flex items-center z-20">
+                  {restaurant.rating || "N/A"}
+                  <AiFillStar className="text-white inline ml-1 text-xs md:text-base" />
+                </span>
               </div>
-              <div className="absolute top-3 right-3">
-                <button
-                  aria-label={likedRestaurants.includes(restaurant.id) ? "Unlike" : "Like"}
-                  onClick={(e) => toggleLike(restaurant.id, e)}
-                >
-                  <AiFillHeart
-                    className={`text-lg md:text-2xl ${likedRestaurants.includes(restaurant.id)
-                      ? "text-red-500"
-                      : "text-white"
-                      }`}
-                  />
-                </button>
-              </div>
-
-              <div className="font-montserrat pt-8 md:pt-12">
-                <h2 className="text-sm md:text-xl font-bold pb-1 ">{restaurant.name}</h2>
-                <p className="text-[0.5rem] md:text-sm truncate">{restaurant.description || "No description available."}</p>
-              </div>
-
-              <div className="flex mt-4 md:mt-4">
-                {[...Array(restaurant.stars || 0)].map((_, starIndex) => (
-                  <AiFillStar
-                    key={starIndex}
-                    className="text-sm md:text-lg text-white"
-                  />
-                ))}
-              </div >
-
-              <span className="absolute bottom-2 right-3 text-xs md:text-lg font-normal flex items-center">
-                {restaurant.rating || "N/A"}
-                <AiFillStar className="text-white inline ml-1 text-xs md:text-base" />
-              </span>
-            </div >
-          </SwiperSlide >
-        ))
-        }
-      </Swiper >
-    </article >
-  );
+              <div className="absolute inset-0 bg-black bg-opacity-50 z-10"></div>
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </article>
+  )
 }
