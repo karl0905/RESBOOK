@@ -1,6 +1,6 @@
 import { useNavigate } from "@remix-run/react"
 
-export default function Card({ id, name, address }) {
+export default function Card({ id, name, address, image, apiUrl }) {
   const navigate = useNavigate()
 
   const handleCardClick = () => {
@@ -11,12 +11,16 @@ export default function Card({ id, name, address }) {
     <div
       style={{
         fontFamily: "'Monda', sans-serif",
+        backgroundImage: `url(${apiUrl}/${image})`,
+        backgroundPosition: "center",
       }}
-      className="bg-card-gray w-full h-[300px] rounded-xl cursor-pointer relative"
+      className="w-full h-[300px] rounded-xl cursor-pointer relative"
       onClick={handleCardClick}
     >
-      <div className="absolute top-2 right-2 text-sm text-white">{address}</div>
-      <div className="flex flex-col items-center justify-center ">
+      <div className="absolute top-2 right-2 text-sm text-white z-20">
+        {address}
+      </div>
+      <div className="flex flex-col items-center justify-center relative z-20">
         <h2
           style={{
             fontFamily: "montserrat",
@@ -30,6 +34,7 @@ export default function Card({ id, name, address }) {
           {name}
         </h2>
       </div>
+      <div className="bg-black bg-opacity-50 absolute inset-0 z-10"></div>
     </div>
   )
 }
