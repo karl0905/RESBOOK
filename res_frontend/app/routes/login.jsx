@@ -3,22 +3,21 @@ import { useActionData } from "@remix-run/react"
 import { LoginForm } from "../../global/components/loginForm"
 import { login } from "../../actions/user"
 import { set_cookie } from "../../actions/cookie"
+import { Logo } from "../../features/dashboard/Logo"
 
-// Loader function to handle GET requests
 export const loader = async () => {
-  console.log("Loader function called") // Log when loader is triggered
-  return null // You can return any initial data if needed
+  console.log("Loader function called")
+  return null
 }
 
-// Action function to handle form submissions
 export const action = async ({ request }) => {
-  console.log("Action function called") // Log when action is triggered
+  console.log("Action function called")
   const formData = await request.formData()
   const email = formData.get("email")
   const password = formData.get("password")
 
-  console.log("Received email:", email) // Log received email
-  console.log("Received password:", password) // Log received password
+  console.log("Received email:", email) //
+  console.log("Received password:", password)
 
   try {
     const result = await login(email, password)
@@ -50,12 +49,20 @@ export const action = async ({ request }) => {
   }
 }
 
-// Default export for the login page
 export default function LoginPage() {
-  console.log("LoginPage component loaded") // Log when component is loaded
+  console.log("LoginPage component loaded")
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <LoginForm />
-    </div>
+    <>
+      <Logo />
+      <div className="flex flex-col justify-center items-center  ">
+        <h2
+          className="text-xl font-semibold text-center  mt-10 mb-5"
+          variant="primary"
+        >
+          Welcome back
+        </h2>
+        <LoginForm />
+      </div>
+    </>
   )
 }
