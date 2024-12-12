@@ -1,7 +1,7 @@
 "use client"
 import React from "react"
 
-const Header = () => {
+const Logo = () => {
   return (
     <section className="flex w-full h-auto py-10">
       <div className="max-w-1/2 -ml-3">
@@ -11,4 +11,4 @@ const Header = () => {
   )
 }
 
-export default Header
+export default Logo
