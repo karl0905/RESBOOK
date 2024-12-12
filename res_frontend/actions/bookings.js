@@ -63,6 +63,9 @@ export async function updateBooking(request) {
   const date = formData.get("date");
   const time = formData.get("time");
   const guestCount = formData.get("guestCount");
+  const name = formData.get("name");
+  const comment = formData.get("comment");
+
   try {
     const response = await fetch(
       process.env.REMIX_PUBLIC_API_URL + "/bookings",
@@ -78,6 +81,8 @@ export async function updateBooking(request) {
           date: date,
           time: time,
           guest_count: guestCount,
+          first_name: name,
+          comment: comment,
         }),
       }
     );

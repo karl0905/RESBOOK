@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useLoaderData } from "@remix-run/react";
+import React, { useState, useEffect } from 'react';
+import { useLoaderData, json, useSubmit } from "@remix-run/react";
 import { fetchBookings, deleteBooking, updateBooking } from "../../actions/bookings.js";
 import Card from "../../features/bookingDashboard/components/Card";
 import Darkbackground from "../../features/dashboard/Darkbackground.jsx";
@@ -29,6 +29,8 @@ export async function action({ request }) {
             const response = await updateBooking(request);
             return json(response);
         }
+
+        return json({ message: "No valid action taken" });
     }
     catch (error) {
         console.error("Error processing action:", error);
@@ -40,42 +42,30 @@ export default function Bookings() {
     const { bookings: initialBookings, error } = useLoaderData();
     const [bookings, setBookings] = useState(initialBookings);
     const [filter, setFilter] = useState('all');
+    const submit = useSubmit();
 
-    const handleFilterToday = () => setFilter('today');
-    const handleFilterUpcoming = () => setFilter('upcoming');
+    useEffect(() => {
+        setBookings(initialBookings);
+    }, [initialBookings]);
 
+    const handleFilterToday = () => {
+        console.log("Setting filter to today");
+        setFilter('today');
+    };
+    const handleFilterAll = () => {
+        console.log("Setting filter to all");
+        setFilter('all');
+    };
+
+    const now = new Date();
     const filteredBookings = bookings.filter(booking => {
         const bookingDate = new Date(booking.datetime);
-        const now = new Date();
-
         if (filter === 'today') {
             return bookingDate.toDateString() === now.toDateString();
-        } else if (filter === 'upcoming') {
-            return bookingDate > now;
         } else {
             return true;
         }
     });
-
-    const handleDelete = async (bookingId) => {
-        try {
-            await deleteBooking(bookingId);
-            setBookings(bookings.filter(booking => booking.ID !== bookingId));
-        } catch (error) {
-            console.error("Failed to delete booking:", error);
-        }
-    };
-
-    const handleUpdate = async (bookingId, updatedData) => {
-        try {
-            const response = await updateBooking({ ...updatedData, bookingId });
-            setBookings(bookings.map(booking =>
-                booking.ID === bookingId ? { ...booking, ...updatedData } : booking
-            ));
-        } catch (error) {
-            console.error("Failed to update booking:", error);
-        }
-    };
 
     if (error) {
         return <div className="text-white">{error}</div>;
@@ -93,7 +83,7 @@ export default function Bookings() {
                     <Heading title="Reservations" />
                     <div className="absolute right-0 flex gap-2">
                         <FilterButton label="Idag" onClick={handleFilterToday} />
-                        <FilterButton label="Kommende" onClick={handleFilterUpcoming} />
+                        <FilterButton label="Kommende" onClick={handleFilterAll} />
                     </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -103,6 +93,7 @@ export default function Bookings() {
                             <Card
                                 key={booking.ID}
                                 bookingId={booking.ID}
+                                restaurantId={booking.restaurant_id}
                                 guestCount={booking.guest_count}
                                 first_name={booking.first_name}
                                 last_name={booking.last_name}

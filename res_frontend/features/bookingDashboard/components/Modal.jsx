@@ -1,3 +1,5 @@
+import { FaTimes } from "react-icons/fa";
+
 export default function Modal({ children, isOpen, closeModal }) {
     if (!isOpen) return null;
 
