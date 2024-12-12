@@ -9,7 +9,7 @@ export function LoginForm() {
     <div>
       <Logo />
       <Form
-        method="post"
+        method="POST"
         className="flex flex-col items-center justify-center p-8 bg-white rounded-lg shadow-lg w-full max-w-md"
       >
         <h2 className="text-2xl font-bold mb-6 text-gray-900">Login</h2>
