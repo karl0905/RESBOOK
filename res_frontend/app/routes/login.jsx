@@ -4,6 +4,9 @@ import { LoginForm } from "../../global/components/loginForm"
 import { login } from "../../actions/user"
 import { set_cookie } from "../../actions/cookie"
 
+// custom user agent for request 
+const customUserAgent = "MinUserAgent/1.0"
+
 // Loader function to handle GET requests
 export const loader = async () => {
   console.log("Loader function called") // Log when loader is triggered
@@ -26,7 +29,10 @@ export const action = async ({ request }) => {
       console.error("Login error:", result.error) // Log login error
       return new Response(JSON.stringify({ error: result.error }), {
         status: 400,
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+          "user-agent": customUserAgent,
+        },
       })
     }
 
