@@ -1,12 +1,11 @@
-// Bookings.jsx
-import { json } from "@remix-run/node";
+import React, { useState } from 'react';
 import { useLoaderData } from "@remix-run/react";
 import { fetchBookings, deleteBooking, updateBooking } from "../../actions/bookings.js";
 import Card from "../../features/bookingDashboard/components/Card";
 import Darkbackground from "../../features/dashboard/Darkbackground.jsx";
 import Logo from "../../features/dashboard/Logo"
 import { Heading } from "../../features/bookingDashboard/components/Heading.jsx";
-import { useState } from "react";
+import FilterButton from "../../features/bookingDashboard/components/FilterButton.jsx";
 
 export async function loader({ request }) {
     try {
@@ -40,6 +39,23 @@ export async function action({ request }) {
 export default function Bookings() {
     const { bookings: initialBookings, error } = useLoaderData();
     const [bookings, setBookings] = useState(initialBookings);
+    const [filter, setFilter] = useState('all');
+
+    const handleFilterToday = () => setFilter('today');
+    const handleFilterUpcoming = () => setFilter('upcoming');
+
+    const filteredBookings = bookings.filter(booking => {
+        const bookingDate = new Date(booking.datetime);
+        const now = new Date();
+
+        if (filter === 'today') {
+            return bookingDate.toDateString() === now.toDateString();
+        } else if (filter === 'upcoming') {
+            return bookingDate > now;
+        } else {
+            return true;
+        }
+    });
 
     const handleDelete = async (bookingId) => {
         try {
@@ -73,9 +89,15 @@ export default function Bookings() {
         <>
             <Logo />
             <Darkbackground>
-                <Heading title="Reservations" />
+                <div className="relative flex justify-between items-center">
+                    <Heading title="Reservations" />
+                    <div className="absolute right-0 flex gap-2">
+                        <FilterButton label="Idag" onClick={handleFilterToday} />
+                        <FilterButton label="Kommende" onClick={handleFilterUpcoming} />
+                    </div>
+                </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {bookings
+                    {filteredBookings
                         .sort((a, b) => new Date(a.datetime) - new Date(b.datetime))
                         .map((booking) => (
                             <Card

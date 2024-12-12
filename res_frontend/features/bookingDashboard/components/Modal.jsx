@@ -1,12 +1,5 @@
-import { useNavigate } from "@remix-run/react";
-import { FaTimes } from "react-icons/fa";
-
-export default function Modal({ children }) {
-    const navigate = useNavigate();
-
-    const closeModal = () => {
-        navigate(-1);
-    };
+export default function Modal({ children, isOpen, closeModal }) {
+    if (!isOpen) return null;
 
     const handleOutsideClick = (e) => {
         if (e.target === e.currentTarget) {
