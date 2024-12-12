@@ -70,17 +70,17 @@ export default function RestaurantDetails() {
     <div className="min-h-screen bg-gray-100">
       <Logo />
       <Darkbackground>
-        <div className="flex flex-col items-center justify-center py-10">
-          <div className="absolute top-[100px]">
+        <div className="flex flex-col items-center justify-center py-10 px-4 sm:px-6 lg:px-8">
+          <div className="relative top-28 sm:top-32 lg:top-36">
             <img
               src="/global/assets/ppicture.png"
               alt="Profile"
-              className="w-48 h-48 rounded-full shadow-md"
+              className="w-24 h-24 sm:w-32 sm:h-32 lg:w-48 lg:h-48 rounded-full shadow-md"
             />
           </div>
           <Form
             method="PUT"
-            className="mt-[150px] text-white bg-transparent p-6 rounded-lg shadow-md w-full max-w-md "
+            className="mt-36 sm:mt-40 lg:mt-44 text-white bg-transparent p-4 sm:p-6 lg:p-8 rounded-lg shadow-md w-full max-w-md"
           >
             <input type="hidden" name="id" value={restaurant.id} />
             <input type="hidden" name="rating" value={rating} />
@@ -89,7 +89,7 @@ export default function RestaurantDetails() {
               name="booking_duration"
               value={bookingDuration}
             />
-            <div className="grid grid-cols-2 gap-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
               <div className="mb-4">
                 <label
                   htmlFor="name"
