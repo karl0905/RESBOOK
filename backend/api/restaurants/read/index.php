@@ -12,6 +12,7 @@ if (!$isAdmin) {
     // Query to fetch data from both tables and calculate current capacity
     $query = "
     SELECT 
+        restaurants.id,
         restaurants.name,
         restaurants.phone,
         restaurants.address,
