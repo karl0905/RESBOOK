@@ -6,7 +6,7 @@ export async function fetchRestaurant(request) {
 
   try {
     const response = await fetch(
-      process.env.REMIX_PUBLIC_API_URL + "/restaurants/read",
+      process.env.REMIX_PUBLIC_API_URL + "/restaurants/",
       {
         method: "GET",
         headers: {
@@ -30,7 +30,7 @@ export async function updateRestaurant(request, restaurantData) {
   const tokens = await get_cookie(request)
   try {
     const response = await fetch(
-      `${process.env.REMIX_PUBLIC_API_URL}/restaurants/update`,
+      `${process.env.REMIX_PUBLIC_API_URL}/restaurants/`,
       {
         method: "PUT",
         headers: {

@@ -33,6 +33,10 @@ if (isset($input['date']) && strtotime($input['date']) < strtotime('today')) {
 }
 
 if (isset($input['date']) && isset($input['time'])) {
+    // Ensure time is in H:i:s format
+    if (strlen($input['time']) == 5) {
+        $input['time'] .= ':00';
+    }
     $input['datetime'] = $input['date'] . ' ' . $input['time'];
     $datetime = DateTime::createFromFormat('Y-m-d H:i:s', $input['datetime']);
     if (!$datetime) {

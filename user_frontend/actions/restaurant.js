@@ -1,32 +1,22 @@
-import {
-    get_cookie,
-} from "@/actions/cookie";
+import { get_cookie } from "@/actions/cookie";
+import { decrypt } from "@/actions/encryption";
 
-import {
-    decrypt
-} from "@/actions/encryption";
+export async function fetchRestaurant(id = null) {
+  const encryptedTokens = await get_cookie("tokens");
+  const { tokens } = await decrypt(encryptedTokens);
+  const url = id
+    ? `${process.env.NEXT_PUBLIC_API_URL}/restaurants/?id=${id}`
+    : `${process.env.NEXT_PUBLIC_API_URL}/restaurants/`;
 
-export async function fetchRestaurant () {
-    const encrypted_tokens = await get_cookie("tokens");
-    const decrypted_tokens = await decrypt(encrypted_tokens);
+  const response = await fetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${tokens.access}`,
+    },
+  });
 
-    try {
-        const response = await fetch(
-            process.env.NEXT_PUBLIC_API_URL + "/restaurants/read",
-            {
-                method: "GET",
-                headers: {
-                  "Content-Type": "application/json",
-                  "Authorization": `Bearer ${decrypted_tokens.tokens.access}`,
-                },
-              }
-        );
-        if (!response.ok) {
-            throw new Error("Network response was not ok");
-        }
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error("There was a problem with the fetch operation:", error);
-    }
+  if (!response.ok) throw new Error("Network response was not ok");
+
+  return await response.json();
 }
