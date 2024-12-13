@@ -1,2 +1,151 @@
-**/.DS_Store
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Logs
+logs/
+*.log
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Dependency directories
+jspm_packages/
+typings/
+bower_components/
+
+# Build directories
+dist/
+build/
+out/
+coverage/
+
+# Environment variables
 .env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDEs and editors
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS generated files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Miscellaneous
+*.bak
+*.tmp
+*.temp
+*.swp
+*.swo
+*.orig
+*.lock
+*.log
+
+# Compiled source
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Static site generators
+.cache/
+public/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
+*.iml
+*.ipr
+*.iws
+target/
+build/
+
+# PHP
+vendor/
+composer.lock
+
+# Ruby
+*.gem
+*.rbc
+.bundle/
+.config/
+coverage/
+InstalledFiles
+pkg/
+spec/reports/
+test/tmp/
+test/version_tmp/
+tmp/
+.cache/
+yardoc/
+_yardoc/
+.redcar/
+.sass-cache/
+.rvm/
+.rbenv/
+.ruby-version
+.ruby-gemset
+
+# Go
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+bin/
+vendor/
+
+# Rust
+*.rs.bk
+Cargo.lock
+target/
+
+# Swift
+*.xcodeproj/
+*.xcworkspace/
+*.xcuserdata/
+*.xcuserstate/
+*.xcscheme/
+*.xcodeproj/
+*.xcworkspace/
+*.xcuserdata/
+*.xcuserstate/
+*.xcscheme/
+*.swiftpm/
+.build/
+
+# Android
+*.apk
+*.ap_
+*.dex

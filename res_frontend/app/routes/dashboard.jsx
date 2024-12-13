@@ -1,7 +1,7 @@
 import { json } from "@remix-run/node"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { Navigation, Pagination } from "swiper/modules"
-import { useLoaderData } from "@remix-run/react"
+import { useLoaderData, useNavigate } from "@remix-run/react"
 import { fetchRestaurant } from "../../actions/restaurants.js"
 import Darkbackground from "../../features/dashboard/Darkbackground"
 import Logo from "../../features/dashboard/Logo"
@@ -13,9 +13,10 @@ import "swiper/css/navigation"
 import "swiper/css/pagination"
 import "../global.css" // Import custom CSS
 
-export async function loader({ request }) {
+export async function loader({ params, request }) {
   try {
     const restaurants = await fetchRestaurant(request)
+    const restaurant = restaurants.find((r) => r.id === parseInt(params.id))
 
     return { restaurants }
   } catch (error) {
@@ -25,14 +26,20 @@ export async function loader({ request }) {
 
 export default function Dashboard() {
   const { restaurants, error } = useLoaderData()
+  const navigate = useNavigate()
 
   if (error) {
     return <div>{error}</div>
   }
 
-  function handleClick() {
-    console.log("Clicked")
+  function handleCardClick(restaurantId) {
+    if (restaurantId) {
+      navigate(`/restaurants/${restaurantId}`)
+    } else {
+      console.error("Restaurant ID is undefined")
+    }
   }
+
   return (
     <div className="min-h-screen flex flex-col">
       <Logo />
@@ -59,10 +66,11 @@ export default function Dashboard() {
               },
             }}
           >
-            {restaurants.map((restaurant, index) => (
-              <SwiperSlide key={index}>
+            {restaurants.map((restaurant) => (
+              <SwiperSlide key={restaurant.id}>
                 <Card
-                  onClick={handleClick}
+                  onClick={() => handleCardClick(restaurant.id)}
+                  id={restaurant.id}
                   name={restaurant.name}
                   address={restaurant.address}
                 />
@@ -70,7 +78,6 @@ export default function Dashboard() {
             ))}
           </Swiper>
           <div className="swiper-pagination mt-4"></div>{" "}
-          {/* Custom pagination element */}
         </div>
       </Darkbackground>
     </div>

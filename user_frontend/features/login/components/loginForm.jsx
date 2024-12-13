@@ -26,7 +26,7 @@ export function LoginForm() {
           id: loadingToast,
           description: result.data,
         })
-        router.push("/userDashboard")
+        router.push("/")
       }
     } catch (error) {
       toast.error("An unexpected error occurred. Please try again later.", {
@@ -71,11 +71,7 @@ export function LoginForm() {
           />
         </div>
         <div className="flex justify-center">
-          <Button
-            variant="tertiary"
-            type="submit"
-            title="Login"
-          />
+          <Button variant="tertiary" type="submit" title="Login" />
         </div>
         <div className="text-center mt-4">
           <p className="text-xs text-gray-600">

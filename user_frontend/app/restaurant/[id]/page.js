@@ -4,8 +4,7 @@ import { RestaurantSite } from "@/features/restaurantInfo";
 
 async function RestaurantPage({ params }) {
   const { id } = await params;
-  const restaurants = await fetchRestaurant(id);
-  const restaurant = restaurants[0];
+  const restaurant = await fetchRestaurant(id);
 
   const favorites = await fetchFavorites();
 
