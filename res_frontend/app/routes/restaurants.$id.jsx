@@ -71,7 +71,7 @@ export default function RestaurantDetails() {
       <Logo />
       <Darkbackground>
         <div className="flex flex-col items-center justify-center py-10 px-4 sm:px-6 lg:px-8">
-          <div className="relative top-28 sm:top-32 lg:top-36">
+          <div className="relative  mt-[-100px] ">
             <img
               src="/global/assets/ppicture.png"
               alt="Profile"
@@ -80,7 +80,7 @@ export default function RestaurantDetails() {
           </div>
           <Form
             method="PUT"
-            className="mt-36 sm:mt-40 lg:mt-44 text-white bg-transparent p-4 sm:p-6 lg:p-8 rounded-lg shadow-md w-full max-w-md"
+            className=" text-white bg-transparent p-4 sm:p-6 lg:p-8 rounded-lg shadow-md w-full max-w-md"
           >
             <input type="hidden" name="id" value={restaurant.id} />
             <input type="hidden" name="rating" value={rating} />
@@ -98,6 +98,7 @@ export default function RestaurantDetails() {
                   Restaurant Name
                 </label>
                 <input
+                  autoComplete="off"
                   id="name"
                   name="name"
                   type="text"
@@ -114,6 +115,7 @@ export default function RestaurantDetails() {
                   Phone
                 </label>
                 <input
+                  autoComplete="off"
                   id="phone"
                   name="phone"
                   type="text"
@@ -130,6 +132,7 @@ export default function RestaurantDetails() {
                   Email
                 </label>
                 <input
+                  autoComplete="off"
                   id="email"
                   name="email"
                   type="email"
@@ -146,6 +149,7 @@ export default function RestaurantDetails() {
                   Address
                 </label>
                 <input
+                  autoComplete="off"
                   id="address"
                   name="address"
                   type="text"
@@ -162,6 +166,7 @@ export default function RestaurantDetails() {
                   Capacity
                 </label>
                 <input
+                  autoComplete="off"
                   id="capacity"
                   name="capacity"
                   type="number"
@@ -178,6 +183,7 @@ export default function RestaurantDetails() {
                   Description
                 </label>
                 <input
+                  autoComplete="off"
                   id="description"
                   name="description"
                   type="text"

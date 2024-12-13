@@ -17,15 +17,16 @@ export async function loader({ params, request }) {
   try {
     const restaurants = await fetchRestaurant(request)
     const restaurant = restaurants.find((r) => r.id === parseInt(params.id))
+    const apiUrl = process.env.REMIX_PUBLIC_API_URL
 
-    return { restaurants }
+    return { restaurants, apiUrl }
   } catch (error) {
     return json({ error: "Failed to load restaurants" }, { status: 500 })
   }
 }
 
 export default function Dashboard() {
-  const { restaurants, error } = useLoaderData()
+  const { restaurants, error, apiUrl } = useLoaderData()
   const navigate = useNavigate()
 
   if (error) {
@@ -73,6 +74,8 @@ export default function Dashboard() {
                   id={restaurant.id}
                   name={restaurant.name}
                   address={restaurant.address}
+                  image={restaurant.image}
+                  apiUrl={apiUrl}
                 />
               </SwiperSlide>
             ))}
