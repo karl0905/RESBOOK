@@ -30,7 +30,6 @@ function handle_api_request($method)
     exit();
   }
 
-  // Check if the request method matches the expected method
   if ($_SERVER["REQUEST_METHOD"] !== $method) {
     http_response_code(405); // Method Not Allowed
     echo json_encode(["error" => "Method must be $method"]);

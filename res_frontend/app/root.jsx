@@ -7,6 +7,8 @@ import {
 } from "@remix-run/react"
 
 import "./tailwind.css"
+import Navbar from "../global/components/Navbar.jsx"
+
 
 export const links = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -21,6 +23,7 @@ export const links = () => [
   },
   {
     rel: "stylesheet",
+    href: "https://fonts.googleapis.com/css2?family=Monda:wght@400;700&display=swap",
     href: "https://fonts.googleapis.com/css2?family=Monda&family=Montserrat&display=swap",
   },
 ]
@@ -35,6 +38,7 @@ export default function App() {
       <body>
         <Outlet />
         <ScrollRestoration />
+        <Navbar />
         <Scripts />
       </body>
     </html>
