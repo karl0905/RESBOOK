@@ -1,9 +1,18 @@
 import { Form, useActionData, useNavigation } from "@remix-run/react"
 import Logo from "../../features/dashboard/Logo"
+import { toast, ToastContainer } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
+import { useEffect } from "react"
 
 export function LoginForm() {
   const actionData = useActionData()
   const navigation = useNavigation()
+
+  useEffect(() => {
+    if (actionData?.error) {
+      toast.error(actionData.error)
+    }
+  }, [actionData])
 
   return (
     <div>
@@ -50,10 +59,10 @@ export function LoginForm() {
         >
           {navigation.state === "submitting" ? "Logging in..." : "Login"}
         </button>
-        {actionData?.error && (
-          <div className="mt-4 text-red-500">{actionData.error}</div>
-        )}
       </Form>
+      <ToastContainer />
     </div>
   )
 }
+
+export default LoginForm

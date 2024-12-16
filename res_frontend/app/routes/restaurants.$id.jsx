@@ -1,9 +1,9 @@
-import { json } from "@remix-run/node"
-import { useLoaderData, useActionData, Form } from "@remix-run/react"
-import { fetchRestaurant, updateRestaurant } from "../../actions/restaurants.js"
-import Darkbackground from "../../features/dashboard/Darkbackground"
+import { useLoaderData, useActionData } from "@remix-run/react"
+import { toast, ToastContainer } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
+import { useEffect, useState } from "react"
 import Logo from "../../features/dashboard/Logo"
-import React, { useState } from "react"
+import Darkbackground from "../../components/Darkbackground"
 
 export async function loader({ params, request }) {
   try {
