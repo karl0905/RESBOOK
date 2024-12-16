@@ -112,7 +112,7 @@ export function Card() {
       >
         {restaurants.map((restaurant, index) => (
           <SwiperSlide key={index}>
-            <div className="relative"
+            <div className="relative cursor-pointer"
               onClick={() => handleClick(restaurant.id)}
             >
               <div

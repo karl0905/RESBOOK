@@ -74,6 +74,7 @@ export function BigCard() {
                 backgroundSize: "cover",
                 backgroundPosition: "center",
               }}
+              onClick={() => handleClick(favorite.restaurant_id)}
             >
               <div className="absolute z-20 top-4 left-4 text-xs md:text-sm">
                 Capacity:{" "}
