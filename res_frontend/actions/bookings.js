@@ -1,5 +1,7 @@
 import { get_cookie } from "./cookie.js";
 
+const customUserAgent = "MinUserAgent/1.0"
+
 export async function fetchBookings(request) {
   const tokens = await get_cookie(request);
 
@@ -10,6 +12,7 @@ export async function fetchBookings(request) {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
+          "user-agent": customUserAgent,
           Authorization: `Bearer ${tokens.access}`,
         },
       }
@@ -60,6 +63,7 @@ export async function deleteBooking(request) {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
+          "user-agent": customUserAgent,
           Authorization: `Bearer ${tokens.access}`,
         },
         body: JSON.stringify({ booking_id: bookingId }),
@@ -95,6 +99,7 @@ export async function updateBooking(request) {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          "user-agent": customUserAgent,
           Authorization: `Bearer ${tokens.access}`,
         },
         body: JSON.stringify({
