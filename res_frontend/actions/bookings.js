@@ -19,9 +19,8 @@ export async function fetchBookings(request) {
       }
     );
 
-    // Check if the response is not OK
     if (!response.ok) {
-      const errorDetails = await response.text(); // Try to get additional details from the response body
+      const errorDetails = await response.text();
       console.error("Fetch failed:", {
         url: `${process.env.REMIX_PUBLIC_API_URL}/bookings`,
         status: response.status,
@@ -29,7 +28,6 @@ export async function fetchBookings(request) {
         body: errorDetails,
       });
 
-      // Throw a more descriptive error
       throw new Error(
         `Failed to fetch bookings. Status: ${response.status} - ${response.statusText}. Details: ${errorDetails}`
       );
@@ -80,21 +78,12 @@ export async function deleteBooking(request) {
   }
 }
 
-export async function updateBooking(request) {
+export async function updateBooking(request, bookingData) {
   const tokens = await get_cookie(request)
-  const formData = await request.formData()
-
-  const bookingId = formData.get("bookingId")
-  const restaurantId = formData.get("restaurantId")
-  const date = formData.get("date")
-  const time = formData.get("time")
-  const guestCount = formData.get("guestCount")
-  const name = formData.get("name")
-  const comment = formData.get("comment")
-
+  console.log("Booking data:", JSON.stringify(bookingData))
   try {
     const response = await fetch(
-      process.env.REMIX_PUBLIC_API_URL + "/bookings",
+      `${process.env.REMIX_PUBLIC_API_URL}/bookings/`,
       {
         method: "PUT",
         headers: {
@@ -102,26 +91,18 @@ export async function updateBooking(request) {
           "user-agent": customUserAgent,
           Authorization: `Bearer ${tokens.access}`,
         },
-        body: JSON.stringify({
-          booking_id: bookingId,
-          restaurant_id: restaurantId,
-          date: date,
-          time: time,
-          guest_count: guestCount,
-          first_name: name,
-          comment: comment,
-        }),
+        body: JSON.stringify(bookingData),
       }
     )
-
     if (!response.ok) {
-      const errorData = await response.json()
-      throw new Error(errorData.error || "Failed to update booking")
+      console.log(await response.json())
+      throw new Error("Network response was not ok")
     }
-
-    return await response.json()
+    const data = await response.json()
+    console.log(data)
+    return data
   } catch (error) {
-    console.error("There was a problem updating the booking:", error)
+    console.error("There was a problem with the fetch operation:", error)
     throw error
   }
 }

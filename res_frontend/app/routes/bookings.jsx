@@ -20,13 +20,21 @@ export async function loader({ request }) {
 export async function action({ request }) {
     try {
         const formData = await request.formData();
+        console.log("Form data:", formData);
         const intent = formData.get("intent");
-
+        const bookingData = {
+            booking_id: parseInt(formData.get("booking_id")),
+            restaurant_id: parseInt(formData.get("restaurant_id")),
+            guest_count: parseInt(formData.get("guestCount")),
+            date: formData.get("date"),
+            time: formData.get("time"),
+            comment: formData.get("comment")
+        }
         if (intent === "delete") {
             const response = await deleteBooking(request);
             return json(response);
         } else if (intent === "update") {
-            const response = await updateBooking(request);
+            const response = await updateBooking(request, bookingData);
             return json(response);
         }
 
@@ -38,15 +46,11 @@ export async function action({ request }) {
     }
 }
 
+
 export default function Bookings() {
-    const { bookings: initialBookings, error } = useLoaderData();
-    const [bookings, setBookings] = useState(initialBookings);
+    const { bookings, error } = useLoaderData();
     const [filter, setFilter] = useState('all');
     const submit = useSubmit();
-
-    useEffect(() => {
-        setBookings(initialBookings);
-    }, [initialBookings]);
 
     const handleFilterToday = () => {
         console.log("Setting filter to today");
