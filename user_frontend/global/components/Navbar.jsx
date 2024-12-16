@@ -48,7 +48,7 @@ export function Navbar() {
           </Link>
         </li>
         <li className="flex flex-col items-center">
-          <Link href="/profile" className="flex flex-col items-center w-16">
+          <Link href="/#" className="flex flex-col items-center w-16">
             <FaUser
               className={`${getIconColor(["/profile"])} text-lg sm:text-2xl`}
             />
