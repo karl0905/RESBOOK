@@ -1,7 +1,9 @@
-import { useLoaderData, useActionData } from "@remix-run/react"
+import { json } from "@remix-run/node"
 import { toast, ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
-import { useEffect, useState } from "react"
+import { useLoaderData, useActionData, Form } from "@remix-run/react"
+import { fetchRestaurant, updateRestaurant } from "../../actions/restaurants.js"
+import Darkbackground from "../../features/dashboard/Darkbackground"
 import Logo from "../../features/dashboard/Logo"
 import Darkbackground from "../../features/dashboard/Darkbackground"
 
@@ -62,9 +64,15 @@ export default function RestaurantDetails() {
     restaurant?.booking_duration || 0
   )
 
-  if (error) {
-    return <div className="text-red-500">{error}</div>
-  }
+  useEffect(() => {
+    if (actionData?.error) {
+      toast.error(actionData.error)
+    } else if (actionData?.success) {
+      toast.success(actionData.success)
+    } else if (actionData?.update) {
+      toast.success("Restaurant updated successfully!")
+    }
+  }, [actionData])
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -202,18 +210,9 @@ export default function RestaurantDetails() {
               </button>
             </div>
           </Form>
-          <div>
-            {actionData?.error && (
-              <div className="text-red-500 mt-4">{actionData.error}</div>
-            )}
-            {actionData?.update && (
-              <div className="text-green-500 mt-4">
-                Restaurant updated successfully!
-              </div>
-            )}
-          </div>
         </div>
       </Darkbackground>
+      <ToastContainer />
     </div>
   )
 }
