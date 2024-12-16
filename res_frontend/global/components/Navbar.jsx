@@ -6,7 +6,7 @@ export default function Navbar() {
     const location = useLocation();
     const path = location.pathname;
 
-    if (path === "/login" || path === "/signup") {
+    if (path === "/" || path === "/signup") {
         return null;
     }
 
