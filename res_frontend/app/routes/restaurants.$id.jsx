@@ -1,5 +1,6 @@
 import { json } from "@remix-run/node"
 import { toast, ToastContainer } from "react-toastify"
+import { useEffect, useState } from "react"
 import "react-toastify/dist/ReactToastify.css"
 import { useLoaderData, useActionData, Form } from "@remix-run/react"
 import { fetchRestaurant, updateRestaurant } from "../../actions/restaurants.js"
@@ -203,7 +204,7 @@ export default function RestaurantDetails() {
                 type="submit"
                 className="bg-white text-black py-2 px-4 rounded-md hover:bg-gray-200"
               >
-                Update
+                Opdater
               </button>
             </div>
           </Form>
