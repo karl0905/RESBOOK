@@ -73,7 +73,7 @@ export default function RestaurantDetails() {
         <div className="flex flex-col items-center justify-center py-10 px-4 sm:px-6 lg:px-8">
           <div className="relative  mt-[-100px] ">
             <img
-              src="/global/assets/ppicture.png"
+              src="/defaultProfilePicture.png"
               alt="Profile"
               className="w-24 h-24 sm:w-32 sm:h-32 lg:w-48 lg:h-48 rounded-full shadow-md"
             />
