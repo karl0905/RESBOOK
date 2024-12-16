@@ -3,7 +3,7 @@ import { toast, ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import { useEffect, useState } from "react"
 import Logo from "../../features/dashboard/Logo"
-import Darkbackground from "../../components/Darkbackground"
+import Darkbackground from "../../features/dashboard/Darkbackground"
 
 export async function loader({ params, request }) {
   try {

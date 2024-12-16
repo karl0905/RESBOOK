@@ -9,7 +9,6 @@ import {
 import "./tailwind.css"
 import Navbar from "../global/components/Navbar.jsx"
 
-
 export const links = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
