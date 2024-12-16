@@ -5,7 +5,6 @@ import { useLoaderData, useActionData, Form } from "@remix-run/react"
 import { fetchRestaurant, updateRestaurant } from "../../actions/restaurants.js"
 import Darkbackground from "../../features/dashboard/Darkbackground"
 import Logo from "../../features/dashboard/Logo"
-import Darkbackground from "../../features/dashboard/Darkbackground"
 
 export async function loader({ params, request }) {
   try {
