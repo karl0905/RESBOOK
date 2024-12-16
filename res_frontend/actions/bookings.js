@@ -2,11 +2,10 @@ import { get_cookie } from "./cookie.js";
 
 export async function fetchBookings(request) {
   const tokens = await get_cookie(request);
-  console.log("tokens", tokens);
 
   try {
     const response = await fetch(
-      process.env.REMIX_PUBLIC_API_URL + "/bookings",
+      `${process.env.REMIX_PUBLIC_API_URL}/bookings`,
       {
         method: "GET",
         headers: {
@@ -15,15 +14,38 @@ export async function fetchBookings(request) {
         },
       }
     );
+
+    // Check if the response is not OK
     if (!response.ok) {
-      throw new Error("Network response was not ok");
+      const errorDetails = await response.text(); // Try to get additional details from the response body
+      console.error("Fetch failed:", {
+        url: `${process.env.REMIX_PUBLIC_API_URL}/bookings`,
+        status: response.status,
+        statusText: response.statusText,
+        body: errorDetails,
+      });
+
+      // Throw a more descriptive error
+      throw new Error(
+        `Failed to fetch bookings. Status: ${response.status} - ${response.statusText}. Details: ${errorDetails}`
+      );
     }
+
+    // Parse and return the JSON data
     const data = await response.json();
     return data;
 
   } catch (error) {
-    console.error("There was a problem with the fetch operation:", error);
-    throw error;
+    // Log a detailed error message
+    console.error("There was a problem with the fetch operation:", {
+      message: error.message,
+      stack: error.stack,
+    });
+
+    // Throw a new, descriptive error to propagate it further
+    throw new Error(
+      `Error fetching bookings: ${error.message}. Check server logs for more details.`
+    );
   }
 }
 
