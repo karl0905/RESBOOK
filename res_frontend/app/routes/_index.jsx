@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 
 export const meta = () => {
   return [
-    { title: "New Remix App" },
-    { name: "description", content: "Welcome to Remix!" },
+    { title: "RESBOOK ADMIN" },
+    { name: "description", content: "Admin dashboardet for RESBOOK restauranter" },
   ];
 };
 
