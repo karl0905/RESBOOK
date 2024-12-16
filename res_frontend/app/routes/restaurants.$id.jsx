@@ -67,8 +67,6 @@ export default function RestaurantDetails() {
   useEffect(() => {
     if (actionData?.error) {
       toast.error(actionData.error)
-    } else if (actionData?.success) {
-      toast.success(actionData.success)
     } else if (actionData?.update) {
       toast.success("Restaurant updated successfully!")
     }

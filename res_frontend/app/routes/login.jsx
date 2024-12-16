@@ -27,14 +27,13 @@ export const action = async ({ request }) => {
       console.error("Login error:", result.error) // Log login error
       return new Response(JSON.stringify({ error: result.error }), {
         status: 400,
-        headers: { 
+        headers: {
           "Content-Type": "application/json",
         },
       })
     }
 
     const cookieValue = await set_cookie(result.data.tokens)
-    console.log("Cookie value set:", cookieValue) // Log cookie value
 
     return redirect("/dashboard", {
       headers: {
