@@ -23,3 +23,9 @@ body {
     -moz-appearance: textfield; /* Firefox */
   }
 }
+
+@layer base {
+  html {
+    font-family: Monda, system-ui, sans-serif;
+  }
+}

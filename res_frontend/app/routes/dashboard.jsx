@@ -7,11 +7,10 @@ import Darkbackground from "../../features/dashboard/Darkbackground"
 import Logo from "../../features/dashboard/Logo"
 import Card from "../../features/dashboard/Card"
 
-// Import Swiper styles
 import "swiper/css"
 import "swiper/css/navigation"
 import "swiper/css/pagination"
-import "../global.css" // Import custom CSS
+import "../global.css"
 
 export async function loader({ params, request }) {
   try {

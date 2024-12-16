@@ -1,11 +1,10 @@
 import { get_cookie } from "./cookie.js"
 
-// CUstom useragent to work around simply 555 error 
+// CUstom useragent to work around simply 555 error
 const customUserAgent = "MinUserAgent/1.0"
 
 export async function fetchRestaurant(request) {
   const tokens = await get_cookie(request)
-  console.log("tokens", tokens)
 
   try {
     const response = await fetch(

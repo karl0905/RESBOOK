@@ -6,9 +6,9 @@ export default function Navbar() {
   const location = useLocation()
   const path = location.pathname
 
-  if (path === "/login" || path === "/signup") {
-    return null
-  }
+    if (path === "/" || path === "/signup") {
+        return null;
+    }
 
   const getIconColor = (paths) => {
     if (paths.includes("/") && (path === "/" || path.includes("/restaurant"))) {
